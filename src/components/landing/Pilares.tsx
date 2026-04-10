@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { MessageCircle, FolderOpen, ShieldCheck, Users } from 'lucide-react'
 import { Reveal } from './Reveal'
 
