@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
@@ -78,7 +78,7 @@ export default function Login() {
                 padding: 'clamp(40px, 5vw, 80px)',
             }}>
                 {/* Background image */}
-                <Image
+                <NextImage
                     src="/login-panel.png"
                     alt=""
                     aria-hidden="true"

@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { MessageCircle, FolderOpen, Users, Phone, BookOpen } from 'lucide-react'
 import { Reveal } from './Reveal'
 import { noiseSVG } from './shared'
@@ -284,7 +284,7 @@ export function Footer() {
         flexWrap: 'wrap', gap: 40, marginBottom: 48,
       }}>
         <div style={{ maxWidth: 260 }}>
-          <Image
+          <NextImage
             src="/logo-senda-senior.png"
             alt="Senda Sênior"
             width={120}

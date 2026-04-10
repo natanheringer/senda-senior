@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
@@ -51,7 +51,7 @@ export default function UpdatePassword() {
                 padding: 'clamp(40px, 5vw, 80px)',
             }}>
                 {/* Imagem de fundo... */}
-                <Image
+                <NextImage
                     src="/password-panel.png"
                     alt=""
                     aria-hidden="true"

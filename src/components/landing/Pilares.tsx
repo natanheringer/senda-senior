@@ -94,7 +94,7 @@ function PilarSection({ label, title, text, index, image, imageAlt, icon }: {
               position: 'relative',
             }}>
               {image ? (
-                <Image
+                <NextImage
                   src={image}
                   alt={imageAlt}
                   fill

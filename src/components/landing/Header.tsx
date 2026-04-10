@@ -34,7 +34,7 @@ export function Header() {
       }}>
         {/* Logo */}
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <Image
+          <NextImage
             src="/logo-senda-senior.png"
             alt="Senda Sênior"
             width={120}

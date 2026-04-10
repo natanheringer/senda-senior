@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import NextImage from 'next/image'
 import { Compass } from 'lucide-react'
 import { Reveal } from './Reveal'
 import { noiseSVG, useParallax } from './shared'
@@ -15,7 +15,7 @@ export function Hero() {
     }}>
       {/* Full-bleed background image com compass */}
       <div ref={imgRef} style={{ position: 'absolute', inset: '-10% 0', zIndex: 0 }}>
-        <Image
+        <NextImage
           src="/hero-elderly.png"
           alt=""
           aria-hidden="true"
