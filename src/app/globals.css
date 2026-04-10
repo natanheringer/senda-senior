@@ -1,0 +1,206 @@
+:root {
+  --green: #4a5e4a;
+  --green-dark: #2d3d2d;
+  --green-light: #8aab8a;
+  --green-muted: #ebf0e8;
+  --cream: #f5f0e8;
+  --cream-mid: #eae3d4;
+  --warm-white: #f5f0e8;
+  --terracotta: #b5724a;
+  --terracotta-dark: #915a3a;
+  --brown: #b5724a;
+  --brown-light: #c98a65;
+  --text: #2a2520;
+  --text-sub: #4a4540;
+  --text-muted: #7a7268;
+  --dark: #2a2520;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--green);
+  color: white;
+}
+
+/* ─── Premium UI Utilities ─── */
+.filter-premium {
+  filter: saturate(0.85) brightness(0.95);
+  opacity: 0.95;
+  transition: all 0.4s ease;
+}
+.filter-premium:hover {
+  filter: saturate(1) brightness(1);
+  opacity: 1;
+}
+
+.label-premium {
+  font-family: var(--sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--terracotta);
+  font-weight: 600;
+}
+
+.line-terracota {
+  width: 48px;
+  height: 3px;
+  background-color: var(--terracotta);
+  border-radius: 2px;
+  margin: 16px 0 24px;
+}
+
+/* Utility */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); border: 0;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Mobile ≤ 768px
+   ═══════════════════════════════════════════ */
+
+/* Visibility */
+.hide-mobile { /* visible on desktop, hidden via @media below */ }
+.show-mobile { display: none !important; }
+
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
+  .show-mobile-block { display: block !important; }
+
+  /* ─── Layout grids ─── */
+  .grid-pillar {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .grid-actions {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+  .grid-status {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .grid-cta {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .grid-trust {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .grid-footer {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+
+  /* ─── Auth pages — split layout ─── */
+  .auth-wrapper {
+    flex-direction: column !important;
+  }
+  .auth-panel-left {
+    flex: none !important;
+    min-height: 240px !important;
+    padding: 32px 24px !important;
+  }
+  .auth-panel-left .auth-panel-content {
+    max-width: 100% !important;
+  }
+  .auth-panel-right {
+    padding: 32px 24px !important;
+  }
+
+  /* ─── Header: mobile nav ─── */
+  .nav-desktop {
+    display: none !important;
+  }
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+  .mobile-menu {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(245,239,230,0.98);
+    backdrop-filter: blur(20px);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-menu a {
+    font-size: 20px !important;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  /* ─── Hero adjustments ─── */
+  .hero-testimonial {
+    position: relative !important;
+    bottom: auto !important;
+    right: auto !important;
+    margin-top: 32px !important;
+    max-width: 100% !important;
+  }
+
+  /* ─── Pillar component: stack ─── */
+  .pilar-layout {
+    flex-direction: column !important;
+  }
+  .pilar-image-wrap {
+    min-height: 240px !important;
+    flex: none !important;
+  }
+  .pilar-text-wrap {
+    padding: 32px 24px !important;
+    flex: none !important;
+  }
+
+  /* ─── Full-width CTA buttons ─── */
+  .hero-buttons {
+    flex-direction: column !important;
+    width: 100%;
+  }
+  .hero-buttons a {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  /* ─── Dashboard header ─── */
+  .dash-header {
+    padding: 0 16px !important;
+    height: 60px !important;
+  }
+  .dash-header-email {
+    display: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Small mobile ≤ 480px
+   ═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .grid-actions {
+    grid-template-columns: 1fr !important;
+  }
+  .auth-panel-left {
+    min-height: 180px !important;
+    padding: 24px 20px !important;
+  }
+  .auth-panel-right {
+    padding: 24px 20px !important;
+  }
+}
