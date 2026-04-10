@@ -33,12 +33,14 @@ export function Header() {
         transition: 'all 0.5s ease',
       }}>
         {/* Logo */}
-        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
           <Image
             src="/logo-senda-senior.png"
             alt="Senda Sênior"
             width={120}
             height={40}
+            priority
+            loading="eager"
             style={{ height: 40, width: 'auto', objectFit: 'contain' }}
           />
         </a>
