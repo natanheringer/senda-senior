@@ -53,16 +53,28 @@ export async function statObject(
   supabase: SB,
   path: string,
 ): Promise<{ size: number } | null> {
-  const folder = path.split('/').slice(0, -1).join('/')
-  const filename = path.split('/').slice(-1)[0]
+  const segments = path.split('/').filter(Boolean)
+  const filename = segments.pop()
+  if (!filename) return null
+  const folder = segments.join('/')
 
-  const { data, error } = await supabase.storage
-    .from(BUCKET)
-    .list(folder, { search: filename, limit: 1 })
+  const { data, error } = await supabase.storage.from(BUCKET).list(folder, {
+    limit: 100,
+    offset: 0,
+    sortBy: { column: 'name', order: 'asc' },
+  })
 
-  if (error || !data || data.length === 0) return null
-  const obj = data[0]
-  const size = (obj.metadata?.size as number | undefined) ?? 0
+  if (error || !data?.length) return null
+
+  const obj = data.find((o) => o.name === filename)
+  if (!obj) return null
+
+  const meta = obj.metadata as Record<string, unknown> | null | undefined
+  const raw =
+    meta?.size ?? meta?.contentLength ?? meta?.content_length ?? null
+  const size = typeof raw === 'number' ? raw : Number(raw)
+  if (!Number.isFinite(size) || size < 0) return null
+
   return { size }
 }
 

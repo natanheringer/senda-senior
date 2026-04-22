@@ -1,3 +1,4 @@
+import { createClient } from '@/lib/supabase/client'
 import { sha256OfFile } from './hash'
 import type { ActionResult } from '../errors'
 
@@ -53,27 +54,15 @@ export async function uploadFile(
 
   cb.onProgress?.('uploading', 0)
 
-  // Mesmo formato que `StorageFileApi.uploadToSignedUrl` (storage-js): multipart
-  // com cacheControl + ficheiro no campo `""`. PUT com `body: file` costuma falhar na API.
-  const form = new FormData()
-  form.append('cacheControl', '3600')
-  form.append('', file)
+  // Usar o cliente oficial (headers apikey/auth + multipart iguais ao SDK).
+  // `fetch` manual ao signedUrl costuma falhar (403/400) por headers incompletos.
+  const supabase = createClient()
+  const { error: uploadErr } = await supabase.storage
+    .from('vault')
+    .uploadToSignedUrl(prepared.data.storagePath, prepared.data.uploadToken, file)
 
-  const putResp = await fetch(prepared.data.uploadUrl, {
-    method: 'PUT',
-    headers: {
-      'x-upsert': 'false',
-    },
-    body: form,
-  })
-
-  if (!putResp.ok) {
-    try {
-      const detail = await putResp.text()
-      console.error('[vault upload] PUT signed URL failed:', putResp.status, detail)
-    } catch {
-      console.error('[vault upload] PUT signed URL failed:', putResp.status)
-    }
+  if (uploadErr) {
+    console.error('[vault upload] uploadToSignedUrl:', uploadErr.message)
     return { ok: false, error: 'storage_error' }
   }
 

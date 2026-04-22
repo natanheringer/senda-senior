@@ -183,7 +183,12 @@ export async function confirmUpload(
   const blob = f.current_blob
   if (!blob) return fail('not_found')
 
-  const stat = await statObject(supabase, blob.storage_path)
+  let stat: { size: number } | null = null
+  for (let attempt = 0; attempt < 8; attempt++) {
+    stat = await statObject(supabase, blob.storage_path)
+    if (stat) break
+    await new Promise((r) => setTimeout(r, 250 * (attempt + 1)))
+  }
   if (!stat) {
     await supabase
       .from('vault_files')
