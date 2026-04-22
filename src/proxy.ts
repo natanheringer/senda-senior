@@ -29,7 +29,11 @@ function extractIp(request: NextRequest): string {
 
 function pickBucket(pathname: string): 'global' | 'auth' | 'upload' {
   if (pathname.startsWith('/api/vault/upload')) return 'upload'
-  if (pathname.startsWith('/login') || pathname.startsWith('/update-password')) {
+  if (
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/update-password') ||
+    pathname.startsWith('/auth')
+  ) {
     return 'auth'
   }
   return 'global'

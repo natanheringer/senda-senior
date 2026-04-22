@@ -35,6 +35,15 @@ npm run dev
 
 configurar as mesmas chaves em `Settings → Environment Variables`, escopo `Production` + `Preview` + `Development`.
 
+## supabase auth (redirects)
+
+no dashboard: **Authentication → URL Configuration** incluir em *Redirect URLs* (o fluxo PKCE exige a rota de callback):
+
+- `http://localhost:3000/auth/callback`
+- `https://<seu-dominio-producao>/auth/callback`
+
+*Site URL* = url canônica (ex. produção). sem isto, `signUp` e `resetPasswordForEmail` falham após o clique no email.
+
 ## rotação
 
 1. gerar nova chave no dashboard supabase

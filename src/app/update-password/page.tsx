@@ -4,7 +4,6 @@ import NextImage from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
 import { Lock, ShieldCheck, KeyRound, CheckCircle } from 'lucide-react'
 
 // função para atualizar a senha do usuário
@@ -14,7 +13,6 @@ export default function UpdatePassword() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
-    const router = useRouter()
     const supabase = useMemo(() => createClient(), [])
 
     async function handleSubmit(e: React.SyntheticEvent) {
@@ -37,7 +35,9 @@ export default function UpdatePassword() {
             setLoading(false)
         } else {
             setSuccess(true)
-            setTimeout(() => router.push('/dashboard'), 2000)
+            setTimeout(() => {
+                window.location.assign('/dashboard')
+            }, 2000)
         }
     }
 

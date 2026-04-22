@@ -2,9 +2,17 @@
 
 import NextImage from 'next/image'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+
+function safePostAuthPath(): string {
+  const p = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search)
+  const next = p.get('next')
+  if (next && next.startsWith('/') && !next.startsWith('//')) {
+    return next
+  }
+  return '/dashboard'
+}
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -13,8 +21,24 @@ export default function Login() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const [mode, setMode] = useState<'login' | 'register' | 'reset'>('login')
-    const router = useRouter()
     const supabase = useMemo(() => createClient(), [])
+
+    const authCallbackUrl = (nextPath: string) => {
+        if (typeof window === 'undefined') return ''
+        const next = nextPath.startsWith('/') ? nextPath : `/${nextPath}`
+        return `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`
+    }
+
+    useEffect(() => {
+        const p = new URLSearchParams(window.location.search)
+        const e = p.get('error')
+        if (e) {
+            // Erro vindo de ?error= (callback Supabase); precisa de efeito porque a URL só existe no cliente.
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- sync one-time from query into form state
+            setError(decodeURIComponent(e).replaceAll('+', ' '))
+            window.history.replaceState(null, '', '/login')
+        }
+    }, [])
 
     async function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault()
@@ -27,11 +51,14 @@ export default function Login() {
             if (error) {
                 setError(error.message)
             } else {
-                router.push('/dashboard')
+                // Navegação completa: garante que os cookies de sessão vão no próximo
+                // request; `router.push` (SPA) pode deixar o RSC do /dashboard sem sessão.
+                window.location.assign(safePostAuthPath())
+                return
             }
         } else if (mode === 'reset') {
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: `${window.location.origin}/update-password`,
+                redirectTo: authCallbackUrl('/update-password'),
             })
             if (error) {
                 setError(error.message)
@@ -40,9 +67,18 @@ export default function Login() {
                 setTimeout(() => setMode('login'), 3000)
             }
         } else {
-            const { error } = await supabase.auth.signUp({ email, password })
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    emailRedirectTo: authCallbackUrl('/dashboard'),
+                },
+            })
             if (error) {
                 setError(error.message)
+            } else if (data.session) {
+                window.location.assign(safePostAuthPath())
+                return
             } else {
                 setSuccess('Conta criada! Verifique seu email para confirmar.')
                 setTimeout(() => setMode('login'), 3000)
