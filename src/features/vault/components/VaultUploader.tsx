@@ -115,8 +115,11 @@ export function VaultUploader() {
     >
       <input
         ref={inputRef}
+        id="vault-file-input"
+        name="vaultFiles"
         type="file"
         multiple
+        autoComplete="off"
         onChange={(e) => {
           if (e.target.files) handleFiles(e.target.files)
           e.target.value = ''

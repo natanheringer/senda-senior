@@ -173,10 +173,13 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
               }}
             />
             <input
+              id="vault-search"
+              name="q"
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar por nome..."
+              autoComplete="off"
               style={{
                 width: '100%',
                 padding: '10px 14px 10px 40px',

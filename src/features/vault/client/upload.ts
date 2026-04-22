@@ -53,17 +53,27 @@ export async function uploadFile(
 
   cb.onProgress?.('uploading', 0)
 
-  // upload via signed url. supabase aceita put direto.
+  // Mesmo formato que `StorageFileApi.uploadToSignedUrl` (storage-js): multipart
+  // com cacheControl + ficheiro no campo `""`. PUT com `body: file` costuma falhar na API.
+  const form = new FormData()
+  form.append('cacheControl', '3600')
+  form.append('', file)
+
   const putResp = await fetch(prepared.data.uploadUrl, {
     method: 'PUT',
     headers: {
-      'Content-Type': file.type || 'application/octet-stream',
       'x-upsert': 'false',
     },
-    body: file,
+    body: form,
   })
 
   if (!putResp.ok) {
+    try {
+      const detail = await putResp.text()
+      console.error('[vault upload] PUT signed URL failed:', putResp.status, detail)
+    } catch {
+      console.error('[vault upload] PUT signed URL failed:', putResp.status)
+    }
     return { ok: false, error: 'storage_error' }
   }
 

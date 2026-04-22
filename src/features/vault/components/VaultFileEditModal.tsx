@@ -132,6 +132,8 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
         <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
           <Field label="Nome exibido">
             <input
+              id="vault-edit-display-name"
+              name="displayName"
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
@@ -143,6 +145,8 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
 
           <Field label="Descrição" hint="Opcional. Ajuda a lembrar para que serve este arquivo.">
             <textarea
+              id="vault-edit-description"
+              name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               maxLength={VAULT_LIMITS.maxDescriptionLength}
@@ -163,6 +167,8 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
             }
           >
             <select
+              id="vault-edit-category"
+              name="category"
               value={categorySlug}
               onChange={(e) => setCategorySlug(e.target.value)}
               disabled={isPending}
@@ -204,6 +210,8 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
             }}
           >
             <input
+              id="vault-edit-favorite"
+              name="favorite"
               type="checkbox"
               checked={favorite}
               onChange={(e) => setFavorite(e.target.checked)}

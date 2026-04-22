@@ -219,7 +219,9 @@ export default function Login() {
                             }}>Email</label>
                             <input
                                 id="login-email"
+                                name="email"
                                 type="email"
+                                autoComplete="email"
                                 placeholder="seu@email.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -252,7 +254,9 @@ export default function Login() {
                                 }}>Senha</label>
                                 <input
                                     id="login-password"
+                                    name="password"
                                     type="password"
+                                    autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
                                     placeholder="Mínimo 6 caracteres"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}

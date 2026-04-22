@@ -185,7 +185,9 @@ export default function UpdatePassword() {
                                     }}>Nova senha</label>
                                     <input
                                         id="new-password"
+                                        name="new-password"
                                         type="password"
+                                        autoComplete="new-password"
                                         placeholder="Mínimo 6 caracteres"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
@@ -218,7 +220,9 @@ export default function UpdatePassword() {
                                     }}>Confirmar senha</label>
                                     <input
                                         id="confirm-password"
+                                        name="confirm-password"
                                         type="password"
+                                        autoComplete="new-password"
                                         placeholder="Repita a senha"
                                         value={confirm}
                                         onChange={(e) => setConfirm(e.target.value)}

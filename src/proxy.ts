@@ -48,8 +48,10 @@ function buildCSP(nonce: string): string {
   // Em produção: strict-dynamic + nonce. Com nonce presente, `unsafe-inline` em
   // script-src é ignorado; scripts inline do Next exigem o nonce (via request CSP).
   // Em dev: Next dev injeta scripts inline + HMR e precisa de `unsafe-eval`.
+  // `unsafe-eval`: alguns chunks do Next / libs (ex. framer-motion) usam eval em prod;
+  // sem isto o browser bloqueia e quebra interação (ex. upload / animações).
   const scriptSrc = IS_PROD
-    ? `'self' 'nonce-${nonce}' 'strict-dynamic' https:`
+    ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval' https:`
     : `'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com`
   return [
     "default-src 'self'",
