@@ -1,8 +1,9 @@
 'use client'
 
 import NextImage from 'next/image'
-import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export default function Login() {
@@ -13,6 +14,7 @@ export default function Login() {
     const [success, setSuccess] = useState('')
     const [mode, setMode] = useState<'login' | 'register' | 'reset'>('login')
     const router = useRouter()
+    const supabase = useMemo(() => createClient(), [])
 
     async function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault()
@@ -110,11 +112,11 @@ export default function Login() {
                 }} />
 
                 <div className="auth-panel-content" style={{ position: 'relative', zIndex: 1, maxWidth: 420 }}>
-                    <a href="/" style={{
+                    <Link href="/" style={{
                         fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 600,
                         color: 'white', textDecoration: 'none', display: 'inline-block',
                         marginBottom: 64, letterSpacing: '-0.02em',
-                    }}>Send Senior</a>
+                    }}>Senda Sênior</Link>
 
                     <h2 style={{
                         fontFamily: 'var(--serif)', fontSize: 'clamp(32px, 3.5vw, 48px)',
@@ -141,7 +143,7 @@ export default function Login() {
                             fontSize: 14, lineHeight: 1.65,
                             color: 'rgba(255,255,255,0.7)', marginBottom: 12,
                         }}>
-                            "Organizei tudo com carinho. Meus filhos sabem que está tudo certo — e ficam tranquilos."
+                            &ldquo;Organizei tudo com carinho. Meus filhos sabem que está tudo certo — e ficam tranquilos.&rdquo;
                         </p>
                         <span style={{
                             fontSize: 12, fontWeight: 600,

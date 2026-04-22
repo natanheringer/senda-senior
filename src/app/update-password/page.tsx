@@ -1,8 +1,9 @@
 'use client'
 
 import NextImage from 'next/image'
-import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Lock, ShieldCheck, KeyRound, CheckCircle } from 'lucide-react'
 
@@ -14,6 +15,7 @@ export default function UpdatePassword() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const router = useRouter()
+    const supabase = useMemo(() => createClient(), [])
 
     async function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault()
@@ -85,11 +87,11 @@ export default function UpdatePassword() {
                 {/* div com o texto do painel */}
                 <div className="auth-panel-content" style={{ position: 'relative', zIndex: 1, maxWidth: 420 }}>
 
-                    <a href="/" style={{
+                    <Link href="/" style={{
                         fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 600,
                         color: 'white', textDecoration: 'none', display: 'inline-block',
                         marginBottom: 64, letterSpacing: '-0.02em',
-                    }}>Send Senior</a>
+                    }}>Senda Sênior</Link>
 
                     <h2 style={{
                         fontFamily: 'var(--serif)', fontSize: 'clamp(32px, 3.5vw, 48px)',
@@ -277,10 +279,10 @@ export default function UpdatePassword() {
                             <div style={{
                                 marginTop: 32, textAlign: 'center',
                             }}>
-                                <a href="/login" style={{
+                                <Link href="/login" style={{
                                     fontSize: 15, color: 'var(--green)', fontWeight: 600,
                                     textDecoration: 'underline',
-                                }}>← Voltar para o login</a>
+                                }}>← Voltar para o login</Link>
                             </div>
                         </>
                     )}

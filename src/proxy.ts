@@ -1,101 +1,163 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { env } from '@/config/env'
+import { checkRateLimit } from '@/lib/server/rate-limit'
 
-// ─── Rate Limiting (in-memory) ───
-const rateLimit = new Map<string, { count: number; resetTime: number }>()
-const RATE_LIMIT_WINDOW = 60_000
-const RATE_LIMIT_MAX = 100
+/**
+ * ─── Proxy (Next.js 16) ────────────────────────────────────────────
+ *
+ * Responsabilidades, em ordem:
+ *   1. Rate limit (distribuído via Upstash se configurado).
+ *   2. Geração de nonce + headers de segurança (CSP apertado em prod).
+ *   3. Sincronização da sessão Supabase via cookies.
+ *   4. Enforcement de rotas protegidas.
+ *   5. Injeção de `x-pathname` e `x-nonce` para Server Components.
+ *
+ * Ordem importa — não reordenar sem revisar os pontos 3 e 4.
+ * ───────────────────────────────────────────────────────────────────
+ */
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const entry = rateLimit.get(ip)
+const IS_PROD = process.env.NODE_ENV === 'production'
 
-  if (!entry || now > entry.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
-    return false
-  }
-
-  entry.count++
-  return entry.count > RATE_LIMIT_MAX
+function extractIp(request: NextRequest): string {
+  return (
+    request.headers.get('x-real-ip') ||
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    'unknown'
+  )
 }
 
-export async function proxy(request: NextRequest) {
-  // 1. Rate Limiting com extração de IP robusta
-  const ip = 
-    request.headers.get('x-real-ip') || 
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
-    'unknown'
-    
-  if (isRateLimited(ip)) {
-    return new NextResponse('Too Many Requests', { status: 429, headers: { 'Retry-After': '60' } })
+function pickBucket(pathname: string): 'global' | 'auth' | 'upload' {
+  if (pathname.startsWith('/api/vault/upload')) return 'upload'
+  if (pathname.startsWith('/login') || pathname.startsWith('/update-password')) {
+    return 'auth'
   }
+  return 'global'
+}
 
-  let response = NextResponse.next({ request })
+function generateNonce(): string {
+  const bytes = new Uint8Array(16)
+  crypto.getRandomValues(bytes)
+  return btoa(String.fromCharCode(...bytes)).replace(/=/g, '')
+}
 
-  // 2. Security Headers (CSP) - Unificado
-  const csp = [
+function buildCSP(nonce: string): string {
+  // Em produção: strict-dynamic + nonce. Remove `unsafe-inline`/`unsafe-eval`.
+  // Em dev: Next dev injeta scripts inline para HMR e precisa de `unsafe-eval`.
+  const scriptSrc = IS_PROD
+    ? `'self' 'nonce-${nonce}' 'strict-dynamic' https: 'unsafe-inline'`
+    : `'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com`
+
+  // `'unsafe-inline'` no script-src em prod é ignorado por browsers
+  // que entendem `strict-dynamic` (CSP3); serve apenas como fallback
+  // para browsers antigos que não entendem nonce.
+  return [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' https://fonts.gstatic.com data:",
-    "img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in",
-    "connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://vercel.live",
+    `script-src ${scriptSrc}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://use.typekit.net https://p.typekit.net",
+    "font-src 'self' https://fonts.gstatic.com https://use.typekit.net data:",
+    "img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in https://p.typekit.net",
+    "connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://vercel.live https://use.typekit.net https://p.typekit.net",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
     "object-src 'none'",
+    "upgrade-insecure-requests",
   ].join('; ')
+}
 
-  const setSecurityHeaders = (res: NextResponse) => {
-    res.headers.set('Content-Security-Policy', csp)
-    res.headers.set('X-Content-Type-Options', 'nosniff')
-    res.headers.set('X-Frame-Options', 'DENY')
-    res.headers.set('X-XSS-Protection', '1; mode=block')
-    res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-    res.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+function applySecurityHeaders(response: NextResponse, nonce: string) {
+  response.headers.set('Content-Security-Policy', buildCSP(nonce))
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-Frame-Options', 'DENY')
+  response.headers.set('X-XSS-Protection', '1; mode=block')
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  response.headers.set(
+    'Permissions-Policy',
+    'camera=(), microphone=(), geolocation=(), browsing-topics=()',
+  )
+  response.headers.set(
+    'Strict-Transport-Security',
+    'max-age=63072000; includeSubDomains; preload',
+  )
+}
+
+const PROTECTED_PREFIXES = ['/dashboard', '/update-password', '/vault'] as const
+const AUTH_PREFIXES = ['/login'] as const
+
+function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
+  return prefixes.some((prefix) => pathname.startsWith(prefix))
+}
+
+export async function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+  const nonce = generateNonce()
+
+  // ─── 1. rate limit ────────────────────────────────────────────────
+  const rl = await checkRateLimit(extractIp(request), pickBucket(pathname))
+  if (!rl.success) {
+    return new NextResponse('Too Many Requests', {
+      status: 429,
+      headers: {
+        'Retry-After': Math.ceil((rl.reset - Date.now()) / 1000).toString(),
+        'X-RateLimit-Remaining': rl.remaining.toString(),
+        'X-RateLimit-Mode': rl.mode,
+      },
+    })
   }
 
-  setSecurityHeaders(response)
+  // ─── 2. forward headers ──────────────────────────────────────────
+  const forwardedHeaders = new Headers(request.headers)
+  forwardedHeaders.set('x-pathname', pathname)
+  forwardedHeaders.set('x-nonce', nonce)
 
-  // 3. Supabase Auth com persistência segura de cookies
+  let response = NextResponse.next({ request: { headers: forwardedHeaders } })
+  applySecurityHeaders(response, nonce)
+
+  // ─── 3. sessão supabase ──────────────────────────────────────────
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        getAll() { return request.cookies.getAll() },
+        getAll() {
+          return request.cookies.getAll()
+        },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-          response = NextResponse.next({ request })
-          setSecurityHeaders(response)
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value),
+          )
+          response = NextResponse.next({
+            request: { headers: forwardedHeaders },
+          })
+          applySecurityHeaders(response, nonce)
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, { 
-              ...options, 
-              httpOnly: true, 
-              secure: true, 
+            response.cookies.set(name, value, {
+              ...options,
+              httpOnly: true,
+              secure: IS_PROD,
               sameSite: 'lax',
-              path: '/', // Garante consistência em todas as rotas
-            })
+              path: '/',
+            }),
           )
         },
       },
-    }
+    },
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
-  const pathname = request.nextUrl.pathname
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  // Proteção de rotas sensíveis e lógica de redirecionamento segura
-  const isProtectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/manual') || pathname.startsWith('/update-password')
-  const isAuthRoute = pathname.startsWith('/login')
-
-  if (!user && isProtectedRoute) {
+  // ─── 4. enforcement ──────────────────────────────────────────────
+  if (!user && matchesPrefix(pathname, PROTECTED_PREFIXES)) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('next', pathname)
     return NextResponse.redirect(url)
   }
 
-  if (user && isAuthRoute) {
+  if (user && matchesPrefix(pathname, AUTH_PREFIXES)) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)

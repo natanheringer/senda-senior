@@ -1,0 +1,75 @@
+import 'server-only'
+
+import type { SupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '@/lib/supabase/types'
+import { VAULT_LIMITS } from './validation'
+
+type SB = SupabaseClient<Database>
+
+const BUCKET = 'vault'
+
+export function buildStoragePath(userId: string, fileId: string, ext: string): string {
+  const cleanExt = ext.replace(/^\.+/, '').toLowerCase().slice(0, 16)
+  return cleanExt
+    ? `${userId}/${fileId}.${cleanExt}`
+    : `${userId}/${fileId}`
+}
+
+export async function createSignedUploadUrl(
+  supabase: SB,
+  path: string,
+): Promise<{ url: string; token: string; expiresAt: string } | { error: string }> {
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .createSignedUploadUrl(path)
+
+  if (error || !data) return { error: error?.message ?? 'unknown' }
+
+  const expiresAt = new Date(
+    Date.now() + VAULT_LIMITS.signedUploadTtlSeconds * 1000,
+  ).toISOString()
+
+  return { url: data.signedUrl, token: data.token, expiresAt }
+}
+
+export async function createSignedDownloadUrl(
+  supabase: SB,
+  path: string,
+): Promise<{ url: string; expiresAt: string } | { error: string }> {
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .createSignedUrl(path, VAULT_LIMITS.signedDownloadTtlSeconds)
+
+  if (error || !data) return { error: error?.message ?? 'unknown' }
+
+  const expiresAt = new Date(
+    Date.now() + VAULT_LIMITS.signedDownloadTtlSeconds * 1000,
+  ).toISOString()
+
+  return { url: data.signedUrl, expiresAt }
+}
+
+export async function statObject(
+  supabase: SB,
+  path: string,
+): Promise<{ size: number } | null> {
+  const folder = path.split('/').slice(0, -1).join('/')
+  const filename = path.split('/').slice(-1)[0]
+
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .list(folder, { search: filename, limit: 1 })
+
+  if (error || !data || data.length === 0) return null
+  const obj = data[0]
+  const size = (obj.metadata?.size as number | undefined) ?? 0
+  return { size }
+}
+
+export async function removeObject(
+  supabase: SB,
+  path: string,
+): Promise<boolean> {
+  const { error } = await supabase.storage.from(BUCKET).remove([path])
+  return !error
+}

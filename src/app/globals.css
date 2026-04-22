@@ -1,38 +1,117 @@
-:root {
-  --green: #4a5e4a;
-  --green-dark: #2d3d2d;
-  --green-light: #8aab8a;
-  --green-muted: #ebf0e8;
-  --cream: #f5f0e8;
-  --cream-mid: #eae3d4;
-  --warm-white: #f5f0e8;
-  --terracotta: #b5724a;
-  --terracotta-dark: #915a3a;
-  --brown: #b5724a;
-  --brown-light: #c98a65;
-  --text: #2a2520;
-  --text-sub: #4a4540;
-  --text-muted: #7a7268;
-  --dark: #2a2520;
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — Senda Sênior
+   Fonte canônica: Guia_Desenvolvedor.md §2 (paleta) e §3 (tipografia).
+   Tudo declarado em @theme vira automaticamente utilitário Tailwind
+   (ex.: --color-green → `bg-green`, `text-green`, `border-green`).
+   ═══════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Verdes (Primary / Brand) */
+  --color-green-ghost: #ebf0e8;
+  --color-green-muted: #ebf0e8;
+  --color-green-pale: #c8d4c0;
+  --color-green-light: #8aab8a;
+  --color-green: #4a5e4a;
+  --color-green-dark: #2d3d2d;
+
+  /* Cremes (Background) */
+  --color-cream: #f5f0e8;
+  --color-cream-mid: #eae3d4;
+  --color-cream-dark: #ddd6c5;
+
+  /* Terracotas (Accent / CTA) */
+  --color-terracotta-pale: #f0e0d0;
+  --color-terracotta-light: #c98a65;
+  --color-terracotta: #b5724a;
+  --color-terracotta-dark: #915a3a;
+
+  /* Escuros (Texto / Neutros) */
+  --color-ink: #2a2520;
+  --color-ink-sub: #4a4540;
+  --color-ink-muted: #7a7268;
+  --color-ink-sand: #a8997e;
+
+  /* Tipografia */
+  --font-serif: var(--serif);
+  --font-sans: var(--sans);
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Easings */
+  --ease-senda: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   ALIASES — Variáveis CSS legadas mantidas durante a transição.
+   Remover quando TODOS os componentes estiverem migrados para
+   utilitários Tailwind ou usarem as novas `--color-*`.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --green-ghost: var(--color-green-ghost);
+  --green-muted: var(--color-green-muted);
+  --green-pale: var(--color-green-pale);
+  --green-light: var(--color-green-light);
+  --green: var(--color-green);
+  --green-dark: var(--color-green-dark);
+
+  --cream: var(--color-cream);
+  --cream-mid: var(--color-cream-mid);
+  --cream-dark: var(--color-cream-dark);
+  --warm-white: var(--color-cream);
+
+  --terracotta-pale: var(--color-terracotta-pale);
+  --terracotta-light: var(--color-terracotta-light);
+  --terracotta: var(--color-terracotta);
+  --terracotta-dark: var(--color-terracotta-dark);
+  --brown: var(--color-terracotta);
+  --brown-light: var(--color-terracotta-light);
+
+  --text: var(--color-ink);
+  --text-sub: var(--color-ink-sub);
+  --text-muted: var(--color-ink-muted);
+  --text-sand: var(--color-ink-sand);
+  --dark: var(--color-ink);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════════ */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
 body {
-  font-family: var(--sans);
-  color: var(--text);
-  background: var(--cream);
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
+/* Aplicado pelo <ManualLayout /> enquanto o DigitalReader é a
+   superfície de rolagem. */
+body.reader-locked { overflow: hidden; }
+
 ::selection {
-  background: var(--green);
+  background: var(--color-green);
   color: white;
 }
 
-/* ─── Premium UI Utilities ─── */
+/* ═══════════════════════════════════════════════════════════════════
+   UTILITÁRIOS CANÔNICOS DO GUIA
+   (expostos como classes porque são elementos de identidade, não
+   combinações ad-hoc de utilitários)
+   ═══════════════════════════════════════════════════════════════════ */
+
 .filter-premium {
   filter: saturate(0.85) brightness(0.95);
   opacity: 0.95;
@@ -44,35 +123,34 @@ body {
 }
 
 .label-premium {
-  font-family: var(--sans);
+  font-family: var(--font-sans);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--terracotta);
+  color: var(--color-terracotta);
   font-weight: 600;
 }
 
 .line-terracota {
   width: 48px;
   height: 3px;
-  background-color: var(--terracotta);
+  background-color: var(--color-terracotta);
   border-radius: 2px;
   margin: 16px 0 24px;
 }
 
-/* Utility */
 .sr-only {
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0,0,0,0); border: 0;
 }
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    RESPONSIVE — Mobile ≤ 768px
-   ═══════════════════════════════════════════ */
+   (mantido em CSS porque são overrides estruturais do layout atual;
+   ao migrar cada seção para Tailwind, estas regras podem sair.)
+   ═══════════════════════════════════════════════════════════════════ */
 
-/* Visibility */
-.hide-mobile { /* visible on desktop, hidden via @media below */ }
 .show-mobile { display: none !important; }
 
 @media (max-width: 768px) {
@@ -80,55 +158,24 @@ body {
   .show-mobile { display: flex !important; }
   .show-mobile-block { display: block !important; }
 
-  /* ─── Layout grids ─── */
-  .grid-pillar {
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
-  }
-  .grid-actions {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-  }
-  .grid-status {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
-  .grid-cta {
-    grid-template-columns: 1fr !important;
-    gap: 48px !important;
-  }
-  .grid-trust {
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
-  }
-  .grid-footer {
-    flex-direction: column !important;
-    gap: 32px !important;
-  }
+  .grid-pillar { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .grid-actions { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .grid-status { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .grid-cta { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .grid-trust { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .grid-footer { flex-direction: column !important; gap: 32px !important; }
 
-  /* ─── Auth pages — split layout ─── */
-  .auth-wrapper {
-    flex-direction: column !important;
-  }
+  .auth-wrapper { flex-direction: column !important; }
   .auth-panel-left {
     flex: none !important;
     min-height: 240px !important;
     padding: 32px 24px !important;
   }
-  .auth-panel-left .auth-panel-content {
-    max-width: 100% !important;
-  }
-  .auth-panel-right {
-    padding: 32px 24px !important;
-  }
+  .auth-panel-left .auth-panel-content { max-width: 100% !important; }
+  .auth-panel-right { padding: 32px 24px !important; }
 
-  /* ─── Header: mobile nav ─── */
-  .nav-desktop {
-    display: none !important;
-  }
-  .nav-mobile-toggle {
-    display: flex !important;
-  }
+  .nav-desktop { display: none !important; }
+  .nav-mobile-toggle { display: flex !important; }
   .mobile-menu {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -143,11 +190,10 @@ body {
   .mobile-menu a {
     font-size: 20px !important;
     font-weight: 600;
-    color: var(--text);
+    color: var(--color-ink);
     text-decoration: none;
   }
 
-  /* ─── Hero adjustments ─── */
   .hero-testimonial {
     position: relative !important;
     bottom: auto !important;
@@ -156,51 +202,19 @@ body {
     max-width: 100% !important;
   }
 
-  /* ─── Pillar component: stack ─── */
-  .pilar-layout {
-    flex-direction: column !important;
-  }
-  .pilar-image-wrap {
-    min-height: 240px !important;
-    flex: none !important;
-  }
-  .pilar-text-wrap {
-    padding: 32px 24px !important;
-    flex: none !important;
-  }
+  .pilar-layout { flex-direction: column !important; }
+  .pilar-image-wrap { min-height: 240px !important; flex: none !important; }
+  .pilar-text-wrap { padding: 32px 24px !important; flex: none !important; }
 
-  /* ─── Full-width CTA buttons ─── */
-  .hero-buttons {
-    flex-direction: column !important;
-    width: 100%;
-  }
-  .hero-buttons a {
-    text-align: center !important;
-    width: 100% !important;
-  }
+  .hero-buttons { flex-direction: column !important; width: 100%; }
+  .hero-buttons a { text-align: center !important; width: 100% !important; }
 
-  /* ─── Dashboard header ─── */
-  .dash-header {
-    padding: 0 16px !important;
-    height: 60px !important;
-  }
-  .dash-header-email {
-    display: none !important;
-  }
+  .dash-header { padding: 0 16px !important; height: 60px !important; }
+  .dash-header-email { display: none !important; }
 }
 
-/* ═══════════════════════════════════════════
-   RESPONSIVE — Small mobile ≤ 480px
-   ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
-  .grid-actions {
-    grid-template-columns: 1fr !important;
-  }
-  .auth-panel-left {
-    min-height: 180px !important;
-    padding: 24px 20px !important;
-  }
-  .auth-panel-right {
-    padding: 24px 20px !important;
-  }
+  .grid-actions { grid-template-columns: 1fr !important; }
+  .auth-panel-left { min-height: 180px !important; padding: 24px 20px !important; }
+  .auth-panel-right { padding: 24px 20px !important; }
 }
