@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { connection } from 'next/server'
 import { EB_Garamond, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { SmoothScroll } from '@/lib/utils/SmoothScroll'
@@ -47,7 +48,10 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Necessário para o nonce da CSP: páginas estáticas não recebem o nonce do proxy.
+  await connection()
+
   return (
     <html lang="pt-BR" className={`${ebGaramond.variable} ${dmSans.variable}`}>
       {/*

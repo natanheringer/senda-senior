@@ -40,21 +40,17 @@ function pickBucket(pathname: string): 'global' | 'auth' | 'upload' {
 }
 
 function generateNonce(): string {
-  const bytes = new Uint8Array(16)
-  crypto.getRandomValues(bytes)
-  return btoa(String.fromCharCode(...bytes)).replace(/=/g, '')
+  // Mesmo algoritmo sugerido em nextjs.org/docs/app/guides/content-security-policy
+  return Buffer.from(crypto.randomUUID()).toString('base64')
 }
 
 function buildCSP(nonce: string): string {
-  // Em produção: strict-dynamic + nonce. Remove `unsafe-inline`/`unsafe-eval`.
-  // Em dev: Next dev injeta scripts inline para HMR e precisa de `unsafe-eval`.
+  // Em produção: strict-dynamic + nonce. Com nonce presente, `unsafe-inline` em
+  // script-src é ignorado; scripts inline do Next exigem o nonce (via request CSP).
+  // Em dev: Next dev injeta scripts inline + HMR e precisa de `unsafe-eval`.
   const scriptSrc = IS_PROD
-    ? `'self' 'nonce-${nonce}' 'strict-dynamic' https: 'unsafe-inline'`
+    ? `'self' 'nonce-${nonce}' 'strict-dynamic' https:`
     : `'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com`
-
-  // `'unsafe-inline'` no script-src em prod é ignorado por browsers
-  // que entendem `strict-dynamic` (CSP3); serve apenas como fallback
-  // para browsers antigos que não entendem nonce.
   return [
     "default-src 'self'",
     `script-src ${scriptSrc}`,
@@ -70,8 +66,8 @@ function buildCSP(nonce: string): string {
   ].join('; ')
 }
 
-function applySecurityHeaders(response: NextResponse, nonce: string) {
-  response.headers.set('Content-Security-Policy', buildCSP(nonce))
+function applySecurityHeaders(response: NextResponse, csp: string) {
+  response.headers.set('Content-Security-Policy', csp)
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'DENY')
   response.headers.set('X-XSS-Protection', '1; mode=block')
@@ -96,6 +92,7 @@ function matchesPrefix(pathname: string, prefixes: readonly string[]): boolean {
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const nonce = generateNonce()
+  const csp = buildCSP(nonce)
 
   // ─── 1. rate limit ────────────────────────────────────────────────
   const rl = await checkRateLimit(extractIp(request), pickBucket(pathname))
@@ -111,12 +108,15 @@ export async function proxy(request: NextRequest) {
   }
 
   // ─── 2. forward headers ──────────────────────────────────────────
+  // O Next.js lê `Content-Security-Policy` na *request* para extrair o nonce e
+  // aplicar nos scripts de framework; só mandar no response deixa o HTML sem match.
   const forwardedHeaders = new Headers(request.headers)
   forwardedHeaders.set('x-pathname', pathname)
   forwardedHeaders.set('x-nonce', nonce)
+  forwardedHeaders.set('Content-Security-Policy', csp)
 
   let response = NextResponse.next({ request: { headers: forwardedHeaders } })
-  applySecurityHeaders(response, nonce)
+  applySecurityHeaders(response, csp)
 
   // ─── 3. sessão supabase ──────────────────────────────────────────
   const supabase = createServerClient(
@@ -134,7 +134,7 @@ export async function proxy(request: NextRequest) {
           response = NextResponse.next({
             request: { headers: forwardedHeaders },
           })
-          applySecurityHeaders(response, nonce)
+          applySecurityHeaders(response, csp)
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, {
               ...options,
