@@ -1,30 +1,78 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export function CustomCursor() {
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 })
+  const [enabled, setEnabled] = useState(false)
   const [hoveredText, setHoveredText] = useState<string | null>(null)
+  const x = useMotionValue(-100)
+  const y = useMotionValue(-100)
+  const scale = useSpring(0.2, { stiffness: 500, damping: 28, mass: 0.5 })
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) =>
-      setMousePos({ x: e.clientX, y: e.clientY })
+    scale.set(hoveredText ? 1 : 0.2)
+  }, [hoveredText, scale])
+
+  useEffect(() => {
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const pointerQuery = window.matchMedia('(pointer: fine)')
+
+    const updateEnabled = () => {
+      setEnabled(!reduceMotionQuery.matches && pointerQuery.matches)
+    }
+
+    updateEnabled()
+    reduceMotionQuery.addEventListener('change', updateEnabled)
+    pointerQuery.addEventListener('change', updateEnabled)
+
+    return () => {
+      reduceMotionQuery.removeEventListener('change', updateEnabled)
+      pointerQuery.removeEventListener('change', updateEnabled)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const finePointer = window.matchMedia('(pointer: fine)').matches
+    if (reduceMotion || !finePointer) return
+
+    let frame = 0
+    let nextX = -100
+    let nextY = -100
+    const handleMouseMove = (e: MouseEvent) => {
+      nextX = e.clientX
+      nextY = e.clientY
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        x.set(nextX)
+        y.set(nextY)
+        frame = 0
+      })
+    }
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const text =
         target.getAttribute('data-cursor') ||
         target.closest('[data-cursor]')?.getAttribute('data-cursor')
-      setHoveredText(text || null)
+      const nextText = text || null
+      setHoveredText((prev) => (prev === nextText ? prev : nextText))
     }
 
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseover', handleMouseOver)
     return () => {
+      if (frame) window.cancelAnimationFrame(frame)
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseover', handleMouseOver)
     }
-  }, [])
+  }, [enabled, x, y])
+
+  if (!enabled) return null
 
   return (
     <motion.div
@@ -37,22 +85,24 @@ export function CustomCursor() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        x,
+        y,
+        scale,
       }}
-      animate={{ x: mousePos.x, y: mousePos.y, scale: hoveredText ? 1 : 0.2 }}
-      transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.5 }}
     >
+      {/* Cursor usa verde da marca — cor primária do design folder */}
       <div
         style={{
           width: 80,
           height: 80,
           borderRadius: '50%',
-          background: 'var(--color-terracotta)',
+          background: 'var(--color-green)',
           transform: 'translate(-50%, -50%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           opacity: hoveredText ? 0.95 : 0,
-          boxShadow: '0 8px 32px rgba(181,114,74,0.4)',
+          boxShadow: '0 8px 32px rgba(74,94,74,0.4)',
           transition: 'opacity 0.2s',
         }}
       >

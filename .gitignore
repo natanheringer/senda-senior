@@ -23,6 +23,11 @@
 # misc
 .DS_Store
 *.pem
+.claude
+
+# design
+/design
+
 
 # debug
 npm-debug.log*

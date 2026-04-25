@@ -1,5 +1,5 @@
 import 'server-only'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createServerClient } from '@/lib/supabase/server'
 import { CHECKLIST_CATALOG } from './checklistCatalog'
 import type { ChecklistItem } from './types'
 
@@ -14,7 +14,7 @@ import type { ChecklistItem } from './types'
  * sessão autenticada — tipicamente `requireUser()`.
  */
 export async function getChecklist(userId: string): Promise<ChecklistItem[]> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { data, error } = await supabase
     .from('care_checklist_items')
@@ -35,3 +35,4 @@ export async function getChecklist(userId: string): Promise<ChecklistItem[]> {
     done: stateByKey.get(item.key) ?? false,
   }))
 }
+

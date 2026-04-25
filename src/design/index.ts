@@ -34,3 +34,6 @@ export type { RevealProps } from './Reveal'
 
 export { Section } from './Section'
 export type { SectionProps } from './Section'
+
+export { ConfirmDialog } from './ConfirmDialog'
+export type { ConfirmDialogProps } from './ConfirmDialog'

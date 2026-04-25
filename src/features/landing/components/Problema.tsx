@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Compass } from 'lucide-react'
-import { noiseSVG } from '@/features/landing/shared/noise'
+import { motion, useReducedMotion } from 'framer-motion'
+import { BrandStar } from '@/features/landing/shared/BrandStar'
+import { SCurveFragment } from '@/features/landing/shared/BrandDecorative'
 
 const ITEMS = [
   {
@@ -24,15 +24,34 @@ const ITEMS = [
 ]
 
 export function Problema() {
+  const reducedMotion = useReducedMotion()
+
   return (
     <section id="problema" style={{
       padding: 'clamp(80px, 10vw, 140px) clamp(20px, 4vw, 60px)',
       background: 'var(--color-green)', position: 'relative', overflow: 'hidden',
     }}>
-      <div style={{ position: 'absolute', top: '10%', left: '-10%', zIndex: 0, opacity: 0.08 }}>
-         <Compass size={800} strokeWidth={1.5} color="var(--color-cream)" />
+      {/* S-curve decorativa grande — elemento da marca (design folder) */}
+      <div style={{ position: 'absolute', top: '8%', left: '-12%', width: 'clamp(500px, 70vw, 900px)', zIndex: 0, opacity: 0.08, pointerEvents: 'none' }}>
+        <SCurveFragment color="var(--color-cream)" />
       </div>
-      <div style={{ position: 'absolute', inset: 0, opacity: 0.04, backgroundImage: noiseSVG, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '15%', right: '5%', zIndex: 0, opacity: 0.04 }}>
+        <BrandStar size={200} color="var(--color-cream)" />
+      </div>
+
+      {/* Padrão caminho — S serpentino (identidade da marca) */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.14,
+          backgroundImage: "url('/brand/pattern-caminho-greenmono-dark.png')",
+          backgroundSize: '960px auto',
+          backgroundRepeat: 'repeat',
+          mixBlendMode: 'overlay',
+          pointerEvents: 'none',
+        }}
+      />
       <div style={{ maxWidth: 1000, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 1fr', gap: 64, alignItems: 'start' }} className="grid-pillar">
           <div style={{ position: 'sticky', top: 120 }}>
@@ -49,16 +68,25 @@ export function Problema() {
             {ITEMS.map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ margin: '-20% 0px -20% 0px' }}
-                transition={{ duration: 0.8 }}
+                viewport={{ once: true, amount: 0.35, margin: '-10% 0px -10% 0px' }}
+                transition={{
+                  duration: reducedMotion ? 0.25 : 0.62,
+                  delay: reducedMotion ? 0 : i * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 style={{
+                  willChange: 'transform, opacity',
                   padding: '48px 0',
                   borderBottom: i < ITEMS.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
                   position: 'relative',
                 }}
               >
+                  {/* Estrela decorativa por item */}
+                  <div style={{ position: 'absolute', top: 24, right: 0, opacity: 0.06 }}>
+                    <BrandStar size={80 + i * 20} color="white" />
+                  </div>
                   <span style={{ position: 'absolute', top: 20, right: 0, fontFamily: 'var(--font-serif)', fontSize: 'clamp(80px, 10vw, 140px)', fontWeight: 600, color: 'rgba(255,255,255,0.04)', lineHeight: 1 }}>0{i + 1}</span>
                   <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(28px, 3vw, 40px)', color: 'white', margin: '0 0 16px', lineHeight: 1.15, position: 'relative', zIndex: 1 }}>{item.t}</h3>
                   <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: 'clamp(17px, 1.8vw, 21px)', maxWidth: 480, position: 'relative', zIndex: 1 }}>{item.d}</p>

@@ -2,36 +2,40 @@ import {
   CustomCursor,
   Header,
   Hero,
-  Problema,
-  FasesCuidado,
-  Pilares,
+  FundadorasStrip,
+  Manifesto,
   ManualSection,
-  ParaQuem,
   Depoimento,
-  QuemSomos,
-  Servicos,
   CTAFinal,
   Footer,
 } from '@/features/landing'
+import { SmoothScroll } from '@/lib/utils/SmoothScroll'
 
 export default function Home() {
   return (
-    <>
+    <SmoothScroll>
       <CustomCursor />
       <Header />
       <main>
+        {/* 1. Hero — mockup mãe: creme | foto + S */}
         <Hero />
-        <Problema />
-        <FasesCuidado />
-        <Pilares />
+
+        {/* 2. Sobre / fundadoras — faixa creme (respiro entre herói e verde) */}
+        <FundadorasStrip />
+
+        {/* 3. Faixa verde — foto | manifesto + watermark S */}
+        <Manifesto />
+
+        {/* 4. Recurso em destaque — manual / guias */}
         <ManualSection />
-        <ParaQuem />
+
+        {/* 5. Depoimento */}
         <Depoimento />
-        <QuemSomos />
-        <Servicos />
+
+        {/* 6. CTA final — conversa (sem repetir manifesto) */}
         <CTAFinal />
       </main>
       <Footer />
-    </>
+    </SmoothScroll>
   )
 }

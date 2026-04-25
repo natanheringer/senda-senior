@@ -1,6 +1,7 @@
 'use client'
 
 import NextImage from 'next/image'
+import { BrandStar } from '@/features/landing/shared/BrandStar'
 
 const COLUMNS = [
   {
@@ -20,24 +21,71 @@ const COLUMNS = [
 export function Footer() {
   return (
     <footer style={{
-      padding: '64px clamp(20px, 4vw, 60px) 32px',
-      background: 'var(--color-ink)', color: 'white',
+      padding: 'clamp(88px, 10vw, 120px) 0 clamp(40px, 5vw, 52px)',
+      background: 'var(--footer-surface)', color: 'white',
+      position: 'relative', overflow: 'hidden',
     }}>
-      <div className="grid-footer" style={{
-        maxWidth: 1200, margin: '0 auto',
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse 110% 50% at 50% -8%, rgba(255,255,255,0.06) 0%, transparent 42%)',
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Padrão estrela sutil — design folder */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.04,
+          backgroundImage: "url('/brand/pattern-estrela-greenmono-dark.png')",
+          backgroundSize: '800px auto',
+          backgroundRepeat: 'repeat',
+          mixBlendMode: 'overlay',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Estrela decorativa */}
+      <div style={{ position: 'absolute', top: '10%', right: '5%', opacity: 0.03, zIndex: 0 }}>
+        <BrandStar size={200} color="white" />
+      </div>
+
+      <p
+        style={{
+          fontFamily: 'var(--font-serif)',
+          fontStyle: 'italic',
+          fontSize: 'clamp(17px, 2vw, 22px)',
+          textAlign: 'center',
+          color: 'rgba(245,240,232,0.82)',
+          maxWidth: 560,
+          margin: '0 auto clamp(52px, 6vw, 72px)',
+          lineHeight: 1.5,
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        Planejar é um gesto de amor. Estamos aqui para te ajudar.
+      </p>
+
+      <div className="grid-footer landing-max" style={{
+        margin: '0 auto',
         display: 'flex', justifyContent: 'space-between', alignItems: 'start',
-        flexWrap: 'wrap', gap: 40, marginBottom: 48,
+        flexWrap: 'wrap', gap: 'clamp(40px, 5vw, 56px)', marginBottom: 52,
+        position: 'relative', zIndex: 1,
       }}>
-        <div style={{ maxWidth: 260 }}>
+        <div style={{ maxWidth: 280 }}>
           <NextImage
-            src="/logo-senda-senior.png"
+            src="/brand/logo-11.png"
             alt="Senda Sênior"
-            width={120}
-            height={48}
-            style={{ height: 48, width: 'auto', objectFit: 'contain', marginBottom: 16, filter: 'brightness(1.8) saturate(0.5)' }}
+            width={320}
+            height={96}
+            style={{ height: 56, width: 'auto', objectFit: 'contain', marginBottom: 16, filter: 'brightness(0) invert(1) saturate(0)' }}
           />
           <p style={{
-            fontSize: 14, color: 'rgba(255,255,255,0.38)', lineHeight: 1.7,
+            fontSize: 15, color: 'rgba(245,240,232,0.44)', lineHeight: 1.75,
           }}>
             Planejamento & Assessoria Sênior.<br />
             Cuidado com propósito. Autonomia com dignidade.
@@ -47,27 +95,25 @@ export function Footer() {
           <div key={i}>
             <h4 style={{
               fontSize: 11, fontWeight: 700, letterSpacing: 2,
-              textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)',
-              marginBottom: 16,
+              textTransform: 'uppercase', color: 'rgba(245,240,232,0.32)',
+              marginBottom: 18,
             }}>{col.title}</h4>
             {col.links.map((link, j) => (
-              <a key={j} href={link.includes('@') ? `mailto:${link}` : '#'} style={{
-                display: 'block', fontSize: 14, color: 'rgba(255,255,255,0.5)',
-                textDecoration: 'none', marginBottom: 10,
+              <a key={j} href={link.includes('@') ? `mailto:${link}` : '#'} className="footer-link-hover" style={{
+                display: 'block', fontSize: 14, color: 'rgba(245,240,232,0.48)',
+                textDecoration: 'none', marginBottom: 12,
                 transition: 'color 0.3s',
-              }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
-              >{link}</a>
+              }}>{link}</a>
             ))}
           </div>
         ))}
       </div>
-      <div style={{
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        paddingTop: 20, fontSize: 13,
-        color: 'rgba(255,255,255,0.22)',
-        maxWidth: 1200, margin: '0 auto',
+      <div className="landing-max" style={{
+        borderTop: '1px solid rgba(255,255,255,0.07)',
+        paddingTop: 28, fontSize: 13,
+        color: 'rgba(245,240,232,0.38)',
+        margin: '0 auto',
+        position: 'relative', zIndex: 1,
       }}>
         © 2026 Senda Sênior. Todos os direitos reservados. · sendasenior.com.br
       </div>

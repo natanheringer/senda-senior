@@ -5,78 +5,109 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
+/** Faixa verde fixa — mockup mãe (nav branca + CTA terracota). */
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50)
+    let frame = 0
+    let last = false
+    const h = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        const next = window.scrollY > 24
+        if (next !== last) { last = next; setScrolled(next) }
+        frame = 0
+      })
+    }
+    h()
     window.addEventListener('scroll', h, { passive: true })
-    return () => window.removeEventListener('scroll', h)
+    return () => { if (frame) window.cancelAnimationFrame(frame); window.removeEventListener('scroll', h) }
   }, [])
-
-  const navLinks = [
-    { label: 'Sobre', href: '#sobre' },
-    { label: 'O Manual', href: '#manual' },
-    { label: 'Serviços', href: '#servicos' },
-    { label: 'Contato', href: '#contato' },
-  ]
 
   return (
     <>
-      <header style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        padding: '0 clamp(20px, 4vw, 60px)', height: 72,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        background: scrolled ? 'rgba(245,239,230,0.94)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(0,0,0,0.04)' : '1px solid transparent',
-        transition: 'all 0.5s ease',
-      }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+      <header
+        style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0,
+          zIndex: 100,
+          height: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 clamp(20px, 4vw, 56px)',
+          background: 'var(--header-surface)',
+          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent',
+          boxShadow: scrolled ? '0 10px 32px rgba(0,0,0,0.1)' : 'none',
+          transition: 'box-shadow 0.35s ease, border-color 0.35s ease',
+        }}
+      >
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <NextImage
-            src="/logo-senda-senior.png"
+            src="/brand/logo-14.png"
             alt="Senda Sênior"
-            width={120}
-            height={40}
+            width={400}
+            height={140}
             priority
-            loading="eager"
-            style={{ height: 40, width: 'auto', objectFit: 'contain' }}
+            style={{
+              width: 'clamp(200px, 25vw, 280px)',
+              height: 'auto',
+              objectFit: 'contain',
+              filter: 'brightness(0) invert(1)',
+            }}
           />
         </Link>
 
-        <nav className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-          {navLinks.map(({ label, href }) => (
-            <a key={label} href={href} style={{
-              fontSize: 14, fontWeight: 600, color: 'var(--color-ink-sub)',
-              textDecoration: 'none', transition: 'color 0.4s',
-              letterSpacing: '0.01em',
-            }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-green)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-ink-sub)')}
-            >{label}</a>
+        <nav
+          className="nav-desktop"
+          style={{ display: 'flex', alignItems: 'center', gap: 36 }}
+        >
+          {[
+            { label: 'O Manual', href: '#manual' },
+            { label: 'Sobre nós', href: '#sobre' },
+            { label: 'Contato', href: '#contato' },
+          ].map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              style={{
+                fontSize: 15,
+                fontWeight: 600,
+                color: 'rgba(255,255,255,0.88)',
+                textDecoration: 'none',
+                letterSpacing: '0.03em',
+                transition: 'color 0.3s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'white' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.88)' }}
+            >
+              {label}
+            </a>
           ))}
 
-          <div style={{ width: 1, height: 20, background: 'rgba(0,0,0,0.1)', margin: '0 8px' }} />
+          <div style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.2)' }} />
 
-          <Link href="/login" style={{
-            fontSize: 14, fontWeight: 600, color: 'var(--color-green)',
-            textDecoration: 'none', padding: '10px 16px',
-          }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-          >Área do Cliente</Link>
-
-          <Link href="/login" id="header-cta" style={{
-            fontSize: 14, fontWeight: 600, color: 'white',
-            background: 'var(--color-terracotta)', padding: '11px 24px',
-            borderRadius: 8, textDecoration: 'none',
-            transition: 'all 0.3s',
-            boxShadow: '0 2px 12px rgba(181,114,74,0.18)',
-          }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-terracotta-dark)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-terracotta)'; e.currentTarget.style.transform = 'translateY(0)' }}
-          >Adquirir Manual</Link>
+          <a
+            href="#contato"
+            style={{
+              fontSize: 15,
+              fontWeight: 700,
+              color: 'white',
+              background: 'var(--color-terracotta)',
+              padding: '11px 28px',
+              borderRadius: 10,
+              textDecoration: 'none',
+              letterSpacing: '0.02em',
+              whiteSpace: 'nowrap',
+              transition: 'background 0.3s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-terracotta-dark)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-terracotta)' }}
+          >
+            Fale conosco
+          </a>
         </nav>
 
         <button
@@ -84,37 +115,56 @@ export function Header() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
           style={{
-            display: 'none', background: 'none', border: 'none',
-            cursor: 'pointer', color: 'var(--color-green)', padding: 8,
+            display: 'none',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: 'white',
+            padding: 8,
           }}
         >
-          {menuOpen ? <X size={28} strokeWidth={2} /> : <Menu size={28} strokeWidth={2} />}
+          {menuOpen ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
         </button>
       </header>
 
       {menuOpen && (
-        <div className="mobile-menu" style={{ display: 'flex' }}>
+        <div
+          className="mobile-menu"
+          style={{ display: 'flex' }}
+          onClick={() => setMenuOpen(false)}
+        >
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="Fechar menu"
+            style={{ position: 'absolute', top: 20, right: 24, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-ink)' }}
+          >
+            <X size={26} strokeWidth={1.5} />
+          </button>
+          {[
+            { label: 'O Manual', href: '#manual' },
+            { label: 'Sobre nós', href: '#sobre' },
+            { label: 'Contato', href: '#contato' },
+          ].map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              style={{ fontSize: 22, fontWeight: 600, color: 'var(--color-ink)', textDecoration: 'none' }}
+            >
+              {label}
+            </a>
+          ))}
+          <a
+            href="#contato"
+            onClick={() => setMenuOpen(false)}
             style={{
-              position: 'absolute', top: 20, right: 24,
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: 'var(--color-ink)',
+              fontSize: 16, fontWeight: 700, color: 'white',
+              background: 'var(--color-terracotta)',
+              padding: '16px 40px', borderRadius: 10, textDecoration: 'none', marginTop: 8,
             }}
           >
-            <X size={28} strokeWidth={2} />
-          </button>
-          {navLinks.map(({ label, href }) => (
-            <a key={label} href={href} onClick={() => setMenuOpen(false)}
-              style={{ fontSize: 22, fontWeight: 600, color: 'var(--color-ink)', textDecoration: 'none' }}
-            >{label}</a>
-          ))}
-          <a href="#manual" onClick={() => setMenuOpen(false)} style={{
-            fontSize: 17, fontWeight: 600, color: 'white', background: 'var(--color-terracotta)',
-            padding: '16px 48px', borderRadius: 10, textDecoration: 'none',
-            marginTop: 16,
-          }}>Adquirir Manual</a>
+            Fale conosco
+          </a>
         </div>
       )}
     </>

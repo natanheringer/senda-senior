@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import NextImage from 'next/image'
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import {
   Scale,
@@ -70,7 +71,38 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
   const [hoveredAction, setHoveredAction] = useState<number | null>(null)
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-cream)' }}>
+    <div style={{ minHeight: '100vh', position: 'relative', background: 'var(--color-cream)' }}>
+      {/* Identidade: padrão caminho + luz creme (a foto fica no herói, abaixo) */}
+      <div
+        aria-hidden
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: 0.1,
+            backgroundImage: "url('/brand/pattern-caminho-greenmono-claro.png')",
+            backgroundSize: '640px auto',
+            backgroundRepeat: 'repeat',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'radial-gradient(ellipse 100% 80% at 0% 0%, rgba(245,240,232,0.95) 0%, transparent 55%), radial-gradient(ellipse 80% 60% at 100% 100%, rgba(234,227,212,0.5) 0%, transparent 50%)',
+          }}
+        />
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <header
         className="dash-header"
         style={{
@@ -82,23 +114,21 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: 'rgba(245,239,230,0.92)',
+          background: 'rgba(245,239,230,0.9)',
           backdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(0,0,0,0.04)',
+          borderBottom: '1px solid rgba(45, 61, 45, 0.1)',
+          boxShadow: '0 1px 0 rgba(255,255,255,0.6) inset',
         }}
       >
-        <Link
-          href="/"
-          style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 20,
-            fontWeight: 600,
-            color: 'var(--color-green)',
-            textDecoration: 'none',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          Senda Sênior
+        <Link href="/" style={{ textDecoration: 'none', lineHeight: 0 }}>
+          <NextImage
+            src="/brand/logo-wordmark-dark.png"
+            alt="Senda Sênior"
+            width={220}
+            height={64}
+            style={{ height: 36, width: 'auto' }}
+            priority
+          />
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
@@ -150,45 +180,153 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
           padding: 'clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px)',
         }}
       >
-        <div style={{ marginBottom: 56 }}>
-          <p
+        <section
+          className="dashboard-hero"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)',
+            gap: 'clamp(24px, 4vw, 40px)',
+            alignItems: 'center',
+            marginBottom: 48,
+            padding: 'clamp(24px, 3.5vw, 40px)',
+            borderRadius: 20,
+            position: 'relative',
+            overflow: 'hidden',
+            background: 'linear-gradient(145deg, rgba(255,255,255,0.88) 0%, var(--color-cream) 100%)',
+            border: '1px solid rgba(45, 61, 45, 0.1)',
+            boxShadow: '0 24px 64px rgba(42, 37, 32, 0.08), 0 0 0 1px rgba(255,255,255,0.5) inset',
+          }}
+        >
+          <div
+            aria-hidden
             style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 14,
-              fontWeight: 600,
-              letterSpacing: 2,
-              textTransform: 'uppercase',
-              color: 'var(--color-green)',
-              marginBottom: 12,
-              opacity: 0.7,
+              position: 'absolute',
+              inset: 0,
+              opacity: 0.07,
+              backgroundImage: "url('/brand/pattern-caminho-greenmono-claro.png')",
+              backgroundSize: '480px auto',
+              backgroundRepeat: 'repeat',
+              pointerEvents: 'none',
+            }}
+          />
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              top: '-20%',
+              right: '-15%',
+              width: '50%',
+              height: '80%',
+              opacity: 0.12,
+              background: 'radial-gradient(circle, rgba(181, 114, 74, 0.25) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }}
+          />
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                marginBottom: 18,
+                flexWrap: 'wrap',
+              }}
+            >
+              <NextImage
+                src="/brand/star-scatter-decoration.jpg"
+                alt=""
+                width={120}
+                height={120}
+                style={{ width: 52, height: 'auto', opacity: 0.9 }}
+              />
+              <p
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-terracotta)',
+                  margin: 0,
+                }}
+              >
+                Painel
+              </p>
+            </div>
+            <h1
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(30px, 3.6vw, 44px)',
+                fontWeight: 600,
+                letterSpacing: '-0.02em',
+                color: 'var(--color-ink)',
+                marginBottom: 12,
+                lineHeight: 1.15,
+              }}
+            >
+              Olá, {firstName}.
+            </h1>
+            <p
+              style={{
+                fontSize: 'clamp(16px, 1.4vw, 18px)',
+                color: 'var(--color-ink-sub)',
+                lineHeight: 1.65,
+                fontWeight: 500,
+                maxWidth: 420,
+                marginBottom: 20,
+              }}
+            >
+              Continue organizando o que importa. Tudo sob seu controle.
+            </p>
+            <Link
+              href="/"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                fontSize: 15,
+                fontWeight: 600,
+                color: 'var(--color-green)',
+                textDecoration: 'none',
+                borderBottom: '1px solid currentColor',
+                paddingBottom: 2,
+              }}
+            >
+              Ir para o site
+            </Link>
+          </div>
+          <div
+            className="dashboard-hero-image"
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              borderRadius: 16,
+              overflow: 'hidden',
+              minHeight: 200,
             }}
           >
-            Painel
-          </p>
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(28px, 3.5vw, 42px)',
-              fontWeight: 600,
-              letterSpacing: '-0.02em',
-              color: 'var(--color-ink)',
-              marginBottom: 8,
-              lineHeight: 1.2,
-            }}
-          >
-            Olá, {firstName}.
-          </h1>
-          <p
-            style={{
-              fontSize: 17,
-              color: 'var(--color-brown-light)',
-              lineHeight: 1.6,
-              fontWeight: 500,
-            }}
-          >
-            Continue organizando o que importa. Tudo sob seu controle.
-          </p>
-        </div>
+            <NextImage
+              src="/brand/photos/prancheta-7.png"
+              alt=""
+              fill
+              sizes="(max-width: 900px) 90vw, 400px"
+              style={{
+                objectFit: 'cover',
+                objectPosition: '22% 40%',
+              }}
+            />
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(90deg, rgba(245,240,232,0.5) 0%, transparent 35%), linear-gradient(0deg, rgba(32, 38, 30, 0.2) 0%, transparent 45%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        </section>
 
         <div
           className="grid-pillar"
@@ -488,6 +626,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
           © 2026 Senda Sênior. Seus dados estão protegidos por criptografia ponta a ponta.
         </p>
       </footer>
+      </div>
     </div>
   )
 }

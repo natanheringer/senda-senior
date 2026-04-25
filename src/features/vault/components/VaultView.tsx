@@ -1,8 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import NextImage from 'next/image'
 import { useMemo, useState } from 'react'
 import { Search, Trash2, Files as FilesIcon } from 'lucide-react'
+import { LogoutButton } from '@/features/dashboard/components/LogoutButton'
 import { VaultUploader } from './VaultUploader'
 import { VaultFileCard } from './VaultFileCard'
 import type { VaultCategory, VaultFile, VaultQuota } from '@/features/vault/types'
@@ -21,6 +23,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
   const [showTrash, setShowTrash] = useState(false)
 
   const trashedCount = trashedFiles.length
+  const userInitial = userEmail.split('@')[0]?.[0]?.toUpperCase() ?? 'U'
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -45,79 +48,292 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
   }, [files])
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-cream)' }}>
-      <header
+    <div style={{ minHeight: '100vh', position: 'relative', background: 'var(--color-cream)' }}>
+      <div
+        aria-hidden
         style={{
-          background: 'white',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
-          padding: '20px 40px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          <Link
-            href="/dashboard"
-            style={{
-              fontFamily: 'var(--serif)',
-              fontSize: 20,
-              color: 'var(--color-ink)',
-              textDecoration: 'none',
-              fontWeight: 600,
-            }}
-          >
-            Senda Sênior
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: 0.1,
+            backgroundImage: "url('/brand/pattern-caminho-greenmono-claro.png')",
+            backgroundSize: '640px auto',
+            backgroundRepeat: 'repeat',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'radial-gradient(ellipse 100% 80% at 0% 0%, rgba(245,240,232,0.95) 0%, transparent 55%), radial-gradient(ellipse 80% 60% at 100% 100%, rgba(234,227,212,0.5) 0%, transparent 50%)',
+          }}
+        />
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
+      <header
+        className="dash-header"
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+          padding: '0 clamp(20px, 4vw, 48px)',
+          height: 72,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'rgba(245,239,230,0.9)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(45, 61, 45, 0.1)',
+          boxShadow: '0 1px 0 rgba(255,255,255,0.6) inset',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px, 3vw, 40px)' }}>
+          <Link href="/" style={{ textDecoration: 'none', lineHeight: 0 }}>
+            <NextImage
+              src="/brand/logo-wordmark-dark.png"
+              alt="Senda Sênior"
+              width={220}
+              height={64}
+              style={{ height: 36, width: 'auto' }}
+              priority
+            />
           </Link>
-          <nav style={{ display: 'flex', gap: 20 }}>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
             <Link
               href="/dashboard"
               style={{
-                fontSize: 14,
-                color: 'var(--color-ink-soft)',
+                fontSize: 15,
+                fontWeight: 500,
+                color: 'var(--color-ink-sub)',
                 textDecoration: 'none',
               }}
             >
-              Dashboard
+              Painel
             </Link>
             <span
               style={{
-                fontSize: 14,
-                color: 'var(--color-ink)',
-                fontWeight: 600,
+                fontSize: 15,
+                fontWeight: 700,
+                color: 'var(--color-green-dark)',
               }}
             >
               Cofre
             </span>
           </nav>
         </div>
-        <span style={{ fontSize: 13, color: 'var(--color-ink-soft)' }}>
-          {userEmail}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+          <div
+            className="dash-header-email"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '6px 14px',
+              borderRadius: 10,
+              background: 'rgba(45,95,79,0.06)',
+            }}
+          >
+            <div
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: '50%',
+                background: 'var(--color-green)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 13,
+                fontWeight: 700,
+                color: 'white',
+              }}
+            >
+              {userInitial}
+            </div>
+            <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-ink-sub)' }}>
+              {userEmail}
+            </span>
+          </div>
+          <LogoutButton />
+        </div>
       </header>
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 24px 80px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
-          <div>
+      <main
+        style={{
+          maxWidth: 1100,
+          margin: '0 auto',
+          padding: 'clamp(28px, 4vw, 48px) clamp(20px, 4vw, 48px) 80px',
+        }}
+      >
+        <section
+          className="dashboard-hero"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)',
+            gap: 'clamp(24px, 4vw, 40px)',
+            alignItems: 'center',
+            marginBottom: 36,
+            padding: 'clamp(24px, 3.5vw, 40px)',
+            borderRadius: 20,
+            position: 'relative',
+            overflow: 'hidden',
+            background: 'linear-gradient(145deg, rgba(255,255,255,0.9) 0%, var(--color-cream) 100%)',
+            border: '1px solid rgba(45, 61, 45, 0.1)',
+            boxShadow: '0 24px 64px rgba(42, 37, 32, 0.08), 0 0 0 1px rgba(255,255,255,0.5) inset',
+          }}
+        >
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              opacity: 0.07,
+              backgroundImage: "url('/brand/pattern-caminho-greenmono-claro.png')",
+              backgroundSize: '480px auto',
+              backgroundRepeat: 'repeat',
+              pointerEvents: 'none',
+            }}
+          />
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              top: '-15%',
+              right: '-10%',
+              width: '45%',
+              height: '70%',
+              opacity: 0.1,
+              background: 'radial-gradient(circle, rgba(181, 114, 74, 0.3) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }}
+          />
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                marginBottom: 16,
+                flexWrap: 'wrap',
+              }}
+            >
+              <NextImage
+                src="/brand/star-scatter-decoration.jpg"
+                alt=""
+                width={120}
+                height={120}
+                style={{ width: 48, height: 'auto', opacity: 0.9 }}
+              />
+              <p
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-terracotta)',
+                  margin: 0,
+                }}
+              >
+                Arquivo seguro
+              </p>
+            </div>
             <h1
               style={{
-                fontFamily: 'var(--serif)',
-                fontSize: 34,
-                color: 'var(--color-ink)',
-                marginBottom: 6,
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(30px, 3.4vw, 42px)',
+                fontWeight: 600,
                 letterSpacing: '-0.02em',
+                color: 'var(--color-ink)',
+                marginBottom: 10,
+                lineHeight: 1.12,
               }}
             >
               Cofre
             </h1>
-            <p style={{ fontSize: 14, color: 'var(--color-ink-soft)' }}>
+            <p
+              style={{
+                fontSize: 'clamp(16px, 1.4vw, 18px)',
+                color: 'var(--color-ink-sub)',
+                lineHeight: 1.6,
+                fontWeight: 500,
+                maxWidth: 440,
+                marginBottom: 20,
+              }}
+            >
               Seus documentos organizados e seguros em um só lugar.
             </p>
+            <div style={{ marginBottom: 20 }}>
+              <QuotaWidget quota={quota} />
+            </div>
+            <Link
+              href="/dashboard"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                fontSize: 15,
+                fontWeight: 600,
+                color: 'var(--color-green)',
+                textDecoration: 'none',
+                borderBottom: '1px solid currentColor',
+                paddingBottom: 2,
+              }}
+            >
+              Voltar ao painel
+            </Link>
           </div>
-          <QuotaWidget quota={quota} />
-        </div>
+          <div
+            className="dashboard-hero-image"
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              borderRadius: 16,
+              overflow: 'hidden',
+              minHeight: 200,
+            }}
+          >
+            <NextImage
+              src="/brand/photos/prancheta-7.png"
+              alt=""
+              fill
+              sizes="(max-width: 900px) 90vw, 400px"
+              style={{
+                objectFit: 'cover',
+                objectPosition: '24% 38%',
+              }}
+            />
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(90deg, rgba(245,240,232,0.45) 0%, transparent 40%), linear-gradient(0deg, rgba(32, 38, 30, 0.18) 0%, transparent 40%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        </section>
 
-        <section style={{ marginBottom: 32 }}>
+        <div
+          style={{
+            padding: 'clamp(22px, 3.5vw, 32px)',
+            borderRadius: 18,
+            background: 'rgba(255,255,255,0.82)',
+            border: '1px solid rgba(45, 61, 45, 0.1)',
+            boxShadow: '0 12px 40px rgba(42, 37, 32, 0.06)',
+          }}
+        >
+        <section style={{ marginBottom: 28 }}>
           <VaultUploader />
         </section>
 
@@ -135,7 +351,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
             count={files.filter((f) => !f.deletedAt).length}
             active={activeSlug === null && !showTrash}
             onClick={() => { setActiveSlug(null); setShowTrash(false) }}
-            color="var(--color-ink)"
+            color="var(--color-green-dark)"
             icon={<FilesIcon size={13} />}
           />
           {systemCats.map((c) => (
@@ -169,7 +385,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
                 left: 14,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: 'var(--color-ink-soft)',
+                color: 'var(--color-ink-muted)',
               }}
             />
             <input
@@ -182,14 +398,23 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
               autoComplete="off"
               style={{
                 width: '100%',
-                padding: '10px 14px 10px 40px',
-                borderRadius: 8,
-                border: '1px solid rgba(0,0,0,0.12)',
-                fontSize: 14,
+                padding: '12px 14px 12px 42px',
+                borderRadius: 10,
+                border: '1.5px solid rgba(45, 61, 45, 0.12)',
+                fontSize: 15,
                 fontFamily: 'var(--font-sans)',
-                background: 'white',
+                background: 'var(--color-cream)',
                 outline: 'none',
                 color: 'var(--color-ink)',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-terracotta)'
+                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(181,114,74,0.12)'
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(45, 61, 45, 0.12)'
+                e.currentTarget.style.boxShadow = 'none'
               }}
             />
           </div>
@@ -212,7 +437,9 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
             </div>
           )}
         </section>
+        </div>
       </main>
+      </div>
     </div>
   )
 }
@@ -230,7 +457,7 @@ function QuotaWidget({ quota }: { quota: VaultQuota }) {
           display: 'flex',
           justifyContent: 'space-between',
           fontSize: 12,
-          color: 'var(--color-ink-soft)',
+          color: 'var(--color-ink-muted)',
           marginBottom: 6,
           fontFamily: 'var(--font-sans)',
         }}
@@ -243,8 +470,8 @@ function QuotaWidget({ quota }: { quota: VaultQuota }) {
       <div
         style={{
           height: 6,
-          background: 'rgba(0,0,0,0.08)',
-          borderRadius: 3,
+          background: 'rgba(74, 94, 74, 0.12)',
+          borderRadius: 6,
           overflow: 'hidden',
         }}
       >
@@ -252,7 +479,7 @@ function QuotaWidget({ quota }: { quota: VaultQuota }) {
           style={{
             width: `${Math.min(100, pct)}%`,
             height: '100%',
-            background: warn ? '#B91C1C' : 'var(--color-green)',
+            background: warn ? '#B91C1C' : 'var(--color-terracotta)',
             transition: 'width 0.3s',
           }}
         />
@@ -280,8 +507,8 @@ function CategoryChip({
         gap: 6,
         padding: '8px 14px',
         borderRadius: 20,
-        border: `1.5px solid ${active ? color : 'rgba(0,0,0,0.08)'}`,
-        background: active ? color : 'white',
+        border: `1.5px solid ${active ? color : 'rgba(45, 61, 45, 0.12)'}`,
+        background: active ? color : 'rgba(255,255,255,0.95)',
         color: active ? 'white' : 'var(--color-ink)',
         fontSize: 13,
         fontFamily: 'var(--font-sans)',
@@ -298,7 +525,7 @@ function CategoryChip({
           padding: '1px 6px',
           borderRadius: 8,
           background: active ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.05)',
-          color: active ? 'white' : 'var(--color-ink-soft)',
+          color: active ? 'white' : 'var(--color-ink-muted)',
           fontWeight: 600,
         }}
       >
@@ -314,12 +541,12 @@ function EmptyState({ isFiltered }: { isFiltered: boolean }) {
       style={{
         padding: '60px 24px',
         textAlign: 'center',
-        background: 'white',
-        borderRadius: 12,
-        border: '1px solid rgba(0,0,0,0.06)',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, var(--color-cream) 100%)',
+        borderRadius: 14,
+        border: '1px solid rgba(45, 61, 45, 0.1)',
       }}
     >
-      <FilesIcon size={32} color="var(--color-ink-soft)" style={{ marginBottom: 12 }} />
+      <FilesIcon size={32} color="var(--color-ink-muted)" style={{ marginBottom: 12 }} />
       <p style={{
         fontFamily: 'var(--serif)',
         fontSize: 17,
@@ -328,7 +555,7 @@ function EmptyState({ isFiltered }: { isFiltered: boolean }) {
       }}>
         {isFiltered ? 'Nenhum arquivo encontrado' : 'Seu cofre está vazio'}
       </p>
-      <p style={{ fontSize: 13, color: 'var(--color-ink-soft)', maxWidth: 420, margin: '0 auto' }}>
+      <p style={{ fontSize: 14, color: 'var(--color-ink-sub)', maxWidth: 420, margin: '0 auto' }}>
         {isFiltered
           ? 'Tente ajustar os filtros ou a busca.'
           : 'Arraste documentos para a área acima — eles serão organizados automaticamente.'}

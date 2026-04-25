@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getChapterBySlug, getChapterSlugs } from '@/features/manual/data'
-import { DigitalReader } from '@/features/manual/components/DigitalReader'
+import { getChapterBySlug, getChapterSlugs, DigitalReader } from '@/features/manual'
 
 export async function generateStaticParams() {
   return getChapterSlugs().map((slug) => ({ slug }))

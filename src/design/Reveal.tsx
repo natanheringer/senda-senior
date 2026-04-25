@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { ReactNode } from 'react'
 
 /**
@@ -12,22 +12,39 @@ import type { ReactNode } from 'react'
  *   <Reveal delay={0.12}>...</Reveal>
  */
 
-const EASE_SENDA = [0.25, 0.46, 0.45, 0.94] as const
+const EASE_SENDA = [0.22, 1, 0.36, 1] as const
 
 export interface RevealProps {
   children: ReactNode
   delay?: number
   className?: string
+  distance?: number
 }
 
-export function Reveal({ children, delay = 0, className }: RevealProps) {
+export function Reveal({
+  children,
+  delay = 0,
+  className,
+  distance = 18,
+}: RevealProps) {
+  const reducedMotion = useReducedMotion()
+
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
-      transition={{ duration: 0.8, delay, ease: EASE_SENDA }}
+      style={{ willChange: 'transform, opacity' }}
+      initial={{
+        opacity: 0,
+        y: reducedMotion ? 0 : distance,
+        scale: reducedMotion ? 1 : 0.985,
+      }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '0px 0px -52px 0px', amount: 0.2 }}
+      transition={{
+        duration: reducedMotion ? 0.28 : 0.62,
+        delay,
+        ease: EASE_SENDA,
+      }}
     >
       {children}
     </motion.div>

@@ -1,8 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { requireUser } from '@/lib/server/auth'
+import { createClient as createServerClient } from '@/lib/supabase/server'
+import { requireUser } from '@/lib/server'
 import { fail, success, type ActionResult } from './errors'
 import {
   extractExtension,
@@ -51,7 +51,7 @@ export async function prepareUpload(
   if (isBlockedMime(mime)) return fail('blocked_mime')
 
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { data: quota } = await supabase
     .from('vault_quotas')
@@ -168,7 +168,7 @@ export async function confirmUpload(
   if (!parsed.success) return fail('invalid')
 
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { data: row, error } = await supabase
     .from('vault_files')
@@ -262,7 +262,7 @@ export async function getDownloadUrl(
   if (!parsed.success) return fail('invalid')
 
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { data: frow, error: ferr } = await supabase
     .from('vault_files')
@@ -301,7 +301,7 @@ export async function updateMetadata(
 
   const { fileId, patch } = parsed.data
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const update: Record<string, unknown> = {}
   if (patch.displayName !== undefined) update.display_name = patch.displayName
@@ -375,7 +375,7 @@ export async function softDelete(fileId: string): Promise<ActionResult<null>> {
   if (!parsed.success) return fail('invalid')
 
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { error } = await supabase
     .from('vault_files')
@@ -395,7 +395,7 @@ export async function restore(fileId: string): Promise<ActionResult<null>> {
   if (!parsed.success) return fail('invalid')
 
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { error } = await supabase
     .from('vault_files')
@@ -409,3 +409,4 @@ export async function restore(fileId: string): Promise<ActionResult<null>> {
   revalidatePath('/vault')
   return success(null)
 }
+

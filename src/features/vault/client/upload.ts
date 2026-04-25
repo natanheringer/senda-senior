@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/client'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { sha256OfFile } from './hash'
 import type { ActionResult } from '../errors'
 
@@ -56,7 +56,7 @@ export async function uploadFile(
 
   // Usar o cliente oficial (headers apikey/auth + multipart iguais ao SDK).
   // `fetch` manual ao signedUrl costuma falhar (403/400) por headers incompletos.
-  const supabase = createClient()
+  const supabase = createBrowserClient()
   const { error: uploadErr } = await supabase.storage
     .from('vault')
     .uploadToSignedUrl(prepared.data.storagePath, prepared.data.uploadToken, file)
@@ -78,3 +78,4 @@ export async function uploadFile(
 
   return { ok: true, fileId: prepared.data.fileId }
 }
+

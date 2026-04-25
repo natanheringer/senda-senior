@@ -2,7 +2,7 @@ import 'server-only'
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import type { User } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createServerClient } from '@/lib/supabase/server'
 
 /**
  * ─── Contrato de autenticação no servidor ──────────────────────────
@@ -23,7 +23,7 @@ import { createClient } from '@/lib/supabase/server'
  */
 
 export async function getUser(): Promise<User | null> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -55,3 +55,4 @@ async function currentPathname(): Promise<string | null> {
     return null
   }
 }
+

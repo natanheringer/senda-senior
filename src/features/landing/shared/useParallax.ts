@@ -15,14 +15,48 @@ export function useParallax<T extends HTMLElement = HTMLDivElement>(speed = 0.08
     const el = ref.current
     if (!el) return
 
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion) return
+
+    let isVisible = true
+    let frame = 0
+
     const handle = () => {
-      const rect = el.getBoundingClientRect()
-      const center = rect.top + rect.height / 2 - window.innerHeight / 2
-      el.style.transform = `translateY(${center * speed}px)`
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        if (!isVisible) {
+          frame = 0
+          return
+        }
+
+        const rect = el.getBoundingClientRect()
+        const center = rect.top + rect.height / 2 - window.innerHeight / 2
+        const offset = Math.round(center * speed * 100) / 100
+        el.style.transform = `translate3d(0, ${offset}px, 0)`
+        frame = 0
+      })
     }
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        if (isVisible) handle()
+      },
+      { threshold: 0.01 },
+    )
+
+    observer.observe(el)
+    el.style.willChange = 'transform'
+    handle()
     window.addEventListener('scroll', handle, { passive: true })
-    return () => window.removeEventListener('scroll', handle)
+    window.addEventListener('resize', handle)
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      observer.disconnect()
+      window.removeEventListener('scroll', handle)
+      window.removeEventListener('resize', handle)
+      el.style.willChange = ''
+    }
   }, [speed])
 
   return ref

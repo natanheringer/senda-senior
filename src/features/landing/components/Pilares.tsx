@@ -4,40 +4,59 @@ import type { ReactNode } from 'react'
 import NextImage from 'next/image'
 import { MessageCircle, FolderOpen, ShieldCheck, Users } from 'lucide-react'
 import { Reveal } from '@/design'
+import { BrandStar } from '@/features/landing/shared/BrandStar'
 
 export const pilaresData = [
   {
-    icon: <MessageCircle size={32} strokeWidth={1.5} />,
+    icon: <MessageCircle size={28} strokeWidth={1.5} />,
     label: 'Comunicação',
     title: 'Conversas que constroem, não que assustam.',
     text: 'Você sabe que precisa conversar sobre o futuro dos seus pais — mas não sabe como começar sem gerar drama. O manual ensina a abrir esses diálogos com respeito, no tempo certo, de um jeito que une a família em vez de dividi-la.',
-    image: '/pilar-protecao.png',
-    imageAlt: 'Família sentada junta, conversa leve, luz natural',
+    image: '/brand/photos/prancheta-2.png',
+    imageAlt: 'Filha e mãe conversando juntas, com luz natural e jardim ao fundo',
+    accentStar: 'var(--color-gold)',
   },
   {
-    icon: <FolderOpen size={32} strokeWidth={1.5} />,
+    icon: <FolderOpen size={28} strokeWidth={1.5} />,
     label: 'Organização',
     title: 'Tudo no lugar, antes que alguém precise procurar.',
     text: 'Documentos pessoais, exames, medicamentos, finanças, contatos de emergência — tudo centralizado e acessível. Porque a organização hoje evita o desespero de amanhã.',
-    image: '/pilar-juridico.png',
-    imageAlt: 'Mãos organizando documentos em mesa, pasta com papéis',
+    image: '/brand/photos/prancheta-5.png',
+    imageAlt: 'Idoso contemplativo junto à janela, luz natural, plantas ao fundo',
+    accentStar: 'var(--color-terracotta)',
   },
   {
-    icon: <ShieldCheck size={32} strokeWidth={1.5} />,
+    icon: <ShieldCheck size={28} strokeWidth={1.5} />,
     label: 'Proteção',
     title: 'Decisões tomadas com calma têm mais valor — inclusive legal.',
     text: 'Formalizar escolhas enquanto há plena autonomia protege toda a família. Não é sobre controlar o idoso — é sobre preservar sua autonomia por muito mais tempo, da maneira que ele mesmo escolheu.',
-    image: '/pilar-saude.jpg',
-    imageAlt: 'Idoso(a) assinando documento com familiar ao lado',
+    image: '/brand/photos/prancheta-10.png',
+    imageAlt: 'Família reunida em consulta, ambiente acolhedor, mesa de madeira',
+    accentStar: 'var(--color-gold-light)',
   },
   {
-    icon: <Users size={32} strokeWidth={1.5} />,
+    icon: <Users size={28} strokeWidth={1.5} />,
     label: 'Rede de Apoio',
     title: 'Ninguém cuida sozinho.',
     text: 'Mapear quem faz parte da rede de cuidado — família, amigos, vizinhos, profissionais de saúde — faz toda a diferença em um momento de necessidade. O manual te ajuda a estruturar essa rede antes que ela seja urgente.',
-    image: '/pilar-rede-apoio.png',
-    imageAlt: 'Grupo familiar e profissional de saúde em ambiente acolhedor',
+    image: '/brand/photos/prancheta-2.png',
+    imageAlt: 'Conexão geracional, conversa aberta, ambiente doméstico com luz natural',
+    accentStar: 'var(--color-terracotta)',
   },
+]
+
+const PATTERNS = [
+  '/brand/pattern-estrela-greenmono-claro.png',
+  '/brand/pattern-caminho-greenmono-claro.png',
+  '/brand/pattern-abstrato-greenmono-claro.png',
+  '/brand/pattern-estrela-greenmono-claro.png',
+]
+
+const BG = [
+  'var(--color-cream)',
+  'var(--color-cream-mid)',
+  'var(--color-cream)',
+  'var(--color-cream-mid)',
 ]
 
 interface PilarProps {
@@ -45,86 +64,186 @@ interface PilarProps {
   title: string
   text: string
   index: number
-  image?: string
+  image: string
   imageAlt: string
   icon: ReactNode
+  accentStar: string
 }
 
-function PilarSection({ label, title, text, index, image, imageAlt, icon }: PilarProps) {
+function PilarSection({ label, title, text, index, image, imageAlt, icon, accentStar }: PilarProps) {
   const isEven = index % 2 === 0
+
   return (
-    <div style={{
-      padding: 'clamp(80px, 10vw, 140px) clamp(20px, 4vw, 60px)',
-      background: isEven ? 'var(--color-cream)' : 'var(--color-cream)',
-    }}>
-      <div style={{
-        maxWidth: 1200, margin: '0 auto',
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: 'clamp(40px, 6vw, 100px)', alignItems: 'center',
-        direction: isEven ? 'ltr' : 'rtl',
-      }} className="grid-pillar">
+    <div
+      style={{
+        padding: 'clamp(80px, 10vw, 140px) clamp(20px, 4vw, 60px)',
+        background: BG[index],
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Subtle brand pattern — very low opacity */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url('${PATTERNS[index]}')`,
+          backgroundSize: '800px auto',
+          backgroundRepeat: 'repeat',
+          opacity: 0.028,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(40px, 6vw, 100px)',
+          alignItems: 'center',
+          direction: isEven ? 'ltr' : 'rtl',
+          position: 'relative',
+          zIndex: 1,
+        }}
+        className="grid-pillar"
+      >
+        {/* Text column */}
         <div style={{ direction: 'ltr' }}>
           <Reveal>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 12,
-              marginBottom: 24,
-            }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
               <span style={{ color: 'var(--color-green)', opacity: 0.7 }}>{icon}</span>
-              <p style={{
-                fontFamily: 'var(--font-sans)', fontSize: 11, fontWeight: 700,
-                letterSpacing: 3, textTransform: 'uppercase',
-                color: 'var(--color-green)', opacity: 0.7,
-              }}>{label}</p>
+              <p
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-green)',
+                  opacity: 0.7,
+                }}
+              >
+                {label}
+              </p>
             </div>
           </Reveal>
-          <Reveal delay={0.1}>
-            <h2 style={{
-              fontFamily: 'var(--font-serif)', fontSize: 'clamp(32px, 3.8vw, 52px)',
-              fontWeight: 500, lineHeight: 1.12, letterSpacing: '-0.02em',
-              color: 'var(--color-ink)', marginBottom: 28, maxWidth: 500,
-            }}>{title}</h2>
+
+          <Reveal delay={0.08}>
+            <h2
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(30px, 3.6vw, 48px)',
+                fontWeight: 500,
+                lineHeight: 1.12,
+                letterSpacing: '-0.02em',
+                color: 'var(--color-ink)',
+                marginBottom: 24,
+                maxWidth: 480,
+              }}
+            >
+              {title}
+            </h2>
           </Reveal>
-          <Reveal delay={0.2}>
-            <p style={{
-              fontSize: 'clamp(18px, 2vw, 22px)', lineHeight: 1.75, color: 'var(--color-ink-sub)',
-              maxWidth: 480, fontWeight: 400,
-            }}>{text}</p>
+
+          <Reveal delay={0.16}>
+            <div
+              style={{
+                width: 40,
+                height: 3,
+                background: 'var(--color-terracotta)',
+                borderRadius: 2,
+                marginBottom: 24,
+              }}
+            />
+          </Reveal>
+
+          <Reveal delay={0.22}>
+            <p
+              style={{
+                fontSize: 'clamp(17px, 1.8vw, 20px)',
+                lineHeight: 1.75,
+                color: 'var(--color-ink-sub)',
+                maxWidth: 460,
+                fontWeight: 400,
+              }}
+            >
+              {text}
+            </p>
+          </Reveal>
+
+          {/* Accent star — colored, not ghost */}
+          <Reveal delay={0.32}>
+            <div style={{ marginTop: 36, display: 'flex', gap: 6, alignItems: 'center' }}>
+              <BrandStar size={22} color={accentStar} />
+              <BrandStar size={16} color="var(--color-gold-light)" />
+            </div>
           </Reveal>
         </div>
 
-        <Reveal delay={0.15}>
+        {/* Photo column — editorial composition */}
+        <Reveal delay={0.12}>
           <div style={{ direction: 'ltr' }}>
-            <div style={{
-              aspectRatio: '4/3', borderRadius: 16, overflow: 'hidden',
-              background: image ? 'none' : `linear-gradient(${135 + index * 30}deg, var(--color-green-muted), var(--color-cream-mid))`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              position: 'relative',
-            }}>
-              {image ? (
-                <NextImage
-                  src={image}
-                  alt={imageAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
+            <div
+              style={{
+                aspectRatio: '3/4',
+                borderRadius: 16,
+                overflow: 'hidden',
+                position: 'relative',
+                boxShadow: '0 24px 64px rgba(42,37,32,0.14)',
+              }}
+            >
+              <NextImage
+                src={image}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  filter: 'saturate(0.88) brightness(0.94)',
+                }}
+              />
+              {/* Warm overlay — editorial treatment */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'rgba(181,114,74,0.04)',
+                  mixBlendMode: 'multiply',
+                  pointerEvents: 'none',
+                }}
+              />
+              {/* Bottom label — pilar identifier */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 20,
+                  left: 20,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: 'rgba(245,240,232,0.88)',
+                  backdropFilter: 'blur(12px)',
+                  padding: '8px 14px',
+                  borderRadius: 8,
+                }}
+              >
+                <BrandStar size={12} color={accentStar} />
+                <span
                   style={{
-                    objectFit: 'cover', objectPosition: 'center',
-                    display: 'block',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: 'var(--color-green)',
                   }}
-                />
-              ) : (
-                <div style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  gap: 16, padding: 32, textAlign: 'center',
-                }}>
-                  <span style={{ color: 'var(--color-green)', opacity: 0.25 }}>
-                    {icon}
-                  </span>
-                  <p style={{
-                    fontSize: 13, color: 'var(--color-ink-muted)', opacity: 0.6,
-                    fontStyle: 'italic', maxWidth: 240, lineHeight: 1.5,
-                  }}>{imageAlt}</p>
-                </div>
-              )}
+                >
+                  {label}
+                </span>
+              </div>
             </div>
           </div>
         </Reveal>

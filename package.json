@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "optimize:images": "node ./scripts/compress-public-images.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.9.0",

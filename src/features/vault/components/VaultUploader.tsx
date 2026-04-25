@@ -89,8 +89,8 @@ export function VaultUploader() {
     }
   }
 
-  const borderColor = dragging ? 'var(--color-green)' : 'rgba(0,0,0,0.12)'
-  const bg = dragging ? 'rgba(45, 95, 79, 0.04)' : 'white'
+  const borderColor = dragging ? 'var(--color-terracotta)' : 'rgba(45, 61, 45, 0.2)'
+  const bg = dragging ? 'rgba(181, 114, 74, 0.06)' : 'rgba(255,255,255,0.7)'
 
   return (
     <div
@@ -105,9 +105,10 @@ export function VaultUploader() {
       }}
       style={{
         border: `2px dashed ${borderColor}`,
-        borderRadius: 12,
+        borderRadius: 16,
         padding: 32,
         background: bg,
+        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.5)',
         cursor: 'pointer',
         transition: 'all 0.2s',
         textAlign: 'center',
@@ -128,7 +129,7 @@ export function VaultUploader() {
       />
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-        <UploadCloud size={36} color="var(--color-green)" />
+        <UploadCloud size={36} color="var(--color-terracotta)" strokeWidth={1.5} />
         <div>
           <p style={{
             fontFamily: 'var(--serif)',
@@ -138,7 +139,7 @@ export function VaultUploader() {
           }}>
             Arraste arquivos aqui ou clique para enviar
           </p>
-          <p style={{ fontSize: 13, color: 'var(--color-ink-soft)' }}>
+          <p style={{ fontSize: 14, color: 'var(--color-ink-sub)' }}>
             Até {(VAULT_LIMITS.maxFileSizeBytes / (1024 * 1024)).toFixed(0)} MB por arquivo
           </p>
         </div>
@@ -179,7 +180,7 @@ function StatusBadge({ status }: { status: Status }) {
 
   if (status.kind === 'success') {
     return (
-      <div style={{ ...shared, background: 'rgba(45,95,79,0.08)', color: 'var(--color-green)' }}>
+      <div style={{ ...shared, background: 'rgba(74, 94, 74, 0.1)', color: 'var(--color-green-dark)' }}>
         <CheckCircle2 size={16} />
         <span>{truncate(status.name)} enviado.</span>
       </div>
@@ -193,7 +194,7 @@ function StatusBadge({ status }: { status: Status }) {
   }
 
   return (
-    <div style={{ ...shared, background: 'rgba(0,0,0,0.04)', color: 'var(--color-ink-soft)' }}>
+    <div style={{ ...shared, background: 'rgba(45, 61, 45, 0.06)', color: 'var(--color-ink-sub)' }}>
       <Loader2 size={16} className="spinning" />
       <span>
         {labels[status.kind]} <strong>{truncate(status.name)}</strong>

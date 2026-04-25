@@ -85,3 +85,4 @@ export async function removeObject(
   const { error } = await supabase.storage.from(BUCKET).remove([path])
   return !error
 }
+

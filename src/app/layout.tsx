@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
-import { connection } from 'next/server'
 import { EB_Garamond, DM_Sans } from 'next/font/google'
 import './globals.css'
-import { SmoothScroll } from '@/lib/utils/SmoothScroll'
 
 export const metadata: Metadata = {
   title: 'Senda Sênior — Planejamento & Assessoria Sênior',
@@ -48,10 +46,7 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // Necessário para o nonce da CSP: páginas estáticas não recebem o nonce do proxy.
-  await connection()
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${ebGaramond.variable} ${dmSans.variable}`}>
       {/*
@@ -60,7 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         antes do React hidratar. Esse warning não reflete bug nosso.
       */}
       <body suppressHydrationWarning>
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
       </body>
     </html>
   )

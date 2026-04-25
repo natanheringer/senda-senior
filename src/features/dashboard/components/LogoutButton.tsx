@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
 export function LogoutButton() {
   const router = useRouter()
@@ -11,7 +11,7 @@ export function LogoutButton() {
 
   function handleLogout() {
     startTransition(async () => {
-      const supabase = createClient()
+      const supabase = createBrowserClient()
       await supabase.auth.signOut()
       router.refresh()
       router.push('/login')
@@ -44,3 +44,4 @@ export function LogoutButton() {
     </button>
   )
 }
+

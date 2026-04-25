@@ -1,23 +1,26 @@
 'use client'
 
-import { MessageCircle, FolderOpen, Users, Phone } from 'lucide-react'
+import NextImage from 'next/image'
+import { Phone } from 'lucide-react'
 import { Reveal } from '@/design'
+import { StarCluster } from '@/features/landing/shared/BrandStar'
+import { SCurveDecoration } from '@/features/landing/shared/BrandDecorative'
 
 const SERVICOS = [
   {
-    icon: <MessageCircle size={28} strokeWidth={1.5} />,
+    iconSrc: '/brand/icons/handshake-outline-18.svg',
     titulo: 'Consultoria Individual e Familiar',
     descricao:
       'Acompanhamento personalizado para mapear a situação atual da família e construir um plano de cuidado sob medida.',
   },
   {
-    icon: <FolderOpen size={28} strokeWidth={1.5} />,
+    iconSrc: '/brand/icons/clipboard-check-outline-18.svg',
     titulo: 'Documentação Formalizada',
     descricao:
       'Organização e formalização dos documentos essenciais com orientação jurídica e administrativa.',
   },
   {
-    icon: <Users size={28} strokeWidth={1.5} />,
+    iconSrc: '/brand/icons/users-outline-18.svg',
     titulo: 'Mediação de Conversas Difíceis',
     descricao:
       'Facilitamos diálogos sobre saúde, finanças e decisões futuras respeitando a autonomia de todos.',
@@ -29,10 +32,32 @@ export function Servicos() {
     <section id="servicos" style={{
       padding: 'clamp(100px, 12vw, 180px) clamp(20px, 4vw, 60px)',
       background: 'var(--color-cream-mid)',
+      position: 'relative', overflow: 'hidden',
     }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      {/* Padrão caminho sutil — design folder */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.03,
+          backgroundImage: "url('/brand/pattern-caminho-greenmono-claro.png')",
+          backgroundSize: '900px auto',
+          backgroundRepeat: 'repeat',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* S-curve decoration */}
+      <div style={{ position: 'absolute', bottom: '5%', left: '-10%', width: 'clamp(400px, 60vw, 800px)', opacity: 0.1, zIndex: 0, pointerEvents: 'none' }}>
+        <SCurveDecoration color="var(--color-green)" />
+      </div>
+
+      <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <Reveal>
-          <p className="label-premium" style={{ marginBottom: 20 }}>Além do manual</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+            <StarCluster size={24} style={{ opacity: 0.5 }} />
+            <p className="label-premium">Além do manual</p>
+          </div>
         </Reveal>
         <Reveal delay={0.1}>
           <h2 style={{
@@ -54,8 +79,13 @@ export function Servicos() {
                 alignItems: 'start',
               }} className="grid-pillar">
                 <span style={{
-                  color: 'var(--color-green)', opacity: 0.5, marginTop: 6,
-                }}>{s.icon}</span>
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  width: 48, height: 48, borderRadius: '50%',
+                  background: 'rgba(74,94,74,0.08)',
+                  marginTop: 6,
+                }}>
+                  <NextImage src={s.iconSrc} alt="" width={24} height={24} style={{ opacity: 0.8 }} />
+                </span>
                 <div>
                   <h3 style={{
                     fontFamily: 'var(--font-serif)', fontSize: 'clamp(24px, 2.8vw, 32px)', fontWeight: 500,
@@ -73,16 +103,13 @@ export function Servicos() {
 
         <Reveal delay={0.4}>
           <div style={{ textAlign: 'center', marginTop: 'clamp(48px, 6vw, 80px)' }}>
-            <a href="#contato" id="servicos-cta" style={{
+            <a href="#contato" id="servicos-cta" className="btn-outline-terracotta-hover" style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               border: '1.5px solid var(--color-terracotta)', color: 'var(--color-terracotta)',
               padding: '16px 36px', borderRadius: 8,
               fontSize: 16, fontWeight: 600, textDecoration: 'none',
               transition: 'all 0.3s',
-            }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-terracotta)'; e.currentTarget.style.color = 'white' }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--color-terracotta)' }}
-            >
+            }}>
               <Phone size={16} strokeWidth={2} />
               Entre em contato
             </a>

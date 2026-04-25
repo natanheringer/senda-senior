@@ -32,3 +32,28 @@ export {
   isBlockedMime,
   extractExtension,
 } from './validation'
+
+export {
+  getCategories,
+  getFile,
+  getQuota,
+  getTags,
+  getTrashedCount,
+  listFiles,
+  isValidSystemCategorySlug,
+  VAULT_FILE_SELECT,
+} from './data'
+
+export {
+  confirmUpload,
+  getDownloadUrl,
+  prepareUpload,
+  restore,
+  softDelete,
+  updateMetadata,
+} from './actions'
+
+export { VaultView } from './components/VaultView'
+export { VaultUploader } from './components/VaultUploader'
+export { VaultFileCard } from './components/VaultFileCard'
+export { VaultFileEditModal } from './components/VaultFileEditModal'

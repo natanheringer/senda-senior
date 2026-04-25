@@ -1,10 +1,10 @@
-import { requireUser } from '@/lib/server/auth'
+import { requireUser } from '@/lib/server'
 import {
   getCategories,
   getQuota,
   listFiles,
-} from '@/features/vault/data'
-import { VaultView } from '@/features/vault/components/VaultView'
+  VaultView,
+} from '@/features/vault'
 
 export const dynamic = 'force-dynamic'
 

@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, X } from 'lucide-react'
 import { Reveal } from '@/design'
+import { BrandStar, StarCluster } from '@/features/landing/shared/BrandStar'
 
 const fases = [
   {
@@ -14,6 +15,7 @@ const fases = [
     resumo: 'O momento exato de organizar papéis, vontades e o ambiente.',
     texto:
       'Nesta fase, seus pais estão ativos e as conversas sobre amanhã parecem prematuras. Não são. É aqui que o controle da família é pleno para adaptar a casa e registrar vontades com inteligência, garantindo envelhecer com independência.',
+    pattern: '/brand/pattern-estrela-greenmono-dark.png',
   },
   {
     numero: '02',
@@ -23,6 +25,7 @@ const fases = [
     resumo: 'Pequenos declínios não precisam ser crises se há planejamento.',
     texto:
       'Pequenas perdas de autonomia surgem. Alguém já precisa acompanhar rotinas. Como prepararam a Fase 01, este momento acontece sem sustos. As adaptações do dia a dia obedecem ao que já foi combinado previamente, mantendo a paz em casa.',
+    pattern: '/brand/pattern-caminho-greenmono-dark.png',
   },
   {
     numero: '03',
@@ -32,16 +35,34 @@ const fases = [
     resumo: 'Agindo na urgência suportados pela fundação que vocês criaram.',
     texto:
       'A dependência severa ou crise de saúde é irreversível. Todas as decisões são frágeis. Neste ponto, não estar organizado causa conflito na família. Com o Manual pronto, filhos não brigam por burocracia, dedicam-se apenas a dar amor ao invés de apagarem incêndios.',
+    pattern: '/brand/pattern-abstrato-vt-escuro.png',
   },
 ]
 
 export function FasesCuidado() {
   const [activeFase, setActiveFase] = useState<number | null>(null)
+  const reducedMotion = useReducedMotion()
+  const springTransition = {
+    type: 'spring' as const,
+    stiffness: 220,
+    damping: 26,
+    mass: 0.9,
+  }
+  const cardTransition = reducedMotion
+    ? { duration: 0.2 }
+    : springTransition
 
   return (
     <section id="fases-cuidado" style={{ position: 'relative', width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div style={{ background: 'var(--color-cream)', padding: '60px clamp(20px, 4vw, 60px) 40px', textAlign: 'center' }}>
-        <Reveal><p className="label-premium" style={{ opacity: 0.7, marginBottom: 16 }}>A Jornada Prevent Care</p></Reveal>
+        <Reveal>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
+            <BrandStar size={18} color="var(--color-terracotta)" />
+            <BrandStar size={24} color="var(--color-gold)" />
+            <BrandStar size={16} color="var(--color-gold-light)" />
+            <p className="label-premium" style={{ marginLeft: 4, opacity: 0.85 }}>A Jornada Prevent Care</p>
+          </div>
+        </Reveal>
         <Reveal>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(36px, 4vw, 56px)', fontWeight: 500, color: 'var(--color-ink)', marginBottom: 0, letterSpacing: '-0.02em' }}>As 3 Fases do Cuidado</h2>
           <div className="line-terracota" style={{ margin: '24px auto 0' }} />
@@ -58,9 +79,36 @@ export function FasesCuidado() {
                cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 24,
                position: 'relative', overflow: 'hidden',
                borderRight: i < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+               willChange: 'transform, opacity',
              }}
-             whileHover={{ scale: 1.01, filter: 'brightness(1.05)' }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+             whileHover={reducedMotion ? undefined : { y: -4, scale: 1.01 }}
+             transition={cardTransition}
            >
+             {/* Padrão da marca — visível, não fantasma */}
+             <div
+               style={{
+                 position: 'absolute',
+                 inset: 0,
+                 opacity: 0.18,
+                 backgroundImage: `url('${item.pattern}')`,
+                 backgroundSize: '600px auto',
+                 backgroundRepeat: 'repeat',
+                 mixBlendMode: 'overlay',
+                 pointerEvents: 'none',
+               }}
+             />
+             {/* Cluster de estrelas coloridas — canto superior direito */}
+             <div style={{ position: 'absolute', top: 24, right: 24, display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', opacity: 0.55 }}>
+               <div style={{ display: 'flex', gap: 4 }}>
+                 <BrandStar size={18} color="var(--color-gold)" />
+                 <BrandStar size={26} color="var(--color-cream)" />
+               </div>
+               <div style={{ display: 'flex', gap: 4 }}>
+                 <BrandStar size={22} color="var(--color-gold-light)" />
+                 <BrandStar size={16} color="var(--color-cream)" />
+               </div>
+             </div>
+
              <span style={{ position: 'absolute', top: -40, right: -20, fontFamily: 'var(--font-serif)', fontSize: 'clamp(180px, 20vw, 360px)', lineHeight: 0.8, fontWeight: 600, color: 'rgba(255,255,255,0.04)' }}>{item.numero}</span>
              <div style={{ position: 'relative', zIndex: 1 }}>
                <span className="label-premium" style={{ color: 'rgba(255,255,255,0.8)', letterSpacing: 3, display: 'block', marginBottom: 24 }}>FASE {item.numero}</span>
@@ -80,11 +128,16 @@ export function FasesCuidado() {
         {activeFase !== null && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={reducedMotion ? { duration: 0.2 } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(245,240,232,0.95)', backdropFilter: 'blur(24px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(24px, 4vw, 60px)' }}
             onClick={() => setActiveFase(null)}
           >
             <motion.div
               layoutId={`fase-card-${activeFase}`}
+              initial={reducedMotion ? false : { opacity: 0, y: 22, scale: 0.985 }}
+              animate={reducedMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              exit={reducedMotion ? undefined : { opacity: 0, y: 12, scale: 0.99 }}
+              transition={reducedMotion ? { duration: 0.2 } : { duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 background: fases[activeFase].tema, color: 'white',
                 padding: 'clamp(40px, 8vw, 100px) clamp(32px, 6vw, 80px)',
@@ -95,6 +148,24 @@ export function FasesCuidado() {
               }}
               onClick={(e) => e.stopPropagation()}
             >
+                {/* Padrão da marca no modal expandido */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: 0.06,
+                    backgroundImage: `url('${fases[activeFase].pattern}')`,
+                    backgroundSize: '800px auto',
+                    backgroundRepeat: 'repeat',
+                    mixBlendMode: 'overlay',
+                    pointerEvents: 'none',
+                  }}
+                />
+                {/* Estrela decorativa no modal */}
+                <div style={{ position: 'absolute', bottom: '-10%', right: '-5%', opacity: 0.04 }}>
+                  <BrandStar size={600} color="white" />
+                </div>
+
                 <span style={{ position: 'absolute', top: -40, right: -20, fontFamily: 'var(--font-serif)', fontSize: 'clamp(300px, 35vw, 500px)', lineHeight: 0.8, fontWeight: 600, color: 'rgba(255,255,255,0.04)' }}>{fases[activeFase].numero}</span>
 
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 800 }}>
@@ -110,10 +181,7 @@ export function FasesCuidado() {
                       </button>
 
                       {activeFase < 2 && (
-                         <button onClick={() => setActiveFase(activeFase + 1)} style={{ background: 'white', color: fases[activeFase].tema, padding: '20px 40px', borderRadius: 12, fontSize: 16, fontWeight: 700, border: 'none', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', display: 'flex', alignItems: 'center', gap: 12 }}
-                         onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 48px rgba(0,0,0,0.2)' }}
-                         onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
-                         >
+                         <button onClick={() => setActiveFase(activeFase + 1)} className="btn-white-lift-strong" style={{ background: 'white', color: fases[activeFase].tema, padding: '20px 40px', borderRadius: 12, fontSize: 16, fontWeight: 700, border: 'none', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', display: 'flex', alignItems: 'center', gap: 12 }}>
                             Explorar Fase {fases[activeFase + 1].numero} <ArrowRight size={20} />
                          </button>
                       )}

@@ -11,7 +11,7 @@ import {
 } from '@/features/vault/actions'
 import { SYSTEM_CATEGORIES_META, type SystemCategorySlug, isSystemCategory } from '@/features/vault/categories'
 import type { VaultCategory, VaultFile } from '@/features/vault/types'
-import { ConfirmDialog } from '@/design/ConfirmDialog'
+import { ConfirmDialog } from '@/design'
 import { VaultFileEditModal } from './VaultFileEditModal'
 
 interface Props {
@@ -96,10 +96,11 @@ export function VaultFileCard({ file, categories }: Props) {
     <>
       <div
         style={{
-          background: 'white',
-          borderRadius: 10,
+          borderRadius: 14,
           padding: 16,
-          border: '1px solid rgba(0,0,0,0.06)',
+          border: '1px solid rgba(45, 61, 45, 0.1)',
+          background: 'rgba(255,255,255,0.92)',
+          boxShadow: '0 2px 12px rgba(42, 37, 32, 0.04)',
           position: 'relative',
           opacity: isPending ? 0.6 : 1,
           transition: 'opacity 0.2s',
@@ -122,7 +123,7 @@ export function VaultFileCard({ file, categories }: Props) {
                 padding: 4,
                 borderRadius: 4,
                 cursor: 'pointer',
-                color: 'var(--color-ink-soft)',
+                color: 'var(--color-ink-muted)',
               }}
             >
               <MoreVertical size={18} />
@@ -224,7 +225,7 @@ export function VaultFileCard({ file, categories }: Props) {
           >
             {catLabel}
           </span>
-          <span style={{ fontSize: 11, color: 'var(--color-ink-soft)', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: 11, color: 'var(--color-ink-muted)', whiteSpace: 'nowrap' }}>
             {formatSize(file.sizeBytes)}
           </span>
         </div>
@@ -290,7 +291,7 @@ function MenuItem({
 
 function FileTypeIcon({ mime, extension }: { mime: string; extension: string }) {
   const size = 28
-  const color = 'var(--color-ink-soft)'
+  const color = 'var(--color-ink-muted)'
 
   if (mime.startsWith('image/')) {
     return <ImageIcon size={size} color={color} />

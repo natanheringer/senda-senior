@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createServerClient } from '@/lib/supabase/server'
 import type { ListFilesInput } from './validation'
 import type {
   VaultCategory,
@@ -36,7 +36,7 @@ export const VAULT_FILE_SELECT = `
 `
 
 export async function getQuota(userId: string): Promise<VaultQuota> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from('vault_quotas')
     .select('*')
@@ -56,7 +56,7 @@ export async function getQuota(userId: string): Promise<VaultQuota> {
 }
 
 export async function getCategories(userId: string): Promise<VaultCategory[]> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const [{ data: system, error: e1 }, { data: userRows, error: e2 }] = await Promise.all([
     supabase
       .from('vault_system_categories')
@@ -76,7 +76,7 @@ export async function getCategories(userId: string): Promise<VaultCategory[]> {
 }
 
 export async function getTags(userId: string): Promise<VaultTag[]> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from('vault_tags')
     .select('*')
@@ -110,7 +110,7 @@ export async function getFile(
   userId: string,
   fileId: string,
 ): Promise<VaultFile | null> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data, error } = await supabase
     .from('vault_files')
     .select(VAULT_FILE_SELECT)
@@ -126,7 +126,7 @@ export async function listFiles(
   userId: string,
   filters: ListFilesInput = {},
 ): Promise<VaultListResult> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const page = filters.page ?? 1
   const pageSize = filters.pageSize ?? 50
   const sort = filters.sort ?? 'created_at'
@@ -177,7 +177,7 @@ export async function listFiles(
 export async function isValidSystemCategorySlug(
   slug: string,
 ): Promise<boolean> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { data } = await supabase
     .from('vault_system_categories')
     .select('slug')
@@ -187,7 +187,7 @@ export async function isValidSystemCategorySlug(
 }
 
 export async function getTrashedCount(userId: string): Promise<number> {
-  const supabase = await createClient()
+  const supabase = await createServerClient()
   const { count } = await supabase
     .from('vault_files')
     .select('id', { count: 'exact', head: true })
@@ -195,3 +195,4 @@ export async function getTrashedCount(userId: string): Promise<number> {
     .not('deleted_at', 'is', null)
   return count ?? 0
 }
+

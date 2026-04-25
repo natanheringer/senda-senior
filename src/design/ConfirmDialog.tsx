@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { AlertTriangle } from 'lucide-react'
 
-interface Props {
+export interface ConfirmDialogProps {
   open: boolean
   onClose: () => void
   onConfirm: () => void
@@ -29,7 +29,7 @@ export function ConfirmDialog({
   cancelLabel = 'Cancelar',
   variant = 'default',
   loading = false,
-}: Props) {
+}: ConfirmDialogProps) {
   const ref = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {

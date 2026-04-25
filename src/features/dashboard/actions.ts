@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { createClient } from '@/lib/supabase/server'
-import { requireUser } from '@/lib/server/auth'
+import { createClient as createServerClient } from '@/lib/supabase/server'
+import { requireUser } from '@/lib/server'
 import { isValidChecklistKey } from './checklistCatalog'
 
 const toggleSchema = z.object({
@@ -32,7 +32,7 @@ export async function toggleChecklistItem(
   }
 
   const user = await requireUser()
-  const supabase = await createClient()
+  const supabase = await createServerClient()
 
   const { error } = await supabase
     .from('care_checklist_items')
@@ -52,3 +52,4 @@ export async function toggleChecklistItem(
   revalidatePath('/dashboard')
   return { ok: true }
 }
+

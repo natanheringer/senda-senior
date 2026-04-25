@@ -1,6 +1,5 @@
-import { requireUser } from '@/lib/server/auth'
-import { getChecklist } from '@/features/dashboard/data'
-import { DashboardView } from '@/features/dashboard/components/DashboardView'
+import { requireUser } from '@/lib/server'
+import { getChecklist, DashboardView } from '@/features/dashboard'
 
 export const dynamic = 'force-dynamic'
 

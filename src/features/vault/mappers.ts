@@ -118,3 +118,4 @@ export function mapFile(
     deletedAt: row.deleted_at,
   }
 }
+
