@@ -1,4 +1,3 @@
-import { connection } from 'next/server'
 import {
   CustomCursor,
   Header,
@@ -12,11 +11,7 @@ import {
 } from '@/features/landing'
 import { SmoothScroll } from '@/lib/utils/SmoothScroll'
 
-export const dynamic = 'force-dynamic'
-
-export default async function Home() {
-  await connection()
-
+export default function Home() {
   return (
     <SmoothScroll>
       <CustomCursor />
