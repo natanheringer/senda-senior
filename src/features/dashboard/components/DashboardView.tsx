@@ -40,7 +40,7 @@ const PILARES: Pilar[] = [
     label: 'Saúde',
     title: 'Histórico Médico',
     desc: 'Exames, medicamentos e médicos centralizados — para você e quem você ama.',
-    color: 'var(--color-brown)',
+    color: 'var(--color-terracotta)',
     bg: 'linear-gradient(135deg, #F5EFE6 0%, #EDE5D8 100%)',
   },
   {
@@ -471,7 +471,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                 padding: '20px 24px',
                 borderRadius: 14,
                 background:
-                  hoveredAction === i ? 'var(--color-warm-white)' : 'rgba(254,252,249,0.6)',
+                  hoveredAction === i ? 'var(--color-cream)' : 'rgba(254,252,249,0.6)',
                 border: '1.5px solid',
                 borderColor:
                   hoveredAction === i ? 'var(--color-green-light)' : 'rgba(0,0,0,0.04)',
@@ -522,7 +522,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
             style={{
               padding: 32,
               borderRadius: 16,
-              background: 'var(--color-warm-white)',
+              background: 'var(--color-cream)',
               border: '1px solid rgba(0,0,0,0.04)',
             }}
           >
@@ -589,7 +589,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                     style={{
                       fontSize: 14,
                       fontWeight: 600,
-                      color: item.ok ? 'var(--color-green)' : 'var(--color-brown)',
+                      color: item.ok ? 'var(--color-green)' : 'var(--color-terracotta)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: 6,

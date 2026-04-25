@@ -52,6 +52,12 @@ const eslintConfig = defineConfig([
       'no-restricted-syntax': 'off',
     },
   },
+  {
+    files: ['scripts/**/*.mjs'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
 ])
 
 export default eslintConfig

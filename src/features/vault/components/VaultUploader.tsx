@@ -132,7 +132,7 @@ export function VaultUploader() {
         <UploadCloud size={36} color="var(--color-terracotta)" strokeWidth={1.5} />
         <div>
           <p style={{
-            fontFamily: 'var(--serif)',
+            fontFamily: 'var(--font-serif)',
             fontSize: 17,
             color: 'var(--color-ink)',
             marginBottom: 4,

@@ -3,7 +3,6 @@
 import NextImage from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { Reveal } from '@/design'
 import { StarCluster } from '@/features/landing/shared/BrandStar'
 
 /**
@@ -61,16 +60,13 @@ export function Hero() {
           }}
         />
         <div style={{ position: 'relative', zIndex: 3 }}>
-        <Reveal variant="mount">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <StarCluster
               size={32}
               style={{ opacity: 0.8 }}
             />
           </div>
-        </Reveal>
 
-        <Reveal variant="mount" delay={0.08}>
           <h1
             style={{
               fontFamily: 'var(--font-serif)',
@@ -85,9 +81,7 @@ export function Hero() {
             Planejar hoje é proteger o{' '}
             <em style={{ fontStyle: 'italic', color: 'var(--color-terracotta)' }}>amanhã.</em>
           </h1>
-        </Reveal>
 
-        <Reveal variant="mount" delay={0.16}>
           <p
             style={{
               fontFamily: 'var(--font-sans)',
@@ -100,9 +94,7 @@ export function Hero() {
           >
             Uma jornada de cuidado e independência. Organize cenários, documentos e diálogos — com calma, com amor, antes da urgência.
           </p>
-        </Reveal>
 
-        <Reveal variant="mount" delay={0.24}>
           <Link
             href="#manual"
             className="btn-terracotta-hover"
@@ -124,7 +116,6 @@ export function Hero() {
             Conhecer o Manual
             <ArrowRight size={18} strokeWidth={1.75} />
           </Link>
-        </Reveal>
         </div>
       </div>
 
@@ -172,7 +163,6 @@ export function Hero() {
             pointerEvents: 'none',
           }}
         >
-          <Reveal variant="mount" delay={0.18}>
             <NextImage
               src="/brand/hero-planejar-legenda.png"
               alt="Planejar hoje é proteger o amanhã. Logotipo Senda Sênior."
@@ -186,7 +176,6 @@ export function Hero() {
                 filter: 'drop-shadow(0 12px 32px rgba(0,0,0,0.35))',
               }}
             />
-          </Reveal>
         </div>
       </div>
     </section>

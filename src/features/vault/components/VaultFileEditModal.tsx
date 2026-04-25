@@ -105,7 +105,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
         >
           <h2
             style={{
-              fontFamily: 'var(--serif)',
+              fontFamily: 'var(--font-serif)',
               fontSize: 19,
               color: 'var(--color-ink)',
             }}
@@ -120,7 +120,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
               border: 'none',
               padding: 4,
               cursor: 'pointer',
-              color: 'var(--color-ink-soft)',
+              color: 'var(--color-ink-muted)',
               borderRadius: 4,
             }}
           >
@@ -184,7 +184,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
               <p
                 style={{
                   fontSize: 12,
-                  color: 'var(--color-ink-soft)',
+                  color: 'var(--color-ink-muted)',
                   marginTop: 6,
                   display: 'flex',
                   alignItems: 'center',
@@ -318,7 +318,7 @@ function Field({
       </label>
       {children}
       {hint && (
-        <p style={{ fontSize: 12, color: 'var(--color-ink-soft)', marginTop: 6 }}>
+        <p style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 6 }}>
           {hint}
         </p>
       )}

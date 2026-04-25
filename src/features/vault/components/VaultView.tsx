@@ -548,7 +548,7 @@ function EmptyState({ isFiltered }: { isFiltered: boolean }) {
     >
       <FilesIcon size={32} color="var(--color-ink-muted)" style={{ marginBottom: 12 }} />
       <p style={{
-        fontFamily: 'var(--serif)',
+        fontFamily: 'var(--font-serif)',
         fontSize: 17,
         color: 'var(--color-ink)',
         marginBottom: 6,

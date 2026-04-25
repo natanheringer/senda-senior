@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import NextImage from 'next/image'
 import { Reveal } from '@/design'
 import { BrandStar, StarCluster } from '@/features/landing/shared/BrandStar'
-import { CompassRose, StarScatter } from '@/features/landing/shared/BrandDecorative'
+import { CompassRose } from '@/features/landing/shared/BrandDecorative'
 
 const GUIAS = [
   {

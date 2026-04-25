@@ -1,4 +1,5 @@
 export { AuthBrandPanel } from './AuthBrandPanel'
+export { AuthFormPanel } from './AuthFormPanel'
 export {
   emailSchema,
   passwordSchema,

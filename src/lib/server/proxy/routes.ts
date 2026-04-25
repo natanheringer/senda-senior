@@ -1,5 +1,10 @@
 export const PROTECTED_PREFIXES = ['/dashboard', '/update-password', '/vault'] as const
 export const AUTH_PREFIXES = ['/login'] as const
+export const STRICT_CSP_PREFIXES = [
+  ...PROTECTED_PREFIXES,
+  ...AUTH_PREFIXES,
+  '/auth',
+] as const
 
 export type RateLimitBucket = 'global' | 'auth' | 'upload'
 
@@ -29,10 +34,12 @@ export function pickBucket(pathname: string): RateLimitBucket {
 export function getRouteFlags(pathname: string) {
   const isProtectedRoute = matchesPrefix(pathname, PROTECTED_PREFIXES)
   const isAuthRoute = matchesPrefix(pathname, AUTH_PREFIXES)
+  const useStrictCSP = matchesPrefix(pathname, STRICT_CSP_PREFIXES)
 
   return {
     isProtectedRoute,
     isAuthRoute,
     authRelevantRoute: isProtectedRoute || isAuthRoute,
+    useStrictCSP,
   }
 }

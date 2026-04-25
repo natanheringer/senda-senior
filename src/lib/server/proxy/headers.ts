@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 export const IS_PROD = process.env.NODE_ENV === 'production'
+export type CSPMode = 'public-static' | 'strict-nonce'
 
 export function extractIp(request: NextRequest): string {
   return (
@@ -14,14 +15,9 @@ export function generateNonce(): string {
   return Buffer.from(crypto.randomUUID()).toString('base64')
 }
 
-export function buildCSP(nonce: string): string {
-  const scriptSrc = IS_PROD
-    ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval' https:`
-    : `'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com`
-
+function buildSharedCSPDirectives(): string[] {
   return [
     "default-src 'self'",
-    `script-src ${scriptSrc}`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://use.typekit.net https://p.typekit.net",
     "font-src 'self' https://fonts.gstatic.com https://use.typekit.net data:",
     "img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in https://p.typekit.net",
@@ -31,7 +27,25 @@ export function buildCSP(nonce: string): string {
     "form-action 'self'",
     "object-src 'none'",
     'upgrade-insecure-requests',
-  ].join('; ')
+  ]
+}
+
+export function buildCSP(nonce: string, mode: CSPMode): string {
+  const shared = buildSharedCSPDirectives()
+
+  if (mode === 'public-static') {
+    const scriptSrc = IS_PROD
+      ? "'self' 'unsafe-inline' https:"
+      : "'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com"
+
+    return ["script-src " + scriptSrc, ...shared].join('; ')
+  }
+
+  const scriptSrc = IS_PROD
+    ? `'self' 'nonce-${nonce}' 'strict-dynamic' https:`
+    : `'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com`
+
+  return [`script-src ${scriptSrc}`, ...shared].join('; ')
 }
 
 export function createForwardedHeaders(
@@ -39,10 +53,12 @@ export function createForwardedHeaders(
   pathname: string,
   nonce: string,
   csp: string,
+  mode: CSPMode,
 ): Headers {
   const forwardedHeaders = new Headers(request.headers)
   forwardedHeaders.set('x-pathname', pathname)
   forwardedHeaders.set('x-nonce', nonce)
+  forwardedHeaders.set('x-csp-mode', mode)
   forwardedHeaders.set('Content-Security-Policy', csp)
   return forwardedHeaders
 }

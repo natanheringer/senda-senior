@@ -16,8 +16,9 @@ import {
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const nonce = generateNonce()
-  const csp = buildCSP(nonce)
   const routeFlags = getRouteFlags(pathname)
+  const cspMode = routeFlags.useStrictCSP ? 'strict-nonce' : 'public-static'
+  const csp = buildCSP(nonce, cspMode)
 
   if (shouldRateLimit(pathname)) {
     const rl = await checkRateLimit(extractIp(request), pickBucket(pathname))
@@ -33,7 +34,13 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  const forwardedHeaders = createForwardedHeaders(request, pathname, nonce, csp)
+  const forwardedHeaders = createForwardedHeaders(
+    request,
+    pathname,
+    nonce,
+    csp,
+    cspMode,
+  )
 
   let response = createSecuredNextResponse(forwardedHeaders, csp)
 

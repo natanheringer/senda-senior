@@ -2,7 +2,7 @@
 
 import NextImage from 'next/image'
 import { Reveal } from '@/design'
-import { BrandClusterImage, StarCluster } from '@/features/landing/shared/BrandStar'
+import { BrandClusterImage } from '@/features/landing/shared/BrandStar'
 import { SCurveFragment, QuoteMark } from '@/features/landing/shared/BrandDecorative'
 
 const FUNDADORAS = [

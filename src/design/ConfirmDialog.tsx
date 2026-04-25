@@ -85,7 +85,7 @@ export function ConfirmDialog({
           <div style={{ flex: 1 }}>
             <h2
               style={{
-                fontFamily: 'var(--serif)',
+                fontFamily: 'var(--font-serif)',
                 fontSize: 19,
                 color: 'var(--color-ink)',
                 marginBottom: description ? 6 : 0,
@@ -98,7 +98,7 @@ export function ConfirmDialog({
               <p
                 style={{
                   fontSize: 14,
-                  color: 'var(--color-ink-soft)',
+                  color: 'var(--color-ink-muted)',
                   lineHeight: 1.5,
                 }}
               >

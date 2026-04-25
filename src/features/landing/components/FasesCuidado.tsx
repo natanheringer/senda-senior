@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowRight, X } from 'lucide-react'
 import { Reveal } from '@/design'
-import { BrandStar, StarCluster } from '@/features/landing/shared/BrandStar'
+import { BrandStar } from '@/features/landing/shared/BrandStar'
 
 const fases = [
   {

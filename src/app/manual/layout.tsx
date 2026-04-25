@@ -14,7 +14,7 @@ export default function ManualLayout({ children }: { children: ReactNode }) {
       <ReaderBodyLock />
       <div
         style={{
-          background: 'var(--cream)',
+          background: 'var(--color-cream)',
           minHeight: '100vh',
           display: 'flex',
         }}

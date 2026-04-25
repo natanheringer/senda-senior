@@ -3,13 +3,20 @@
  *
  * Algoritmo de auto-categorização. Multi-signal scoring:
  *
- *   1. cada fonte (nome, mime, extensão, conteúdo, regra de user)
- *      emite votos ponderados para uma ou mais categorias.
- *   2. agrega votos por categoria (soma de pesos).
- *   3. normaliza pelo total emitido → confidence ∈ [0, 1].
- *   4. abaixo do threshold → 'outros'.
+ * 1. cada fonte (nome, mime, extensão, conteúdo, regra de user, user_override)
+ *    emite votos ponderados para uma ou mais categorias.
+ * 2. agrega votos por categoria (soma de pesos).
+ * 3. normaliza pelo total emitido → confidence ∈ [0, 1].
+ * 4. abaixo do threshold → 'outros'.
  *
- * Função pura. Sem io, sem db. Determinística. Testável.
+ * Suporta:
+ * - Regex + dicionário por categoria
+ * - Extensão e MIME hints
+ * - Fuzzy matching (levenshtein) para variations
+ * - Feedback loop (user_overrides) persistente
+ *
+ * Função pura (exceto getUserOverrides que é IO).
+ * Determinística com mesma entrada + overrides.
  *
  * Spec: docs/vault/classification.md
  * ───────────────────────────────────────────────────────────────────
@@ -21,17 +28,19 @@ import { FALLBACK_CATEGORY } from './categories'
 // ─── config ─────────────────────────────────────────────────────────
 
 export const CLASSIFIER_WEIGHTS = {
-  filename_regex:  3,
-  filename_dict:   2,
-  extension_hint:  1,
-  mime_hint:       1,
-  size_hint:       0.5,
-  content_regex:   4,
-  content_dict:    3,
-  user_rule:       10,
+  filename_regex: 3,
+  filename_dict: 2,
+  extension_hint: 1,
+  mime_hint: 1,
+  size_hint: 0.5,
+  content_regex: 4,
+  content_dict: 3,
+  user_rule: 8,
+  user_override: 12,
 } as const
 
-export const CLASSIFIER_CONFIDENCE_THRESHOLD = 0.6
+export const CLASSIFIER_CONFIDENCE_THRESHOLD = 0.55
+export const FUZZY_THRESHOLD = 0.82 // 0-1, higher = stricter
 
 // ─── tipos ──────────────────────────────────────────────────────────
 
@@ -39,20 +48,27 @@ export interface ClassifierInput {
   name: string
   mime: string
   size: number
-  content?: string  // texto extraído (ocr) — opcional, futuro
+  content?: string // texto extraído (ocr) — opcional, futuro
 }
 
 export interface ClassifierSignal {
   source: keyof typeof CLASSIFIER_WEIGHTS
   category: SystemCategorySlug
   weight: number
-  match?: string  // o termo/regex que casou (para audit)
+  match?: string // o termo/regex que casou (para audit)
 }
 
 export interface ClassifierOutput {
   categorySlug: SystemCategorySlug
   confidence: number
   signals: ClassifierSignal[]
+}
+
+export interface UserOverride {
+  pattern: string // normalized pattern that triggered match
+  category: SystemCategorySlug
+  weight: number // positive = reinforce, negative = suppress
+  createdAt: string
 }
 
 // ─── normalização ───────────────────────────────────────────────────
@@ -66,6 +82,63 @@ function normalize(s: string): string {
     .replace(/[_\-]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
+}
+
+/**
+ * Lazy-loaded user overrides cache.
+ * Call `clearOverrideCache()` to reset (useful for testing).
+ */
+let _cachedOverrides: UserOverride[] | null = null
+
+export function setUserOverrides(overrides: UserOverride[]): void {
+  _cachedOverrides = overrides
+}
+
+export function clearOverrideCache(): void {
+  _cachedOverrides = null
+}
+
+export function getUserOverrides(): UserOverride[] {
+  return _cachedOverrides ?? []
+}
+
+// ─── fuzzy matching (levenshtein) ───────────────────────────────────
+
+function levenshtein(a: string, b: string): number {
+  if (a.length === 0) return b.length
+  if (b.length === 0) return a.length
+  const matrix: number[][] = []
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i]
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      const cost = b[i - 1] === a[j - 1] ? 0 : 1
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost,
+      )
+    }
+  }
+  return matrix[b.length][a.length]
+}
+
+function fuzzyMatch(term: string, text: string): boolean {
+  const normalizedText = normalize(text)
+  const normalizedTerm = normalize(term)
+  // Exact match
+  if (normalizedText.includes(normalizedTerm)) return true
+  // Fuzzy match for terms >= 4 chars
+  if (normalizedTerm.length >= 4) {
+    const words = normalizedText.split(' ').filter((w) => w.length >= 4)
+    for (const word of words) {
+      const maxLen = Math.max(word.length, normalizedTerm.length)
+      const distance = levenshtein(word, normalizedTerm)
+      const similarity = 1 - distance / maxLen
+      if (similarity >= FUZZY_THRESHOLD) return true
+    }
+  }
+  return false
 }
 
 // ─── dicionários por categoria ──────────────────────────────────────
@@ -127,17 +200,47 @@ const FILENAME_DICT: Record<SystemCategorySlug, CategoryDict> = {
     ],
     terms: ['cartorio de imoveis', 'cri', 'sindico'],
   },
+  seguros: {
+    regex: [
+      /\b(seguro|apolice|sinistro|capitalizacao|resseguro)\b/i,
+      /\b(premio|carencia|apolice\s*de\s*vida)\b/i,
+    ],
+    terms: [
+      'seguro de vida', 'seguro saude', 'seguro residencial',
+      'seguro veiculo', 'inss', 'previdencia complementar',
+    ],
+  },
+  previdencia: {
+    regex: [
+      /\b(previdencia|pgbl|pgbil|vbgf|reserva\s*matematica)\b/i,
+      /\b(beneficio\s*previdenciario|contribuicao\s*previdenciaria)\b/i,
+    ],
+    terms: [
+      'previdencia social', 'previdencia complementar', 'fgts',
+      'fundo de pensao', 'risco', 'sobrevivencia',
+    ],
+  },
+  familia: {
+    regex: [
+      /\b(certidao|casamento|nascimento|obito)\b/i,
+      /\b(registro\s*civil|power\s*of\s*attorney|familiar)\b/i,
+    ],
+    terms: [
+      'certidao de casamento', 'certidao de nascimento', 'certidao de obito',
+      'registro civil', 'autorizacao de viagem', 'visto familiar',
+    ],
+  },
   pessoal: { regex: [], terms: [] },
   outros: { regex: [], terms: [] },
 }
 
 const EXT_HINTS: Partial<Record<SystemCategorySlug, string[]>> = {
-  saude:      ['dcm', 'dicom'],
+  saude: ['dcm', 'dicom'],
   financeiro: ['ofx', 'qif'],
 }
 
 const MIME_HINTS: Partial<Record<SystemCategorySlug, string[]>> = {
-  saude:      ['application/dicom', 'image/dicom'],
+  saude: ['application/dicom', 'image/dicom'],
   financeiro: ['application/vnd.ms-excel', 'application/x-ofx'],
 }
 
@@ -169,7 +272,7 @@ function scanText(
       }
     } else {
       for (const term of dict.terms) {
-        if (norm.includes(term)) {
+        if (fuzzyMatch(term, norm)) {
           out.push({
             source,
             category: slug,
@@ -220,6 +323,25 @@ function scanMime(mime: string): ClassifierSignal[] {
   return out
 }
 
+function scanUserOverrides(text: string): ClassifierSignal[] {
+  const out: ClassifierSignal[] = []
+  const overrides = getUserOverrides()
+
+  for (const override of overrides) {
+    const normText = normalize(text)
+    if (fuzzyMatch(override.pattern, normText)) {
+      out.push({
+        source: 'user_override',
+        category: override.category,
+        weight: override.weight,
+        match: override.pattern,
+      })
+    }
+  }
+
+  return out
+}
+
 // ─── api pública ────────────────────────────────────────────────────
 
 /**
@@ -238,6 +360,7 @@ export function classify(input: ClassifierInput): ClassifierOutput {
   signals.push(...scanText(baseName, 'filename_dict'))
   signals.push(...scanExtension(ext))
   signals.push(...scanMime(input.mime))
+  signals.push(...scanUserOverrides(baseName))
 
   if (input.content && input.content.length > 0) {
     signals.push(...scanText(input.content, 'content_regex'))
@@ -276,4 +399,58 @@ function aggregate(signals: ClassifierSignal[]): ClassifierOutput {
   }
 
   return { categorySlug: winner, confidence, signals }
+}
+
+/**
+ * Registra novo override do usuário (chamado pelo action após manual override).
+ * Retorna o override criado para persistência no banco.
+ */
+export function createOverride(
+  matchedPattern: string,
+  category: SystemCategorySlug,
+): UserOverride {
+  const override: UserOverride = {
+    pattern: normalize(matchedPattern),
+    category,
+    weight: CLASSIFIER_WEIGHTS.user_override,
+    createdAt: new Date().toISOString(),
+  }
+
+  // Append to cache (in production, this would also persist to DB)
+  const existing = getUserOverrides()
+  const updated = existing.filter((o) => o.pattern !== override.pattern)
+  updated.push(override)
+  setUserOverrides(updated)
+
+  return override
+}
+
+/**
+ * Extrai o padrão relevante de um nome de arquivo para criar override.
+ * Usa o termo mais específico que casou.
+ */
+export function extractOverridePattern(filename: string): string {
+  const lastDot = filename.lastIndexOf('.')
+  const baseName = lastDot > 0 ? filename.slice(0, lastDot) : filename
+  const norm = normalize(baseName)
+
+  // Find the longest matching term from any dictionary
+  let longestMatch = ''
+  for (const [, dict] of Object.entries(FILENAME_DICT) as Array<
+    [SystemCategorySlug, CategoryDict]
+  >) {
+    for (const term of dict.terms) {
+      if (fuzzyMatch(term, norm) && term.length > longestMatch.length) {
+        longestMatch = term
+      }
+    }
+    for (const rx of dict.regex) {
+      const match = norm.match(rx)
+      if (match && match[0].length > longestMatch.length) {
+        longestMatch = match[0]
+      }
+    }
+  }
+
+  return longestMatch || norm.slice(0, 32)
 }

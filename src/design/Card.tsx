@@ -20,7 +20,7 @@ type Variant = 'surface' | 'outline' | 'muted' | 'onGreen'
 
 const variants: Record<Variant, string> = {
   surface:
-    'bg-white border border-black/5 shadow-[0_4px_16px_rgba(0,0,0,0.04)]',
+    'bg-white border border-black/5 shadow-[var(--shadow-card-sm)]',
   outline: 'bg-transparent border border-black/10',
   muted: 'bg-cream-mid border border-black/[0.04]',
   onGreen:

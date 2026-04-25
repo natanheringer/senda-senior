@@ -28,7 +28,7 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-terracotta text-white shadow-[0_4px_20px_rgba(181,114,74,0.25)] ' +
+    'bg-terracotta text-white shadow-[var(--shadow-terracotta-button)] ' +
     'hover:bg-terracotta-dark hover:-translate-y-0.5 focus-visible:ring-terracotta',
   secondary:
     'border-[1.5px] border-green bg-white/65 text-green backdrop-blur-sm ' +
@@ -36,9 +36,9 @@ const variants: Record<Variant, string> = {
   ghost:
     'bg-transparent text-green hover:bg-green/5 focus-visible:ring-green',
   danger:
-    'bg-[rgba(185,28,28,0.08)] border-[1.5px] border-[rgba(185,28,28,0.15)] ' +
-    'text-[#B91C1C] hover:bg-[rgba(185,28,28,0.15)] hover:border-[#B91C1C] ' +
-    'focus-visible:ring-[#B91C1C]',
+    'border-[1.5px] border-[var(--color-danger-border)] bg-[var(--color-danger-soft)] ' +
+    'text-[var(--color-danger)] hover:border-[var(--color-danger)] hover:bg-[rgba(185,28,28,0.15)] ' +
+    'focus-visible:ring-[var(--color-danger)]',
 }
 
 const sizes: Record<Size, string> = {

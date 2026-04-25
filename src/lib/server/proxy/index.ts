@@ -11,6 +11,7 @@ export {
 export {
   AUTH_PREFIXES,
   PROTECTED_PREFIXES,
+  STRICT_CSP_PREFIXES,
   getRouteFlags,
   matchesPrefix,
   pickBucket,
