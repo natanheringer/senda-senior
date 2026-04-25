@@ -42,7 +42,7 @@ export async function proxy(request: NextRequest) {
     cspMode,
   )
 
-  let response = createSecuredNextResponse(forwardedHeaders, csp)
+  let response = createSecuredNextResponse(forwardedHeaders, csp, cspMode)
 
   let user: User | null = null
 
@@ -52,7 +52,8 @@ export async function proxy(request: NextRequest) {
       response,
       forwardedHeaders,
       csp,
-      createSecuredResponse: createSecuredNextResponse,
+      createSecuredResponse: (headers, nextCsp) =>
+        createSecuredNextResponse(headers, nextCsp, cspMode),
     })
     user = authState.user
     response = authState.response

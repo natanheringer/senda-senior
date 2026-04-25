@@ -82,8 +82,12 @@ export function applySecurityHeaders(response: NextResponse, csp: string): void 
 export function createSecuredNextResponse(
   forwardedHeaders: Headers,
   csp: string,
+  mode?: CSPMode,
 ): NextResponse {
   const response = NextResponse.next({ request: { headers: forwardedHeaders } })
   applySecurityHeaders(response, csp)
+  if (mode) {
+    response.headers.set('X-CSP-Mode', mode)
+  }
   return response
 }
