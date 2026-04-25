@@ -10,13 +10,13 @@ const FUNDADORAS = [
     nome: 'Luciana M. Moura',
     titulo: 'Advogada · Pedagoga · Psicopedagoga',
     essencia: 'Transforma processos jurídicos complexos em caminhos humanos e claros.',
-    foto: '/brand/photos/prancheta-5.png',
+    foto: '/brand/photos/founder-luciana.jpg',
   },
   {
     nome: 'Julianne Q. Pimentel',
     titulo: 'Administradora · Economia Criativa · Inovação Digital',
     essencia: 'Organiza processos familiares com visão sistêmica e cuidado real.',
-    foto: '/brand/photos/prancheta-10.png',
+    foto: '/brand/photos/founder-julianne.jpg',
   },
 ]
 
