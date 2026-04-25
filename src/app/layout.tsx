@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
+import { connection } from 'next/server'
 import { EB_Garamond, DM_Sans } from 'next/font/google'
 import './globals.css'
+
+/** CSP com nonce exige render por pedido; páginas estáticas não recebem nonce nos scripts. */
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Senda Sênior — Planejamento & Assessoria Sênior',
@@ -46,7 +50,9 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  await connection()
+
   return (
     <html lang="pt-BR" className={`${ebGaramond.variable} ${dmSans.variable}`}>
       {/*

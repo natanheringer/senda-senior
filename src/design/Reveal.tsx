@@ -19,6 +19,13 @@ export interface RevealProps {
   delay?: number
   className?: string
   distance?: number
+  /**
+   * `inview` (padrão): entra com scroll — ruim acima da dobra se o JS for bloqueado
+   * ou o observer não dispare; o bloco fica com opacity:0.
+   * `mount`: anima no mount; adequado a hero/headers — fica visível com ou sem
+   * IntersectionObserver.
+   */
+  variant?: 'inview' | 'mount'
 }
 
 export function Reveal({
@@ -26,25 +33,44 @@ export function Reveal({
   delay = 0,
   className,
   distance = 18,
+  variant = 'inview',
 }: RevealProps) {
   const reducedMotion = useReducedMotion()
+
+  const from = {
+    opacity: 0,
+    y: reducedMotion ? 0 : distance,
+    scale: reducedMotion ? 1 : 0.985,
+  }
+  const to = { opacity: 1, y: 0, scale: 1 }
+  const transition = {
+    duration: reducedMotion ? 0.28 : 0.62,
+    delay,
+    ease: EASE_SENDA,
+  } as const
+
+  if (variant === 'mount') {
+    return (
+      <motion.div
+        className={className}
+        style={{ willChange: 'transform, opacity' }}
+        initial={from}
+        animate={to}
+        transition={transition}
+      >
+        {children}
+      </motion.div>
+    )
+  }
 
   return (
     <motion.div
       className={className}
       style={{ willChange: 'transform, opacity' }}
-      initial={{
-        opacity: 0,
-        y: reducedMotion ? 0 : distance,
-        scale: reducedMotion ? 1 : 0.985,
-      }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={from}
+      whileInView={to}
       viewport={{ once: true, margin: '0px 0px -52px 0px', amount: 0.2 }}
-      transition={{
-        duration: reducedMotion ? 0.28 : 0.62,
-        delay,
-        ease: EASE_SENDA,
-      }}
+      transition={transition}
     >
       {children}
     </motion.div>

@@ -61,7 +61,7 @@ export function Hero() {
           }}
         />
         <div style={{ position: 'relative', zIndex: 3 }}>
-        <Reveal>
+        <Reveal variant="mount">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
             <StarCluster
               size={32}
@@ -70,7 +70,7 @@ export function Hero() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.08}>
+        <Reveal variant="mount" delay={0.08}>
           <h1
             style={{
               fontFamily: 'var(--font-serif)',
@@ -87,7 +87,7 @@ export function Hero() {
           </h1>
         </Reveal>
 
-        <Reveal delay={0.16}>
+        <Reveal variant="mount" delay={0.16}>
           <p
             style={{
               fontFamily: 'var(--font-sans)',
@@ -102,7 +102,7 @@ export function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.24}>
+        <Reveal variant="mount" delay={0.24}>
           <Link
             href="#manual"
             className="btn-terracotta-hover"
@@ -172,7 +172,7 @@ export function Hero() {
             pointerEvents: 'none',
           }}
         >
-          <Reveal delay={0.18}>
+          <Reveal variant="mount" delay={0.18}>
             <NextImage
               src="/brand/hero-planejar-legenda.png"
               alt="Planejar hoje é proteger o amanhã. Logotipo Senda Sênior."
