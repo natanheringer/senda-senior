@@ -148,20 +148,22 @@ interface CategoryDict {
   terms: string[]
 }
 
+// ─── dicionários por categoria ──────────────────────────────────────
+
 const FILENAME_DICT: Record<SystemCategorySlug, CategoryDict> = {
   juridico: {
     regex: [
       /\b(contrato|procuracao|testamento|diretiva|escritura|certidao)\b/,
       /\b(rg|cpf|cnh|passaporte|titulo\s*eleitor)\b/,
       /\bdoc(umento)?\s*pessoal\b/,
-    ],
+    ].map(rx => rx),
     terms: ['advogado', 'cartorio', 'tabelionato', 'oab', 'notarial', 'inventario'],
   },
   saude: {
     regex: [
       /\b(exame|laudo|receita|prescricao|atestado|prontuario)\b/,
       /\b(medicamento|remedio|consulta|medico)\b/,
-    ],
+    ].map(rx => rx),
     terms: [
       'hemograma', 'ressonancia', 'tomografia', 'ultrassom', 'raio x', 'rx',
       'ecg', 'eletrocardiograma', 'cardiologista', 'endocrino', 'oftalmo',
@@ -172,7 +174,7 @@ const FILENAME_DICT: Record<SystemCategorySlug, CategoryDict> = {
       /\b(fatura|boleto|extrato|imposto|irpf|darf|nota\s*fiscal|nfe|nfse|nfs-?e)\b/,
       /\b(recibo|comprovante|pagamento|transferencia|pix|ted|doc)\b/,
       /\bir\s*\d{2,4}\b/,
-    ],
+    ].map(rx => rx),
     terms: [
       'banco', 'banco do brasil', 'caixa', 'itau', 'bradesco',
       'santander', 'nubank', 'inter', 'c6', 'btg', 'sicredi',
@@ -183,28 +185,28 @@ const FILENAME_DICT: Record<SystemCategorySlug, CategoryDict> = {
       /\b(holerite|contracheque|folha\s*de\s*pagamento|admissao|demissao)\b/,
       /\b(ctps|pis|fgts|inss|rescisao|asu|acordo\s*coletivo)\b/,
       /\bcontrato\s*de\s*trabalho\b/,
-    ],
+    ].map(rx => rx),
     terms: ['rh', 'recursos humanos', 'empregador'],
   },
   viagem: {
     regex: [
       /\b(passagem|reserva|voucher|itinerario|hotel|hospedagem|voo)\b/,
       /\b(passaporte|visto|embarque|checkin|check in)\b/,
-    ],
+    ].map(rx => rx),
     terms: ['latam', 'gol', 'azul', 'booking', 'airbnb', 'decolar'],
   },
   imoveis: {
     regex: [
       /\b(iptu|condominio|escritura|financiamento|imovel)\b/,
       /\b(aluguel|locacao|usufruto|matricula)\b/,
-    ],
+    ].map(rx => rx),
     terms: ['cartorio de imoveis', 'cri', 'sindico'],
   },
   seguros: {
     regex: [
       /\b(seguro|apolice|sinistro|capitalizacao|resseguro)\b/i,
       /\b(premio|carencia|apolice\s*de\s*vida)\b/i,
-    ],
+    ].map(rx => rx),
     terms: [
       'seguro de vida', 'seguro saude', 'seguro residencial',
       'seguro veiculo', 'inss', 'previdencia complementar',
@@ -214,7 +216,7 @@ const FILENAME_DICT: Record<SystemCategorySlug, CategoryDict> = {
     regex: [
       /\b(previdencia|pgbl|pgbil|vbgf|reserva\s*matematica)\b/i,
       /\b(beneficio\s*previdenciario|contribuicao\s*previdenciaria)\b/i,
-    ],
+    ].map(rx => rx),
     terms: [
       'previdencia social', 'previdencia complementar', 'fgts',
       'fundo de pensao', 'risco', 'sobrevivencia',
@@ -224,7 +226,7 @@ const FILENAME_DICT: Record<SystemCategorySlug, CategoryDict> = {
     regex: [
       /\b(certidao|casamento|nascimento|obito)\b/i,
       /\b(registro\s*civil|power\s*of\s*attorney|familiar)\b/i,
-    ],
+    ].map(rx => rx),
     terms: [
       'certidao de casamento', 'certidao de nascimento', 'certidao de obito',
       'registro civil', 'autorizacao de viagem', 'visto familiar',

@@ -270,6 +270,55 @@ export interface Database {
         }
         Relationships: []
       }
+
+      vault_classifier_overrides: {
+        Row: {
+          id: string
+          user_id: string
+          pattern: string
+          category_slug: string
+          weight: number
+          match_count: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          pattern: string
+          category_slug: string
+          weight?: number
+          match_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          pattern?: string
+          category_slug?: string
+          weight?: number
+          match_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'vault_classifier_overrides_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'vault_classifier_overrides_category_slug_fkey'
+            columns: ['category_slug']
+            isOneToOne: false
+            referencedRelation: 'vault_system_categories'
+            referencedColumns: ['slug']
+          }
+        ]
+      }
     }
     Views: { [_ in never]: never }
     Functions: { [_ in never]: never }

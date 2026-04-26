@@ -1,10 +1,11 @@
 export const PROTECTED_PREFIXES = ['/dashboard', '/update-password', '/vault'] as const
 export const AUTH_PREFIXES = ['/login'] as const
-export const STRICT_CSP_PREFIXES = [
-  ...PROTECTED_PREFIXES,
-  ...AUTH_PREFIXES,
-  '/auth',
-] as const
+
+// Apenas rotas com force-dynamic (SSR) podem usar nonce-based CSP.
+// O Next.js só injeta nonces nos scripts do framework durante SSR.
+// Páginas 'use client' estáticas (/login, /update-password) usam
+// public-static (unsafe-inline) — não renderizam conteúdo do usuário.
+export const STRICT_CSP_PREFIXES = ['/dashboard', '/vault'] as const
 
 export type RateLimitBucket = 'global' | 'auth' | 'upload'
 

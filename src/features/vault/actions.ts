@@ -30,6 +30,8 @@ import {
   mapFile,
 } from './mappers'
 
+import type { SystemCategorySlug } from './categories'
+
 // ─── prepareUpload ──────────────────────────────────────────────────
 
 export async function prepareUpload(
@@ -293,21 +295,26 @@ export async function getDownloadUrl(
 
 // ─── updateMetadata ─────────────────────────────────────────────────
 
+// ─── updateMetadata ─────────────────────────────────────────────────
 export async function updateMetadata(
   input: UpdateMetadataInput,
 ): Promise<ActionResult<null>> {
   const parsed = updateMetadataSchema.safeParse(input)
   if (!parsed.success) return fail('invalid')
-
   const { fileId, patch } = parsed.data
   const user = await requireUser()
   const supabase = await createServerClient()
-
+  // Fetch current file for override pattern extraction
+  const { data: currentFile } = await supabase
+    .from('vault_files')
+    .select('original_name, system_category_slug')
+    .eq('user_id', user.id)
+    .eq('id', fileId)
+    .single()
   const update: Record<string, unknown> = {}
   if (patch.displayName !== undefined) update.display_name = patch.displayName
   if (patch.description !== undefined) update.description = patch.description
   if (patch.favorite !== undefined) update.favorite = patch.favorite
-
   if (patch.categorySlug !== undefined) {
     if (patch.categorySlug) {
       const valid = await isValidSystemCategorySlug(patch.categorySlug)
@@ -320,8 +327,30 @@ export async function updateMetadata(
     }
     update.manual_override = true
     update.confidence = null
+    // ── feedback loop: persist user override ────────────────────────
+    // Only create override if user explicitly changed category
+    const previousSlug = currentFile?.system_category_slug
+    if (previousSlug && previousSlug !== patch.categorySlug && currentFile) {
+      const { createOverride, extractOverridePattern } = await import('./classifier')
+      // Use original_name to extract meaningful pattern for future classification
+      const pattern = extractOverridePattern(currentFile.original_name)
+      if (pattern) {
+        const override = createOverride(pattern, patch.categorySlug as SystemCategorySlug)
+        // Persist to DB for cross-session learning
+        await supabase.from('vault_classifier_overrides').upsert({
+          user_id: user.id,
+          pattern: override.pattern,
+          category_slug: override.category,
+          weight: override.weight,
+          match_count: 1,
+          created_at: override.createdAt,
+          updated_at: override.createdAt,
+        }, {
+          onConflict: 'user_id,pattern',
+        }).eq('user_id', user.id)
+      }
+    }
   }
-
   if (Object.keys(update).length > 0) {
     const { error } = await supabase
       .from('vault_files')
@@ -330,10 +359,8 @@ export async function updateMetadata(
       .eq('id', fileId)
     if (error) return fail('internal')
   }
-
   if (patch.tagSlugs !== undefined) {
     await supabase.from('vault_file_tags').delete().eq('file_id', fileId)
-
     if (patch.tagSlugs.length > 0) {
       const tagIds: string[] = []
       for (const slug of patch.tagSlugs) {
@@ -343,7 +370,6 @@ export async function updateMetadata(
           .eq('user_id', user.id)
           .eq('slug', slug)
           .maybeSingle()
-
         if (existing) {
           tagIds.push(existing.id)
         } else {
@@ -355,7 +381,6 @@ export async function updateMetadata(
           if (created) tagIds.push(created.id)
         }
       }
-
       if (tagIds.length > 0) {
         await supabase
           .from('vault_file_tags')
@@ -363,7 +388,6 @@ export async function updateMetadata(
       }
     }
   }
-
   revalidatePath('/vault')
   return success(null)
 }
@@ -408,5 +432,32 @@ export async function restore(fileId: string): Promise<ActionResult<null>> {
 
   revalidatePath('/vault')
   return success(null)
+}
+
+// ─── loadUserOverrides ──────────────────────────────────────────────
+
+export async function loadUserOverrides(): Promise<ActionResult<{ count: number }>> {
+  const user = await requireUser()
+  const supabase = await createServerClient()
+  const { data, error } = await supabase
+    .from('vault_classifier_overrides')
+    .select('pattern, category_slug, weight, created_at')
+    .eq('user_id', user.id)
+    .order('match_count', { ascending: false })
+    .limit(100)
+  if (error) {
+    console.error('[vault.loadUserOverrides]', error)
+    return fail('internal')
+  }
+  if (data && data.length > 0) {
+    const { setUserOverrides } = await import('./classifier')
+    setUserOverrides(data.map((r) => ({
+      pattern: r.pattern,
+      category: r.category_slug as SystemCategorySlug,
+      weight: r.weight,
+      createdAt: r.created_at,
+    })))
+  }
+  return success({ count: data?.length ?? 0 })
 }
 
