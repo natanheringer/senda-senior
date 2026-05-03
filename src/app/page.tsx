@@ -20,11 +20,11 @@ export default function Home() {
         {/* 1. Hero — mockup mãe: creme | foto + S */}
         <Hero />
 
-        {/* 2. Sobre / fundadoras — faixa creme (respiro entre herói e verde) */}
-        <FundadorasStrip />
-
-        {/* 3. Faixa verde — foto | manifesto + watermark S */}
+        {/* 2. Faixa verde — foto | manifesto + watermark S */}
         <Manifesto />
+
+        {/* 3. Sobre / fundadoras — faixa creme (respiro entre herói e verde) */}
+        <FundadorasStrip />
 
         {/* 4. Recurso em destaque — manual / guias */}
         <ManualSection />
