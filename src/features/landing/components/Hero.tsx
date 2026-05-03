@@ -32,7 +32,7 @@ export function Hero() {
           sizes="100vw"
           style={{
             objectFit: 'cover',
-            objectPosition: 'center 35%', // focal point slightly above center
+            objectPosition: 'center 15%',
           }}
         />
       </div>
@@ -43,6 +43,8 @@ export function Hero() {
           background: 'var(--color-cream)',
           padding: 'clamp(60px, 8vw, 100px) clamp(20px, 4vw, 56px)',
           position: 'relative',
+          marginTop: 'clamp(-80px, -10vw, -140px)', // Puxa a faixa para cima, invadindo a foto
+          zIndex: 10, // Garante que a faixa fique por cima da foto
         }}
       >
         <div

@@ -1,28 +1,35 @@
 'use client'
 
-import NextImage from 'next/image'
 import { Reveal } from '@/design'
-import { BrandClusterImage } from '@/features/landing/shared/BrandStar'
-import { SCurveFragment, QuoteMark } from '@/features/landing/shared/BrandDecorative'
+import { Map, Users, BookOpen, HeartHandshake } from 'lucide-react'
 
-const FUNDADORAS = [
+const CARDS = [
   {
-    nome: 'Luciana M. Moura',
-    titulo: 'Advogada · Pedagoga · Psicopedagoga',
-    essencia: 'Transforma processos jurídicos complexos em caminhos humanos e claros.',
-    foto: '/brand/photos/founder-luciana.jpg',
+    icon: Map,
+    title: 'Planejamento preventivo',
+    desc: 'Antecipação de necessidades para evitar crises',
+    bg: 'var(--color-terracotta-light)',
   },
   {
-    nome: 'Julianne Q. Pimentel',
-    titulo: 'Administradora · Economia Criativa · Inovação Digital',
-    essencia: 'Organiza processos familiares com visão sistêmica e cuidado real.',
-    foto: '/brand/photos/founder-julianne.jpg',
+    icon: Users,
+    title: 'Assessoria personalizada',
+    desc: 'Orientação adaptada à realidade da sua família',
+    bg: 'var(--color-gold-light)',
+  },
+  {
+    icon: BookOpen,
+    title: 'Manuais práticos por fase',
+    desc: 'Guias claros para cada momento da jornada',
+    bg: 'var(--color-gold-light)',
+  },
+  {
+    icon: HeartHandshake,
+    title: 'Consultoria individual',
+    desc: 'Suporte direto para decisões complexas',
+    bg: 'var(--color-terracotta-light)',
   },
 ]
 
-const AVATAR = 180
-
-/** Faixa editorial — Quem está por trás da Senda Sênior */
 export function FundadorasStrip() {
   return (
     <section
@@ -31,229 +38,159 @@ export function FundadorasStrip() {
         background: 'var(--color-cream)',
         position: 'relative',
         overflow: 'hidden',
-        padding: 'clamp(96px, 12vw, 160px) 0',
+        padding: 'clamp(80px, 10vw, 140px) clamp(20px, 4vw, 100px)',
       }}
     >
-      {/* Background pattern */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: "url('/brand/pattern-estrela-greenmono-claro.png')",
-          backgroundSize: '820px auto',
-          backgroundRepeat: 'repeat',
-          opacity: 0.05,
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* S-curve watermark — right side, large, faint */}
-      <div style={{
-        position: 'absolute',
-        top: '-10%',
-        right: '-8%',
-        width: 'clamp(300px, 40vw, 520px)',
-        pointerEvents: 'none',
-        zIndex: 0,
-      }}>
-        <SCurveFragment color="var(--color-green)" style={{ opacity: 0.06 }} />
-      </div>
-
       <div
         className="landing-max"
         style={{
-          position: 'relative',
-          zIndex: 1,
-          maxWidth: 1120,
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(48px, 6vw, 80px)',
+          alignItems: 'center',
+          maxWidth: 1200,
+          margin: '0 auto',
         }}
+        // Reaproveitando a classe utilitária do responsivo para empilhar no mobile
+        className="grid-pillar"
       >
-        {/* ─── Section Opener ────────────────────────────── */}
-        <Reveal>
-          <div style={{
-            marginBottom: 'clamp(52px, 7vw, 72px)',
-          }}>
-            {/* Editorial opening statement */}
+        {/* Lado Esquerdo: Texto */}
+        <div style={{ maxWidth: 520 }}>
+          <Reveal>
             <p
               style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(32px, 4vw, 52px)',
-                fontWeight: 500,
-                lineHeight: 1.2,
-                letterSpacing: '-0.025em',
-                color: 'var(--color-ink)',
-                marginBottom: 'clamp(24px, 3vw, 36px)',
-                textWrap: 'balance',
-                maxWidth: '18em',
+                fontFamily: 'var(--font-sans)',
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--color-terracotta)',
+                marginBottom: 24,
               }}
             >
-              <strong style={{ fontWeight: 600 }}>Seus pais estão bem.</strong>{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--color-terracotta)', fontWeight: 500 }}>
-                Este é o melhor momento para planejar
-              </em>
-              {' '}— com calma, antes da urgência.
+              Sobre nós
             </p>
+          </Reveal>
 
-            {/* Section label */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 14,
-              paddingBottom: 'clamp(20px, 2.5vw, 28px)',
-              borderBottom: '2px solid rgba(42,37,32,0.08)',
-            }}>
-              <BrandClusterImage
-                widthPx={48}
-                style={{
-                  width: 'clamp(40px, 5vw, 56px)',
-                  height: 'auto',
-                  opacity: 0.7,
-                }}
-              />
-              <p
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(13px, 1.2vw, 16px)',
-                  fontWeight: 700,
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-terracotta)',
-                  lineHeight: 1.45,
-                }}
-              >
-                Quem está por trás da Senda Sênior
-              </p>
-            </div>
-          </div>
-        </Reveal>
+          <Reveal delay={0.06}>
+            <h2
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(42px, 5vw, 68px)',
+                fontWeight: 400,
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+                color: 'var(--color-ink)',
+                marginBottom: 32,
+                textWrap: 'balance',
+              }}
+            >
+              Nascemos<br />
+              de quem<br />
+              viveu na pele.
+            </h2>
+          </Reveal>
 
-        {/* ─── Fundadoras Grid ───────────────────────────── */}
+          <Reveal delay={0.12}>
+            <p
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(15px, 1.3vw, 16px)',
+                lineHeight: 1.6,
+                color: 'var(--color-ink-sub)',
+                marginBottom: 24,
+              }}
+            >
+              A Senda Sênior é uma empresa de planejamento e assessoria para o envelhecimento familiar. Fundada por Luciana e Julianne — duas mulheres que viveram pessoalmente os desafios de cuidar de mães idosas — oferecemos orientação estruturada para famílias em qualquer fase do cuidado.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.18}>
+            <p
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(15px, 1.3vw, 16px)',
+                fontWeight: 600,
+                lineHeight: 1.5,
+                color: 'var(--color-ink)',
+              }}
+            >
+              Não somos cuidadores. Não somos clínica.<br />
+              Somos a bússola que orienta o caminho.
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Lado Direito: Grid de Cards 2x2 */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 'clamp(48px, 7vw, 80px)',
-            alignItems: 'start',
+            gap: 16,
           }}
-          className="grid-pillar"
         >
-          {FUNDADORAS.map((f, i) => (
-            <Reveal key={i} delay={i * 0.12}>
-              <article
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  gap: 'clamp(20px, 2.5vw, 28px)',
-                }}
-                className="fundadora-card"
-              >
-                {/* Avatar */}
+          {CARDS.map((card, i) => {
+            const Icon = card.icon
+            return (
+              <Reveal key={i} delay={0.1 + i * 0.05}>
                 <div
                   style={{
-                    width: AVATAR,
-                    height: AVATAR,
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    flexShrink: 0,
-                    border: '3px solid rgba(74,94,74,0.25)',
-                    boxShadow: '0 16px 40px rgba(42,37,32,0.14)',
-                    position: 'relative',
+                    background: card.bg,
+                    borderRadius: 16,
+                    padding: '32px 24px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 16,
+                    height: '100%',
                   }}
                 >
-                  <NextImage
-                    src={f.foto}
-                    alt={f.nome}
-                    fill
-                    sizes={`${AVATAR}px`}
+                  <div
                     style={{
-                      objectFit: 'cover',
-                      objectPosition: 'center top',
-                    }}
-                  />
-                </div>
-
-                {/* Info */}
-                <div>
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(26px, 2.8vw, 36px)',
-                      fontWeight: 600,
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: 'rgba(255,255,255,0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       color: 'var(--color-ink)',
-                      marginBottom: 'clamp(8px, 1vw, 14px)',
-                      lineHeight: 1.15,
-                      letterSpacing: '-0.02em',
+                      marginBottom: 8,
                     }}
                   >
-                    {f.nome}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: 'clamp(14px, 1.2vw, 17px)',
-                      fontWeight: 600,
-                      color: 'var(--color-green)',
-                      letterSpacing: '0.02em',
-                      lineHeight: 1.5,
-                      marginBottom: 'clamp(14px, 1.5vw, 20px)',
-                    }}
-                  >
-                    {f.titulo}
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontStyle: 'italic',
-                      fontSize: 'clamp(17px, 1.6vw, 21px)',
-                      fontWeight: 400,
-                      color: 'var(--color-ink)',
-                      lineHeight: 1.55,
-                      opacity: 0.88,
-                      maxWidth: '28em',
-                    }}
-                  >
-                    {f.essencia}
-                  </p>
+                    <Icon size={24} strokeWidth={1.5} />
+                  </div>
+                  
+                  <div>
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: 18,
+                        fontWeight: 600,
+                        color: 'var(--color-ink)',
+                        lineHeight: 1.25,
+                        letterSpacing: '-0.01em',
+                        marginBottom: 10,
+                      }}
+                    >
+                      {card.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: 13,
+                        lineHeight: 1.45,
+                        color: 'var(--color-ink-sub)',
+                        opacity: 0.9,
+                      }}
+                    >
+                      {card.desc}
+                    </p>
+                  </div>
                 </div>
-              </article>
-            </Reveal>
-          ))}
+              </Reveal>
+            )
+          })}
         </div>
-
-        {/* ─── Closing Quote ─────────────────────────────── */}
-        <Reveal delay={0.24}>
-          <div
-            style={{
-              marginTop: 'clamp(60px, 8vw, 96px)',
-              paddingTop: 'clamp(40px, 5vw, 60px)',
-              borderTop: '2px solid rgba(42,37,32,0.08)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'clamp(16px, 2vw, 24px)',
-              position: 'relative',
-            }}
-            className="fundadora-quote"
-          >
-            <QuoteMark style={{ opacity: 0.8 }} />
-            <blockquote
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontStyle: 'italic',
-                fontSize: 'clamp(24px, 2.8vw, 36px)',
-                fontWeight: 400,
-                color: 'var(--color-terracotta)',
-                lineHeight: 1.4,
-                letterSpacing: '-0.015em',
-                maxWidth: '28em',
-                textWrap: 'balance',
-              }}
-            >
-              &ldquo;Somos especialistas em transformar incerteza em planejamento estruturado.&rdquo;
-            </blockquote>
-          </div>
-        </Reveal>
       </div>
     </section>
   )
