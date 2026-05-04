@@ -59,7 +59,7 @@ export function FundadorasStrip() {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 12,
+                fontSize: 13.8,
                 fontWeight: 700,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
@@ -94,7 +94,7 @@ export function FundadorasStrip() {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(15px, 1.3vw, 16px)',
+                fontSize: 'clamp(17.25px, 1.495vw, 18.4px)',
                 lineHeight: 1.6,
                 color: 'var(--color-ink-sub)',
                 marginBottom: 24,
@@ -108,7 +108,7 @@ export function FundadorasStrip() {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(15px, 1.3vw, 16px)',
+                fontSize: 'clamp(17.25px, 1.495vw, 18.4px)',
                 fontWeight: 600,
                 lineHeight: 1.5,
                 color: 'var(--color-ink)',
@@ -171,7 +171,7 @@ export function FundadorasStrip() {
                     <p
                       style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: 13,
+                        fontSize: 14.95,
                         lineHeight: 1.45,
                         color: 'var(--color-ink-sub)',
                         opacity: 0.9,

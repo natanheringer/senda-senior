@@ -183,7 +183,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
             {categoryChanged && !file.manualOverride && (
               <p
                 style={{
-                  fontSize: 12,
+                  fontSize: 13.8,
                   color: 'var(--color-ink-muted)',
                   marginTop: 6,
                   display: 'flex',
@@ -204,7 +204,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
               gap: 10,
               cursor: 'pointer',
               userSelect: 'none',
-              fontSize: 14,
+              fontSize: 16.1,
               color: 'var(--color-ink)',
               fontFamily: 'var(--font-sans)',
             }}
@@ -233,7 +233,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
                 borderRadius: 8,
                 background: 'rgba(185,28,28,0.08)',
                 color: '#B91C1C',
-                fontSize: 13,
+                fontSize: 14.95,
               }}
             >
               {error}
@@ -261,7 +261,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
               border: '1.5px solid rgba(0,0,0,0.1)',
               background: 'white',
               color: 'var(--color-ink)',
-              fontSize: 14,
+              fontSize: 16.1,
               fontFamily: 'var(--font-sans)',
               fontWeight: 500,
               cursor: isPending ? 'not-allowed' : 'pointer',
@@ -278,7 +278,7 @@ export function VaultFileEditModal({ onClose, file, categories }: Props) {
               border: 'none',
               background: 'var(--color-green)',
               color: 'white',
-              fontSize: 14,
+              fontSize: 16.1,
               fontFamily: 'var(--font-sans)',
               fontWeight: 600,
               cursor: isPending ? 'wait' : 'pointer',
@@ -307,7 +307,7 @@ function Field({
       <label
         style={{
           display: 'block',
-          fontSize: 13,
+          fontSize: 14.95,
           fontWeight: 600,
           color: 'var(--color-ink)',
           marginBottom: 6,
@@ -318,7 +318,7 @@ function Field({
       </label>
       {children}
       {hint && (
-        <p style={{ fontSize: 12, color: 'var(--color-ink-muted)', marginTop: 6 }}>
+        <p style={{ fontSize: 13.8, color: 'var(--color-ink-muted)', marginTop: 6 }}>
           {hint}
         </p>
       )}
@@ -331,7 +331,7 @@ const inputStyle: React.CSSProperties = {
   padding: '10px 12px',
   borderRadius: 8,
   border: '1.5px solid rgba(0,0,0,0.1)',
-  fontSize: 14,
+  fontSize: 16.1,
   color: 'var(--color-ink)',
   background: 'white',
   outline: 'none',

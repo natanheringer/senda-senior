@@ -219,7 +219,7 @@ function FaseCard({
                       alignItems: 'flex-start',
                       gap: 12,
                       fontFamily: 'var(--font-sans)',
-                      fontSize: 'clamp(13px, 1.05vw, 14px)',
+                      fontSize: 'clamp(14.95px, 1.265vw, 16.1px)',
                       color: fase.titleColor,
                       lineHeight: 1.5,
                     }}
@@ -250,7 +250,7 @@ function FaseCard({
               <p
                 style={{
                   fontFamily: 'var(--font-serif)',
-                  fontSize: 'clamp(14px, 1.1vw, 15px)',
+                  fontSize: 'clamp(16.1px, 1.265vw, 17.25px)',
                   fontStyle: 'italic',
                   color: fase.titleColor,
                   opacity: 0.65,
@@ -276,7 +276,7 @@ function FaseCard({
             background: 'transparent',
             border: 'none',
             color: fase.accentColor,
-            fontSize: 13,
+            fontSize: 16.1,
             fontWeight: 600,
             fontFamily: 'var(--font-sans)',
             cursor: 'pointer',
@@ -402,7 +402,7 @@ export function DesktopManualSection() {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 11,
+                fontSize: 12.65,
                 fontWeight: 700,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
@@ -433,7 +433,7 @@ export function DesktopManualSection() {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(14px, 1.2vw, 16px)',
+                fontSize: 'clamp(16.1px, 1.38vw, 18.4px)',
                 lineHeight: 1.65,
                 color: 'rgba(245,240,232,0.75)',
                 maxWidth: 440,
@@ -446,7 +446,7 @@ export function DesktopManualSection() {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(14px, 1.1vw, 15px)',
+                fontSize: 'clamp(16.1px, 1.265vw, 17.25px)',
                 fontWeight: 600,
                 lineHeight: 1.5,
                 color: 'rgba(245,240,232,0.9)',
@@ -469,7 +469,7 @@ export function DesktopManualSection() {
                 color: 'white',
                 padding: '14px 28px',
                 borderRadius: 30,
-                fontSize: 14,
+                fontSize: 16.1,
                 fontWeight: 600,
                 fontFamily: 'var(--font-sans)',
                 textDecoration: 'none',
@@ -602,7 +602,7 @@ function MobileManualSection() {
         <p
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 15,
+            fontSize: 17.25,
             lineHeight: 1.65,
             color: 'rgba(245,240,232,0.7)',
           }}

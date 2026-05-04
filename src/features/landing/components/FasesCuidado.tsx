@@ -23,6 +23,7 @@ const MANUAIS = [
     descColor: 'rgba(30, 51, 32, 0.6)',
     btnBg: '#1e3320',
     btnColor: '#f5f0e8',
+    link: 'https://hotmart.com/pt-br', // TODO: Inserir link de checkout real do Prevent Care
   },
   {
     id: 1,
@@ -39,6 +40,7 @@ const MANUAIS = [
     descColor: 'rgba(58, 32, 8, 0.6)',
     btnBg: 'var(--color-terracotta)',
     btnColor: '#f5f0e8',
+    link: 'https://hotmart.com/pt-br', // TODO: Inserir link de checkout real do Care
   },
   {
     id: 2,
@@ -55,6 +57,7 @@ const MANUAIS = [
     descColor: 'rgba(245, 240, 232, 0.55)',
     btnBg: '#D4AA6A',
     btnColor: '#3a2008',
+    link: 'https://hotmart.com/pt-br', // TODO: Inserir link de checkout real do Immediate Care
   },
 ]
 
@@ -69,8 +72,8 @@ export function FasesCuidado() {
       id="manuais"
       style={{
         background: 'var(--color-cream)',
-        // Fill the sticky viewport exactly — deck card pattern requires this
-        height: '100svh',
+        // Fill the sticky viewport exactly, but prevent clipping on tiny screens
+        minHeight: 'max(100svh, 650px)',
         display: 'flex',
         flexDirection: 'column',
         padding: 'clamp(28px, 4vw, 48px) clamp(20px, 5vw, 60px) clamp(20px, 3vw, 36px)',
@@ -90,7 +93,7 @@ export function FasesCuidado() {
         <p
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 11,
+            fontSize: 12.65,
             fontWeight: 700,
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
@@ -119,7 +122,7 @@ export function FasesCuidado() {
         <p
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(13px, 1.1vw, 15px)',
+            fontSize: 'clamp(14.95px, 1.265vw, 17.25px)',
             lineHeight: 1.6,
             color: 'rgba(40, 42, 40, 0.55)',
             maxWidth: 480,
@@ -159,7 +162,7 @@ export function FasesCuidado() {
               border: 'none',
               cursor: 'pointer',
               fontFamily: 'var(--font-sans)',
-              fontSize: 14,
+              fontSize: 16.1,
               fontWeight: active === i ? 600 : 500,
               background: 'transparent',
               color: active === i ? '#3a2008' : 'rgba(40, 42, 40, 0.5)',
@@ -225,9 +228,9 @@ export function FasesCuidado() {
           maxWidth: 1200,
           width: '100%',
           margin: '0 auto',
-          // flex: 1 + minHeight: 0 → takes whatever space is left after header + tabs
+          // Ensure banner is tall enough so cards are never cut off
           flex: 1,
-          minHeight: 0,
+          minHeight: 420,
           background: '#1a1a1a',
         }}
       >
@@ -293,7 +296,7 @@ export function FasesCuidado() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 10,
+                  fontSize: 11.5,
                   fontWeight: 700,
                   letterSpacing: '0.18em',
                   textTransform: 'uppercase',
@@ -324,7 +327,7 @@ export function FasesCuidado() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(13px, 1.1vw, 16px)',
+                  fontSize: 'clamp(14.95px, 1.265vw, 18.4px)',
                   fontWeight: 700,
                   lineHeight: 1.35,
                   color: manual.taglineColor,
@@ -338,7 +341,7 @@ export function FasesCuidado() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(11px, 0.9vw, 13px)',
+                  fontSize: 'clamp(12.65px, 1.035vw, 14.95px)',
                   lineHeight: 1.6,
                   color: manual.descColor,
                 }}
@@ -348,8 +351,10 @@ export function FasesCuidado() {
             </div>
 
             {/* CTA */}
-            <Link
-              href="#contato"
+            <a
+              href={manual.link}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -358,7 +363,7 @@ export function FasesCuidado() {
                 color: manual.btnColor,
                 padding: '11px 22px',
                 borderRadius: 100,
-                fontSize: 13,
+                fontSize: 14.95,
                 fontWeight: 600,
                 fontFamily: 'var(--font-sans)',
                 textDecoration: 'none',
@@ -369,7 +374,7 @@ export function FasesCuidado() {
               }}
             >
               Comprar manual
-            </Link>
+            </a>
           </motion.div>
         </AnimatePresence>
       </div>

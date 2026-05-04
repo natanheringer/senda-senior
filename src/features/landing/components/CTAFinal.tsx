@@ -50,7 +50,7 @@ export function CTAFinal() {
           <p
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(13px, 1.1vw, 15px)',
+              fontSize: 'clamp(14.95px, 1.265vw, 17.25px)',
               lineHeight: 1.65,
               color: 'rgba(42, 37, 32, 0.55)',
               marginBottom: 44,
@@ -84,7 +84,7 @@ export function CTAFinal() {
                 color: 'white',
                 padding: '14px 30px',
                 borderRadius: 100,
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 600,
                 textDecoration: 'none',
                 fontFamily: 'var(--font-sans)',
@@ -107,7 +107,7 @@ export function CTAFinal() {
                 padding: '13px 28px',
                 borderRadius: 100,
                 border: '1.5px solid rgba(42, 37, 32, 0.35)',
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 600,
                 textDecoration: 'none',
                 fontFamily: 'var(--font-sans)',

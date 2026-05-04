@@ -92,7 +92,7 @@ export function Servicos() {
                     color: 'var(--color-ink)', marginBottom: 12, lineHeight: 1.2,
                   }}>{s.titulo}</h3>
                   <p style={{
-                    fontSize: 'clamp(17px, 1.8vw, 20px)', lineHeight: 1.7, color: 'var(--color-ink-sub)',
+                    fontSize: 'clamp(19.55px, 2.07vw, 23px)', lineHeight: 1.7, color: 'var(--color-ink-sub)',
                     fontWeight: 400, maxWidth: 520,
                   }}>{s.descricao}</p>
                 </div>
@@ -107,7 +107,7 @@ export function Servicos() {
               display: 'inline-flex', alignItems: 'center', gap: 10,
               border: '1.5px solid var(--color-terracotta)', color: 'var(--color-terracotta)',
               padding: '16px 36px', borderRadius: 8,
-              fontSize: 16, fontWeight: 600, textDecoration: 'none',
+              fontSize: 18.4, fontWeight: 600, textDecoration: 'none',
               transition: 'all 0.3s',
             }}>
               <Phone size={16} strokeWidth={2} />

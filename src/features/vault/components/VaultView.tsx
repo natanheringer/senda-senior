@@ -111,7 +111,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
             <Link
               href="/dashboard"
               style={{
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 500,
                 color: 'var(--color-ink-sub)',
                 textDecoration: 'none',
@@ -121,7 +121,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
             </Link>
             <span
               style={{
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 700,
                 color: 'var(--color-green-dark)',
               }}
@@ -151,14 +151,14 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 13,
+                fontSize: 14.95,
                 fontWeight: 700,
                 color: 'white',
               }}
             >
               {userInitial}
             </div>
-            <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-ink-sub)' }}>
+            <span style={{ fontSize: 16.1, fontWeight: 500, color: 'var(--color-ink-sub)' }}>
               {userEmail}
             </span>
           </div>
@@ -235,7 +235,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 13,
+                  fontSize: 14.95,
                   fontWeight: 700,
                   letterSpacing: '0.16em',
                   textTransform: 'uppercase',
@@ -261,7 +261,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
             </h1>
             <p
               style={{
-                fontSize: 'clamp(16px, 1.4vw, 18px)',
+                fontSize: 'clamp(18.4px, 1.61vw, 20.7px)',
                 color: 'var(--color-ink-sub)',
                 lineHeight: 1.6,
                 fontWeight: 500,
@@ -280,7 +280,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 600,
                 color: 'var(--color-green)',
                 textDecoration: 'none',
@@ -401,7 +401,7 @@ export function VaultView({ quota, categories, files, trashedFiles, userEmail }:
                 padding: '12px 14px 12px 42px',
                 borderRadius: 10,
                 border: '1.5px solid rgba(45, 61, 45, 0.12)',
-                fontSize: 15,
+                fontSize: 17.25,
                 fontFamily: 'var(--font-sans)',
                 background: 'var(--color-cream)',
                 outline: 'none',
@@ -456,7 +456,7 @@ function QuotaWidget({ quota }: { quota: VaultQuota }) {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          fontSize: 12,
+          fontSize: 13.8,
           color: 'var(--color-ink-muted)',
           marginBottom: 6,
           fontFamily: 'var(--font-sans)',
@@ -510,7 +510,7 @@ function CategoryChip({
         border: `1.5px solid ${active ? color : 'rgba(45, 61, 45, 0.12)'}`,
         background: active ? color : 'rgba(255,255,255,0.95)',
         color: active ? 'white' : 'var(--color-ink)',
-        fontSize: 13,
+        fontSize: 14.95,
         fontFamily: 'var(--font-sans)',
         fontWeight: 500,
         cursor: 'pointer',
@@ -521,7 +521,7 @@ function CategoryChip({
       {label}
       <span
         style={{
-          fontSize: 11,
+          fontSize: 12.65,
           padding: '1px 6px',
           borderRadius: 8,
           background: active ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.05)',
@@ -549,13 +549,13 @@ function EmptyState({ isFiltered }: { isFiltered: boolean }) {
       <FilesIcon size={32} color="var(--color-ink-muted)" style={{ marginBottom: 12 }} />
       <p style={{
         fontFamily: 'var(--font-serif)',
-        fontSize: 17,
+        fontSize: 19.55,
         color: 'var(--color-ink)',
         marginBottom: 6,
       }}>
         {isFiltered ? 'Nenhum arquivo encontrado' : 'Seu cofre está vazio'}
       </p>
-      <p style={{ fontSize: 14, color: 'var(--color-ink-sub)', maxWidth: 420, margin: '0 auto' }}>
+      <p style={{ fontSize: 16.1, color: 'var(--color-ink-sub)', maxWidth: 420, margin: '0 auto' }}>
         {isFiltered
           ? 'Tente ajustar os filtros ou a busca.'
           : 'Arraste documentos para a área acima — eles serão organizados automaticamente.'}

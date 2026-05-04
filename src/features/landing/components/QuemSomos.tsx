@@ -84,7 +84,7 @@ export function QuemSomos() {
           <Reveal delay={0.22}>
             <p
               style={{
-                fontSize: 'clamp(17px, 1.8vw, 20px)',
+                fontSize: 'clamp(19.55px, 2.07vw, 23px)',
                 lineHeight: 1.75,
                 color: 'var(--color-ink-sub)',
                 maxWidth: 600,
@@ -165,7 +165,7 @@ export function QuemSomos() {
                     style={{
                       fontFamily: 'var(--font-serif)',
                       fontStyle: 'italic',
-                      fontSize: 'clamp(16px, 1.6vw, 20px)',
+                      fontSize: 'clamp(18.4px, 1.84vw, 23px)',
                       color: 'var(--color-ink)',
                       marginBottom: 20,
                       lineHeight: 1.4,
@@ -189,7 +189,7 @@ export function QuemSomos() {
 
                   <p
                     style={{
-                      fontSize: 12,
+                      fontSize: 13.8,
                       lineHeight: 1.65,
                       color: 'var(--color-ink-muted)',
                       marginBottom: 16,
@@ -204,7 +204,7 @@ export function QuemSomos() {
                     style={{
                       fontFamily: 'var(--font-serif)',
                       fontStyle: 'italic',
-                      fontSize: 'clamp(15px, 1.4vw, 17px)',
+                      fontSize: 'clamp(17.25px, 1.61vw, 19.55px)',
                       lineHeight: 1.65,
                       color: 'var(--color-ink-sub)',
                       borderLeft: '2px solid var(--color-terracotta)',

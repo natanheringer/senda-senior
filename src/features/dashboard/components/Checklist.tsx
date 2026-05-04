@@ -54,7 +54,7 @@ export function Checklist({ initialItems }: ChecklistProps) {
         <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 20, fontWeight: 600, color: 'var(--color-ink)' }}>
           Checklist Prevent Care
         </h3>
-        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-green)', background: 'var(--color-green-muted)', padding: '6px 12px', borderRadius: 20 }}>
+        <span style={{ fontSize: 14.95, fontWeight: 700, color: 'var(--color-green)', background: 'var(--color-green-muted)', padding: '6px 12px', borderRadius: 20 }}>
           {progress}% Prontidão
         </span>
       </div>
@@ -104,7 +104,7 @@ export function Checklist({ initialItems }: ChecklistProps) {
                 </AnimatePresence>
               </div>
               <span style={{
-                 fontSize: 15, fontWeight: item.done ? 400 : 500, color: 'var(--color-ink)',
+                 fontSize: 17.25, fontWeight: item.done ? 400 : 500, color: 'var(--color-ink)',
                  textDecoration: item.done ? 'line-through' : 'none', transition: 'all 0.3s',
               }}>
                 {item.text}
@@ -117,7 +117,7 @@ export function Checklist({ initialItems }: ChecklistProps) {
       {progress === 100 && (
          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ marginTop: 24, padding: '16px 20px', background: 'var(--color-green-muted)', borderRadius: 12, display: 'flex', gap: 12, alignItems: 'center' }}>
             <Info size={20} color="var(--color-green)" style={{ flexShrink: 0 }} />
-            <p style={{ fontSize: 13, color: 'var(--color-green-dark)', fontWeight: 600 }}>Caminho livre! Você tirou a carga da preocupação dos ombros.</p>
+            <p style={{ fontSize: 14.95, color: 'var(--color-green-dark)', fontWeight: 600 }}>Caminho livre! Você tirou a carga da preocupação dos ombros.</p>
          </motion.div>
       )}
     </div>

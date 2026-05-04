@@ -117,7 +117,7 @@ function PilarSection({ label, title, text, index, image, imageAlt, icon, accent
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 11,
+                  fontSize: 12.65,
                   fontWeight: 700,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
@@ -162,7 +162,7 @@ function PilarSection({ label, title, text, index, image, imageAlt, icon, accent
           <Reveal delay={0.22}>
             <p
               style={{
-                fontSize: 'clamp(17px, 1.8vw, 20px)',
+                fontSize: 'clamp(19.55px, 2.07vw, 23px)',
                 lineHeight: 1.75,
                 color: 'var(--color-ink-sub)',
                 maxWidth: 460,
@@ -234,7 +234,7 @@ function PilarSection({ label, title, text, index, image, imageAlt, icon, accent
                 <span
                   style={{
                     fontFamily: 'var(--font-sans)',
-                    fontSize: 11,
+                    fontSize: 12.65,
                     fontWeight: 700,
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',

@@ -91,7 +91,7 @@ export function Conteudo() {
           <p
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 11,
+              fontSize: 12.65,
               fontWeight: 700,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
@@ -147,7 +147,7 @@ export function Conteudo() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(14px, 1.3vw, 17px)',
+                  fontSize: 'clamp(16.1px, 1.495vw, 19.55px)',
                   fontWeight: 700,
                   lineHeight: 1.4,
                   color: a.titleColor,
@@ -162,7 +162,7 @@ export function Conteudo() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(11px, 0.9vw, 13px)',
+                  fontSize: 'clamp(12.65px, 1.035vw, 14.95px)',
                   color: a.subtitleColor,
                   lineHeight: 1.5,
                   marginBottom: 22,
@@ -179,7 +179,7 @@ export function Conteudo() {
                   alignItems: 'center',
                   gap: 5,
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 13,
+                  fontSize: 14.95,
                   fontWeight: 600,
                   color: a.ctaColor,
                   textDecoration: 'none',

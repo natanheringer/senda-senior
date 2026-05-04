@@ -133,13 +133,13 @@ export function VaultUploader() {
         <div>
           <p style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 17,
+            fontSize: 19.55,
             color: 'var(--color-ink)',
             marginBottom: 4,
           }}>
             Arraste arquivos aqui ou clique para enviar
           </p>
-          <p style={{ fontSize: 14, color: 'var(--color-ink-sub)' }}>
+          <p style={{ fontSize: 16.1, color: 'var(--color-ink-sub)' }}>
             Até {(VAULT_LIMITS.maxFileSizeBytes / (1024 * 1024)).toFixed(0)} MB por arquivo
           </p>
         </div>
@@ -159,7 +159,7 @@ function StatusBadge({ status }: { status: Status }) {
     marginTop: 12,
     padding: '10px 14px',
     borderRadius: 8,
-    fontSize: 13,
+    fontSize: 14.95,
     fontFamily: 'var(--font-sans)',
     display: 'flex',
     alignItems: 'center',

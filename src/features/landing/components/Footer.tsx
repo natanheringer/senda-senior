@@ -62,11 +62,11 @@ export function Footer() {
     >
       {/* ── Main grid: logo | explore | contato | legal | newsletter ── */}
       <div
+        id="footer-grid"
         style={{
           maxWidth: 1160,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: '1fr repeat(3, auto) 1.2fr',
           gap: 'clamp(28px, 4vw, 56px)',
           alignItems: 'start',
           paddingBottom: 'clamp(40px, 5vw, 60px)',
@@ -89,7 +89,7 @@ export function Footer() {
           />
           <p
             style={{
-              fontSize: 13,
+              fontSize: 14.95,
               lineHeight: 1.65,
               color: INK_MUTED,
               fontFamily: 'var(--font-sans)',
@@ -121,7 +121,7 @@ export function Footer() {
                 href={link.href}
                 style={{
                   display: 'block',
-                  fontSize: 13,
+                  fontSize: 14.95,
                   color: INK_MUTED,
                   textDecoration: 'none',
                   marginBottom: 12,
@@ -139,7 +139,7 @@ export function Footer() {
         <div>
           <p
             style={{
-              fontSize: 14,
+              fontSize: 16.1,
               fontWeight: 600,
               color: INK,
               fontFamily: 'var(--font-sans)',
@@ -172,7 +172,7 @@ export function Footer() {
                 border: 'none',
                 background: 'transparent',
                 padding: '10px 16px',
-                fontSize: 13,
+                fontSize: 14.95,
                 color: INK,
                 outline: 'none',
                 fontFamily: 'var(--font-sans)',
@@ -188,7 +188,7 @@ export function Footer() {
                 padding: '10px 18px',
                 borderRadius: 100,
                 margin: 3,
-                fontSize: 13,
+                fontSize: 14.95,
                 fontWeight: 600,
                 cursor: 'pointer',
                 fontFamily: 'var(--font-sans)',
@@ -240,7 +240,7 @@ export function Footer() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          fontSize: 12,
+          fontSize: 13.8,
           color: INK_MUTED,
           fontFamily: 'var(--font-sans)',
           flexWrap: 'wrap',

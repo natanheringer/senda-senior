@@ -93,7 +93,7 @@ export function Hero() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(18px, 1.8vw, 22px)',
+                  fontSize: 'clamp(20.7px, 2.07vw, 25.3px)',
                   lineHeight: 1.6,
                   color: 'var(--color-ink-sub)',
                   marginBottom: 40,
@@ -117,7 +117,7 @@ export function Hero() {
                     color: 'white',
                     padding: '16px 32px',
                     borderRadius: 30, // pill
-                    fontSize: 16,
+                    fontSize: 18.4,
                     fontWeight: 600,
                     textDecoration: 'none',
                     transition: 'all 0.3s',
@@ -139,7 +139,7 @@ export function Hero() {
                     color: 'var(--color-ink)',
                     padding: '15px 32px',
                     borderRadius: 30, // pill
-                    fontSize: 16,
+                    fontSize: 18.4,
                     fontWeight: 600,
                     textDecoration: 'none',
                     transition: 'all 0.3s',

@@ -151,7 +151,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 14,
+                fontSize: 16.1,
                 fontWeight: 700,
                 color: 'white',
               }}
@@ -161,7 +161,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
             <span
               className="dash-header-email"
               style={{
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 500,
                 color: 'var(--color-ink-sub)',
               }}
@@ -242,7 +242,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 13,
+                  fontSize: 14.95,
                   fontWeight: 700,
                   letterSpacing: '0.16em',
                   textTransform: 'uppercase',
@@ -284,7 +284,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 600,
                 color: 'var(--color-green)',
                 textDecoration: 'none',
@@ -363,7 +363,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 11,
+                  fontSize: 12.65,
                   fontWeight: 700,
                   letterSpacing: 2,
                   textTransform: 'uppercase',
@@ -388,7 +388,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
               </h3>
               <p
                 style={{
-                  fontSize: 15,
+                  fontSize: 17.25,
                   lineHeight: 1.6,
                   color: 'var(--color-ink-sub)',
                   fontWeight: 500,
@@ -402,7 +402,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                   display: 'flex',
                   alignItems: 'center',
                   gap: 6,
-                  fontSize: 15,
+                  fontSize: 17.25,
                   fontWeight: 600,
                   color: p.color,
                 }}
@@ -446,7 +446,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                   <p
                     style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: 15,
+                      fontSize: 17.25,
                       fontWeight: 700,
                       color: 'var(--color-ink)',
                       marginBottom: 4,
@@ -456,7 +456,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                   </p>
                   <p
                     style={{
-                      fontSize: 14,
+                      fontSize: 16.1,
                       color: 'var(--color-ink-muted)',
                       lineHeight: 1.4,
                       fontWeight: 500,
@@ -578,7 +578,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                 >
                   <span
                     style={{
-                      fontSize: 15,
+                      fontSize: 17.25,
                       color: 'var(--color-ink-sub)',
                       fontWeight: 500,
                     }}
@@ -587,7 +587,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
                   </span>
                   <span
                     style={{
-                      fontSize: 14,
+                      fontSize: 16.1,
                       fontWeight: 600,
                       color: item.ok ? 'var(--color-green)' : 'var(--color-terracotta)',
                       display: 'flex',
@@ -622,7 +622,7 @@ export function DashboardView({ userEmail, firstName, initialChecklist }: Dashbo
           textAlign: 'center',
         }}
       >
-        <p style={{ fontSize: 13, color: 'var(--color-ink-muted)' }}>
+        <p style={{ fontSize: 14.95, color: 'var(--color-ink-muted)' }}>
           © 2026 Senda Sênior. Seus dados estão protegidos por criptografia ponta a ponta.
         </p>
       </footer>

@@ -183,7 +183,7 @@ export function VaultFileCard({ file, categories }: Props) {
             title={file.displayName}
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 14,
+              fontSize: 16.1,
               fontWeight: 500,
               color: 'var(--color-ink)',
               lineHeight: 1.3,
@@ -214,7 +214,7 @@ export function VaultFileCard({ file, categories }: Props) {
               borderRadius: 4,
               background: catColor,
               color: 'white',
-              fontSize: 10,
+              fontSize: 11.5,
               fontWeight: 600,
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
@@ -225,7 +225,7 @@ export function VaultFileCard({ file, categories }: Props) {
           >
             {catLabel}
           </span>
-          <span style={{ fontSize: 11, color: 'var(--color-ink-muted)', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: 12.65, color: 'var(--color-ink-muted)', whiteSpace: 'nowrap' }}>
             {formatSize(file.sizeBytes)}
           </span>
         </div>
@@ -277,7 +277,7 @@ function MenuItem({
         borderRadius: 4,
         background: hover ? 'rgba(0,0,0,0.04)' : 'transparent',
         color: variant === 'danger' ? '#B91C1C' : 'var(--color-ink)',
-        fontSize: 13,
+        fontSize: 14.95,
         fontFamily: 'var(--font-sans)',
         cursor: 'pointer',
         textAlign: 'left',

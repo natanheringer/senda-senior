@@ -67,7 +67,9 @@
    ════════════════════════════════════════════════════════════════════════════════ */
 
 /* Framer Motion + Lenis: html element must be non-static for useScroll to measure correctly */
-html { position: relative; }
+html {
+  position: relative;
+}
 
 :root {
   /* Fraunces is upright-only — block browser italic synthesis */
@@ -108,8 +110,15 @@ html { position: relative; }
    BASE
    Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font-sans);
@@ -121,13 +130,20 @@ body {
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Aplicado pelo <ManualLayout /> enquanto o DigitalReader ÃƒÂ© a
    superfÃƒÂ­cie de rolagem. */
-body.reader-locked { overflow: hidden; }
+body.reader-locked {
+  overflow: hidden;
+}
 
 ::selection {
   background: var(--color-green);
@@ -145,6 +161,7 @@ body.reader-locked { overflow: hidden; }
   opacity: 0.95;
   transition: all 0.4s ease;
 }
+
 .filter-premium:hover {
   filter: saturate(1) brightness(1);
   opacity: 1;
@@ -152,7 +169,7 @@ body.reader-locked { overflow: hidden; }
 
 .label-premium {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 12.65px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--color-terracotta);
@@ -227,9 +244,14 @@ body.reader-locked { overflow: hidden; }
 }
 
 .sr-only {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0); border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 /* ── BRAND BEAT SECTIONS ──────────────────────────────────────────── */
@@ -249,6 +271,7 @@ body.reader-locked { overflow: hidden; }
   background-repeat: repeat;
   pointer-events: none;
 }
+
 .beat-pattern-path {
   position: absolute;
   inset: 0;
@@ -257,6 +280,7 @@ body.reader-locked { overflow: hidden; }
   background-repeat: repeat;
   pointer-events: none;
 }
+
 .beat-pattern-abstract {
   position: absolute;
   inset: 0;
@@ -276,6 +300,7 @@ body.reader-locked { overflow: hidden; }
   opacity: 0.22;
   pointer-events: none;
 }
+
 .section-pattern-path {
   position: absolute;
   inset: 0;
@@ -298,6 +323,7 @@ body.reader-locked { overflow: hidden; }
   text-wrap: balance;
   max-width: 22em;
 }
+
 .manifesto-headline em {
   font-style: italic;
   color: var(--color-terracotta);
@@ -317,33 +343,41 @@ body.reader-locked { overflow: hidden; }
 
 /* ── COLORED BRAND STARS (Prancheta 4 / 8 / 10 energy) ──────────── */
 /* Used in star-cluster brand beats — colored fills, not ghosts */
-.star-gold    { color: var(--color-gold); }
-.star-terra   { color: var(--color-terracotta); }
-.star-cream   { color: var(--color-cream); }
-.star-gold-lt { color: var(--color-gold-light); }
+.star-gold {
+  color: var(--color-gold);
+}
+
+.star-terra {
+  color: var(--color-terracotta);
+}
+
+.star-cream {
+  color: var(--color-cream);
+}
+
+.star-gold-lt {
+  color: var(--color-gold-light);
+}
 
 /* ── PHOTO CARD COMPOSITIONS (Prancheta 2 / 10 style) ───────────── */
 /* Text overlaid ON the photo, left-aligned with gradient shield */
 .photo-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(42, 37, 32, 0.72) 0%,
-    rgba(42, 37, 32, 0.55) 40%,
-    rgba(42, 37, 32, 0.15) 70%,
-    transparent 100%
-  );
+  background: linear-gradient(to right,
+      rgba(42, 37, 32, 0.72) 0%,
+      rgba(42, 37, 32, 0.55) 40%,
+      rgba(42, 37, 32, 0.15) 70%,
+      transparent 100%);
   pointer-events: none;
 }
+
 .photo-card-overlay-bottom {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(42, 37, 32, 0.65) 0%,
-    transparent 45%
-  );
+  background: linear-gradient(to top,
+      rgba(42, 37, 32, 0.65) 0%,
+      transparent 45%);
   pointer-events: none;
 }
 
@@ -353,6 +387,7 @@ body.reader-locked { overflow: hidden; }
   overflow: hidden;
   border-radius: 16px 16px 0 0;
 }
+
 .split-card-body {
   background: var(--color-cream);
   border-radius: 0 0 16px 16px;
@@ -361,20 +396,29 @@ body.reader-locked { overflow: hidden; }
   border-top: none;
 }
 
+#footer-grid {
+  grid-template-columns: 1fr repeat(3, auto) 1.2fr;
+}
+
 /* ── SEAL / MARK STAMP ───────────────────────────────────────────── */
 .brand-seal {
   display: inline-block;
   opacity: 0.85;
   transition: opacity 0.3s;
 }
-.brand-seal:hover { opacity: 1; }
+
+.brand-seal:hover {
+  opacity: 1;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -388,6 +432,7 @@ body.reader-locked { overflow: hidden; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
+
 @media (max-width: 768px) {
   .cards-grid {
     grid-template-columns: 1fr;
@@ -401,12 +446,14 @@ body.reader-locked { overflow: hidden; }
     grid-template-columns: 1fr !important;
     min-height: auto !important;
   }
-  #manifesto-verde > div:last-child {
+
+  #manifesto-verde>div:last-child {
     height: 65vw !important;
     min-height: 220px !important;
     max-height: 320px !important;
   }
-  #manifesto-verde > div:last-child img {
+
+  #manifesto-verde>div:last-child img {
     object-position: top center !important;
   }
 
@@ -414,7 +461,8 @@ body.reader-locked { overflow: hidden; }
   #sobre {
     padding: 48px 20px !important;
   }
-  #sobre > div {
+
+  #sobre>div {
     grid-template-columns: 1fr !important;
     gap: 36px !important;
   }
@@ -424,7 +472,8 @@ body.reader-locked { overflow: hidden; }
     height: auto !important;
     padding: 48px 24px !important;
   }
-  #consultoria > div {
+
+  #consultoria>div {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
@@ -437,12 +486,13 @@ body.reader-locked { overflow: hidden; }
   }
 
   /* ── PorQuemViveu founder cards: stack ── */
-  #por-quem-viveu > div > div:last-child > div {
+  #por-quem-viveu>div>div:last-child>div {
     grid-template-columns: 1fr !important;
     min-height: auto !important;
   }
-  #por-quem-viveu > div > div:last-child > div > div:first-child,
-  #por-quem-viveu > div > div:last-child > div > div:last-child {
+
+  #por-quem-viveu>div>div:last-child>div>div:first-child,
+  #por-quem-viveu>div>div:last-child>div>div:last-child {
     min-height: 200px;
   }
 
@@ -452,51 +502,105 @@ body.reader-locked { overflow: hidden; }
   }
 }
 
-.show-mobile { display: none !important; }
+.show-mobile {
+  display: none !important;
+}
 
 @media (max-width: 768px) {
-  .hide-mobile { display: none !important; }
-  .show-mobile { display: flex !important; }
-  .show-mobile-block { display: block !important; }
+  .hide-mobile {
+    display: none !important;
+  }
 
-  .grid-pillar { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .show-mobile {
+    display: flex !important;
+  }
+
+  .show-mobile-block {
+    display: block !important;
+  }
+
+  .grid-pillar {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
 
   .fundadora-card {
     align-items: center !important;
     text-align: center !important;
   }
-  .fundadora-card > div:last-child {
+
+  .fundadora-card>div:last-child {
     max-width: 36rem;
   }
+
   .fundadora-quote {
     align-items: center !important;
     text-align: center !important;
   }
+
   .guia-card-inner {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
   }
-  .grid-actions { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
-  .grid-status { grid-template-columns: 1fr !important; gap: 20px !important; }
-  .grid-cta { grid-template-columns: 1fr !important; gap: 48px !important; }
-  .grid-trust { grid-template-columns: 1fr !important; gap: 24px !important; }
-  .grid-footer { flex-direction: column !important; gap: 32px !important; }
 
-  .auth-wrapper { flex-direction: column !important; }
+  .grid-actions {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  .grid-status {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .grid-cta {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+
+  .grid-trust {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .grid-footer {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+
+  .auth-wrapper {
+    flex-direction: column !important;
+  }
+
   .auth-panel-left {
     flex: none !important;
     min-height: 240px !important;
     padding: 32px 24px !important;
   }
-  .auth-panel-left .auth-panel-content { max-width: 100% !important; }
-  .auth-panel-right { padding: 32px 24px !important; }
 
-  .nav-desktop { display: none !important; }
-  .nav-mobile-toggle { display: flex !important; }
+  .auth-panel-left .auth-panel-content {
+    max-width: 100% !important;
+  }
+
+  .auth-panel-right {
+    padding: 32px 24px !important;
+  }
+
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+
   .mobile-menu {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(245,239,230,0.98);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(245, 239, 230, 0.98);
     backdrop-filter: blur(20px);
     z-index: 200;
     flex-direction: column;
@@ -504,8 +608,9 @@ body.reader-locked { overflow: hidden; }
     justify-content: center;
     gap: 32px;
   }
+
   .mobile-menu a {
-    font-size: 20px !important;
+    font-size: 23px !important;
     font-weight: 600;
     color: var(--color-ink);
     text-decoration: none;
@@ -518,10 +623,12 @@ body.reader-locked { overflow: hidden; }
   .hero-mockup-split {
     grid-template-columns: 1fr !important;
   }
+
   .hero-mockup-photo {
     min-height: 48vh !important;
     order: 1;
   }
+
   .hero-mockup-copy {
     order: 2;
     padding-top: 32px !important;
@@ -531,9 +638,11 @@ body.reader-locked { overflow: hidden; }
   .manifesto-mockup-split {
     grid-template-columns: 1fr !important;
   }
+
   .manifesto-mockup-photo {
     min-height: 38vh !important;
   }
+
   .manifesto-mockup-green {
     min-height: 0 !important;
   }
@@ -546,20 +655,44 @@ body.reader-locked { overflow: hidden; }
     max-width: 100% !important;
   }
 
-  .pilar-layout { flex-direction: column !important; }
-  .pilar-image-wrap { min-height: 240px !important; flex: none !important; }
-  .pilar-text-wrap { padding: 32px 24px !important; flex: none !important; }
+  .pilar-layout {
+    flex-direction: column !important;
+  }
 
-  .hero-buttons { flex-direction: column !important; width: 100%; }
-  .hero-buttons a { text-align: center !important; width: 100% !important; }
+  .pilar-image-wrap {
+    min-height: 240px !important;
+    flex: none !important;
+  }
 
-  .dash-header { padding: 0 16px !important; height: 60px !important; }
-  .dash-header-email { display: none !important; }
+  .pilar-text-wrap {
+    padding: 32px 24px !important;
+    flex: none !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .hero-buttons a {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .dash-header {
+    padding: 0 16px !important;
+    height: 60px !important;
+  }
+
+  .dash-header-email {
+    display: none !important;
+  }
 
   .dashboard-hero {
     grid-template-columns: 1fr !important;
     gap: 28px !important;
   }
+
   .dashboard-hero-image {
     order: -1;
     min-height: 200px;
@@ -569,9 +702,22 @@ body.reader-locked { overflow: hidden; }
 }
 
 @media (max-width: 480px) {
-  .grid-actions { grid-template-columns: 1fr !important; }
-  .auth-panel-left { min-height: 180px !important; padding: 24px 20px !important; }
-  .auth-panel-right { padding: 24px 20px !important; }
+  .grid-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .auth-panel-left {
+    min-height: 180px !important;
+    padding: 24px 20px !important;
+  }
+
+  .auth-panel-right {
+    padding: 24px 20px !important;
+  }
+
+  #footer-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 /* ── LANDING PAGE — RESPONSIVE ──────────────────────────────────────── */
@@ -583,28 +729,33 @@ body.reader-locked { overflow: hidden; }
     grid-template-columns: 1fr !important;
     min-height: auto !important;
   }
+
   /* Photo column: give it a proper height and show the face (top) */
-  #manifesto-verde > div:last-child {
+  #manifesto-verde>div:last-child {
     min-height: 65vw !important;
     height: 65vw !important;
     max-height: 320px !important;
   }
-  #manifesto-verde > div:last-child img {
+
+  #manifesto-verde>div:last-child img {
     object-position: top center !important;
   }
 
   /* ── FundadorasStrip: fix overflow + stack ── */
   #sobre {
-    overflow: visible !important;    /* was hidden — was clipping bottom cards */
+    overflow: visible !important;
+    /* was hidden — was clipping bottom cards */
     padding: 48px 20px !important;
   }
+
   /* Main 1fr+1fr grid → single column */
-  #sobre > div {
+  #sobre>div {
     grid-template-columns: 1fr !important;
     gap: 36px !important;
   }
+
   /* Inner 2×2 card grid → single column */
-  #sobre > div > div:last-child {
+  #sobre>div>div:last-child {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
   }
@@ -616,7 +767,8 @@ body.reader-locked { overflow: hidden; }
     padding: 48px 24px !important;
     align-items: flex-start !important;
   }
-  #consultoria > div {
+
+  #consultoria>div {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
@@ -628,17 +780,19 @@ body.reader-locked { overflow: hidden; }
     padding: 48px 20px !important;
     justify-content: flex-start !important;
   }
-  #conteudo > div > div:last-child {
+
+  #conteudo>div>div:last-child {
     grid-template-columns: 1fr !important;
   }
 
   /* ── PorQuemViveu founder cards: side-by-side → stacked ── */
-  #por-quem-viveu > div > div:last-child > div {
+  #por-quem-viveu>div>div:last-child>div {
     grid-template-columns: 1fr !important;
     min-height: auto !important;
   }
-  #por-quem-viveu > div > div:last-child > div > div:first-child,
-  #por-quem-viveu > div > div:last-child > div > div:last-child {
+
+  #por-quem-viveu>div>div:last-child>div>div:first-child,
+  #por-quem-viveu>div>div:last-child>div>div:last-child {
     min-height: 200px;
   }
 
@@ -646,5 +800,9 @@ body.reader-locked { overflow: hidden; }
   #manuais {
     padding: 20px 16px 16px !important;
   }
-}
 
+  #footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px !important;
+  }
+}

@@ -97,7 +97,7 @@ export function ConfirmDialog({
             {description && (
               <p
                 style={{
-                  fontSize: 14,
+                  fontSize: 16.1,
                   color: 'var(--color-ink-muted)',
                   lineHeight: 1.5,
                 }}
@@ -118,7 +118,7 @@ export function ConfirmDialog({
               border: '1.5px solid rgba(0,0,0,0.1)',
               background: 'white',
               color: 'var(--color-ink)',
-              fontSize: 14,
+              fontSize: 16.1,
               fontFamily: 'var(--font-sans)',
               fontWeight: 500,
               cursor: loading ? 'not-allowed' : 'pointer',
@@ -135,7 +135,7 @@ export function ConfirmDialog({
               border: 'none',
               background: danger ? '#B91C1C' : 'var(--color-green)',
               color: 'white',
-              fontSize: 14,
+              fontSize: 16.1,
               fontFamily: 'var(--font-sans)',
               fontWeight: 600,
               cursor: loading ? 'wait' : 'pointer',

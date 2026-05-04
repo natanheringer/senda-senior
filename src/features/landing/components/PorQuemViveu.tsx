@@ -82,7 +82,7 @@ function FounderCard({ name, role, bio, reverse }: (typeof FOUNDERS)[0]) {
           style={{
             fontFamily: 'var(--font-sans)',
             // Large bold bio text — matches reference
-            fontSize: 'clamp(17px, 1.9vw, 22px)',
+            fontSize: 'clamp(19.55px, 2.185vw, 25.3px)',
             fontWeight: 700,
             lineHeight: 1.45,
             color: 'var(--color-ink)',
@@ -94,7 +94,7 @@ function FounderCard({ name, role, bio, reverse }: (typeof FOUNDERS)[0]) {
         <p
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 15,
+            fontSize: 17.25,
             fontWeight: 600,
             color: 'var(--color-terracotta)',
             marginBottom: 3,
@@ -105,7 +105,7 @@ function FounderCard({ name, role, bio, reverse }: (typeof FOUNDERS)[0]) {
         <p
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 13,
+            fontSize: 14.95,
             color: 'rgba(40, 42, 40, 0.48)',
           }}
         >
@@ -160,7 +160,7 @@ export function PorQuemViveu() {
             variants={fadeUp}
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 11,
+              fontSize: 12.65,
               fontWeight: 700,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
@@ -189,7 +189,7 @@ export function PorQuemViveu() {
             variants={fadeUp}
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(14px, 1.15vw, 16px)',
+              fontSize: 'clamp(16.1px, 1.3225vw, 18.4px)',
               lineHeight: 1.7,
               color: 'rgba(40, 42, 40, 0.58)',
               maxWidth: 480,

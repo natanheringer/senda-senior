@@ -35,7 +35,7 @@ export function DigitalReader({ initialChapterSlug }: DigitalReaderProps) {
          <div style={{ padding: 32, width: 340, height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'var(--color-green)', marginBottom: 48, flexShrink: 0 }}>
                <Compass size={24} strokeWidth={1.5} />
-               <span style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: 18 }}>Senda Sênior</span>
+               <span style={{ fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: 20.7 }}>Senda Sênior</span>
             </Link>
 
             <p className="label-premium" style={{ color: 'var(--color-ink-muted)', marginBottom: 24, flexShrink: 0 }}>Índice Temático</p>
@@ -48,7 +48,7 @@ export function DigitalReader({ initialChapterSlug }: DigitalReaderProps) {
                        padding: '16px', borderRadius: 12,
                        background: ch.slug === chapter.slug ? 'var(--color-green)' : 'transparent',
                        color: ch.slug === chapter.slug ? 'white' : 'var(--color-ink-sub)',
-                       fontWeight: ch.slug === chapter.slug ? 600 : 500, fontSize: 15, transition: 'all 0.2s',
+                       fontWeight: ch.slug === chapter.slug ? 600 : 500, fontSize: 17.25, transition: 'all 0.2s',
                        border: ch.slug === chapter.slug ? 'none' : '1px solid transparent',
                        boxShadow: ch.slug === chapter.slug ? '0 8px 24px rgba(45,95,79,0.15)' : 'none',
                      }}
@@ -140,7 +140,7 @@ export function DigitalReader({ initialChapterSlug }: DigitalReaderProps) {
                          key={idx}
                          initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-10% 0px' }}
                          style={{
-                            fontSize: 21, lineHeight: 1.85, color: isImportant ? 'var(--color-ink)' : 'rgba(42,37,41,0.88)',
+                            fontSize: 24.15, lineHeight: 1.85, color: isImportant ? 'var(--color-ink)' : 'rgba(42,37,41,0.88)',
                             fontWeight: isImportant ? 500 : 400,
                             paddingLeft: isBullet ? 24 : 0,
                             background: isImportant ? 'white' : 'transparent',
@@ -163,14 +163,14 @@ export function DigitalReader({ initialChapterSlug }: DigitalReaderProps) {
                  {currentChapterIndex > 0 ? (
                     <Link href={`/manual/${manualChapters[currentChapterIndex - 1].slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 12, flex: 1, padding: 32, background: 'rgba(0,0,0,0.02)', borderRadius: 12 }}>
                        <span className="label-premium" style={{ color: 'var(--color-ink-muted)' }}>Capítulo Anterior</span>
-                       <span style={{ fontFamily: 'var(--font-serif)', fontSize: 24, color: 'var(--color-ink)', fontWeight: 500 }}>{manualChapters[currentChapterIndex - 1].title}</span>
+                       <span style={{ fontFamily: 'var(--font-serif)', fontSize: 27.6, color: 'var(--color-ink)', fontWeight: 500 }}>{manualChapters[currentChapterIndex - 1].title}</span>
                     </Link>
                  ) : <div style={{ flex: 1 }} />}
 
                  {currentChapterIndex < manualChapters.length - 1 ? (
                     <Link href={`/manual/${manualChapters[currentChapterIndex + 1].slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 12, flex: 1, padding: 32, background: 'var(--color-green)', borderRadius: 12, textAlign: 'right' }}>
                        <span className="label-premium" style={{ color: 'rgba(255,255,255,0.6)' }}>Próxima Etapa</span>
-                       <span style={{ fontFamily: 'var(--font-serif)', fontSize: 24, color: 'white', fontWeight: 500 }}>{manualChapters[currentChapterIndex + 1].title}</span>
+                       <span style={{ fontFamily: 'var(--font-serif)', fontSize: 27.6, color: 'white', fontWeight: 500 }}>{manualChapters[currentChapterIndex + 1].title}</span>
                     </Link>
                  ) : <div style={{ flex: 1 }} />}
               </div>

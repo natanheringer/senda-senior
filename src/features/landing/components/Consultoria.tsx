@@ -93,7 +93,7 @@ export function Consultoria() {
           <p
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 11,
+              fontSize: 12.65,
               fontWeight: 700,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
@@ -124,7 +124,7 @@ export function Consultoria() {
           <p
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(13px, 1.1vw, 15px)',
+              fontSize: 'clamp(14.95px, 1.265vw, 17.25px)',
               lineHeight: 1.7,
               color: 'rgba(40, 42, 40, 0.58)',
               marginBottom: 44,
@@ -147,7 +147,7 @@ export function Consultoria() {
               color: 'white',
               padding: '13px 26px',
               borderRadius: 100,
-              fontSize: 14,
+              fontSize: 16.1,
               fontWeight: 600,
               fontFamily: 'var(--font-sans)',
               textDecoration: 'none',
@@ -192,7 +192,7 @@ export function Consultoria() {
                   <p
                     style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: 'clamp(15px, 1.3vw, 18px)',
+                      fontSize: 'clamp(17.25px, 1.495vw, 20.7px)',
                       fontWeight: 700,
                       color: 'var(--color-ink)',
                       marginBottom: 5,
@@ -204,7 +204,7 @@ export function Consultoria() {
                   <p
                     style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: 'clamp(12px, 0.95vw, 14px)',
+                      fontSize: 'clamp(13.8px, 1.0925vw, 16.1px)',
                       color: 'rgba(40, 42, 40, 0.5)',
                       lineHeight: 1.5,
                     }}

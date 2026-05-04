@@ -91,7 +91,7 @@ export function Header() {
               key={label}
               href={href}
               style={{
-                fontSize: 15,
+                fontSize: 17.25,
                 fontWeight: 500,
                 color: CM,
                 textDecoration: 'none',
@@ -120,7 +120,7 @@ export function Header() {
             <a
               href="/login"
               style={{
-                fontSize: 15, fontWeight: 500, color: CM,
+                fontSize: 17.25, fontWeight: 500, color: CM,
                 textDecoration: 'none',
                 display: 'flex', alignItems: 'center', gap: 5,
                 transition: 'color 0.2s',
@@ -137,7 +137,7 @@ export function Header() {
             <a
               href="#area-cliente"
               style={{
-                fontSize: 15, fontWeight: 600, color: 'white',
+                fontSize: 17.25, fontWeight: 600, color: 'white',
                 background: 'var(--color-terracotta)',
                 padding: '10px 20px',
                 borderRadius: 100,
@@ -185,7 +185,7 @@ export function Header() {
               key={label}
               href={href}
               onClick={() => setMenuOpen(false)}
-              style={{ fontSize: 22, fontWeight: 600, color: 'var(--color-ink)', textDecoration: 'none' }}
+              style={{ fontSize: 25.3, fontWeight: 600, color: 'var(--color-ink)', textDecoration: 'none' }}
             >
               {label}
             </a>
@@ -195,14 +195,14 @@ export function Header() {
             <a
               href="/login"
               onClick={() => setMenuOpen(false)}
-              style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-ink)', border: '1px solid rgba(42,37,32,0.4)', padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center' }}
+              style={{ fontSize: 18.4, fontWeight: 600, color: 'var(--color-ink)', border: '1px solid rgba(42,37,32,0.4)', padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center' }}
             >
               Login
             </a>
             <a
               href="#area-cliente"
               onClick={() => setMenuOpen(false)}
-              style={{ fontSize: 16, fontWeight: 600, color: 'white', background: 'var(--color-terracotta)', padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+              style={{ fontSize: 18.4, fontWeight: 600, color: 'white', background: 'var(--color-terracotta)', padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
             >
               Área do Cliente <ArrowRight size={18} strokeWidth={2} />
             </a>

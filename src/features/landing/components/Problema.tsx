@@ -60,7 +60,7 @@ export function Problema() {
                Sem roteiro, o cuidado se torna improviso.
              </h2>
              <div className="line-terracota" style={{ backgroundColor: 'var(--color-terracotta)' }} />
-             <p style={{ fontSize: 'clamp(18px, 2vw, 22px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.78)', fontWeight: 400 }}>
+             <p style={{ fontSize: 'clamp(20.7px, 2.3vw, 25.3px)', lineHeight: 1.75, color: 'rgba(255,255,255,0.78)', fontWeight: 400 }}>
                O papel de cuidador chega aos poucos, quase sem aviso. Quando a família não tem onde centralizar informações e combinar decisões, o desgaste se acumula em silêncio.
              </p>
           </div>
@@ -89,7 +89,7 @@ export function Problema() {
                   </div>
                   <span style={{ position: 'absolute', top: 20, right: 0, fontFamily: 'var(--font-serif)', fontSize: 'clamp(80px, 10vw, 140px)', fontWeight: 600, color: 'rgba(255,255,255,0.04)', lineHeight: 1 }}>0{i + 1}</span>
                   <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(28px, 3vw, 40px)', color: 'white', margin: '0 0 16px', lineHeight: 1.15, position: 'relative', zIndex: 1 }}>{item.t}</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: 'clamp(17px, 1.8vw, 21px)', maxWidth: 480, position: 'relative', zIndex: 1 }}>{item.d}</p>
+                  <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: 'clamp(19.55px, 2.07vw, 24.15px)', maxWidth: 480, position: 'relative', zIndex: 1 }}>{item.d}</p>
               </motion.div>
             ))}
           </div>
