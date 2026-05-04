@@ -1,10 +1,10 @@
 import { requireUser } from "@/lib/server";
-import { Button } from "@/design";
+
 
 export const dynamic = "force-dynamic";
 
 export default async function HelpPage() {
-  const user = await requireUser();
+  await requireUser();
 
   return (
     <div className="min-h-screen bg-cream">

@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable @next/next/no-img-element */
+
 import { Reveal } from '@/design'
 
 const CARDS = [

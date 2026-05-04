@@ -7,6 +7,7 @@ jest.mock("@/design", () => ({
 }));
 jest.mock("next/image", () => ({
   __esModule: true,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: (props: any) => {
     const { src, alt, ...rest } = props;
     return /*#__PURE__*/ React.createElement("img", {

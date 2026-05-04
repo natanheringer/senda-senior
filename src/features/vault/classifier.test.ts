@@ -1,4 +1,4 @@
-import { classify, getUserOverrides, setUserOverrides, clearOverrideCache, extractOverridePattern, createOverride } from './classifier';
+import { classifyFileName, setUserOverrides, clearOverrideCache } from './classifier';
 
 describe('Vault Classifier', () => {
   beforeEach(() => {

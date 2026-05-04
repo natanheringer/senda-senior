@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable @next/next/no-img-element */
+
 import Link from 'next/link'
 import { Reveal } from '@/design'
 import { ArrowRight } from 'lucide-react'

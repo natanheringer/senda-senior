@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // Mock Supabase client
 const mockSupabase = {
   auth: {
@@ -61,7 +62,7 @@ import {
   restore,
   loadUserOverrides
 } from './actions';
-import { supabase } from '@/lib/supabase/client';
+
 
 describe('Vault Actions', () => {
   const mockUser = { id: 'test-user-id', email: 'test@example.com' };

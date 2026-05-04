@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable @next/next/no-img-element */
+
 import { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { ArrowRight, Check, ChevronDown, ChevronUp } from 'lucide-react'
@@ -256,7 +258,7 @@ function FaseCard({
                   paddingBottom: 4,
                 }}
               >
-                "{fase.tagline}"
+                &quot;{fase.tagline}&quot;
               </p>
             </div>
           </motion.div>
@@ -632,6 +634,7 @@ export function ManualSection() {
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)')
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobile(mq.matches)
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
     mq.addEventListener('change', handler)

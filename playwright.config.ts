@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
