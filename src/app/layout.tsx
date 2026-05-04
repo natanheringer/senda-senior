@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { EB_Garamond, DM_Sans } from 'next/font/google'
+import { Fraunces, DM_Sans } from 'next/font/google'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -32,9 +32,10 @@ export const metadata: Metadata = {
   },
 }
 
-const ebGaramond = EB_Garamond({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
   variable: '--serif',
   display: 'swap',
 })
@@ -48,7 +49,7 @@ const dmSans = DM_Sans({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${ebGaramond.variable} ${dmSans.variable}`}>
+    <html lang="pt-BR" className={`${fraunces.variable} ${dmSans.variable}`}>
       {/*
         `suppressHydrationWarning` no body: extensões do navegador (ColorZilla,
         Grammarly, LastPass, etc) injetam atributos tipo `cz-shortcut-listen`

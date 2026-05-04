@@ -3,160 +3,169 @@
 import NextImage from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react'
+import { Menu, X, ArrowRight, ChevronDown, User } from 'lucide-react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+
+/* ─── Nav links — single source of truth ──────────────────────────────── */
+const NAV_LINKS: { label: string; href: string; chevron?: true }[] = [
+  { label: 'Início',    href: '/' },
+  { label: 'Sobre',     href: '#sobre' },
+  { label: 'Manuais',   href: '#manual' },
+  { label: 'Serviços',  href: '#servicos', chevron: true },
+  { label: 'Conteúdos', href: '#conteudo' },
+  { label: 'Contato',   href: '#contato' },
+]
+
+/* ─── Color tokens (cream on olive pill) ──────────────────────────────── */
+const C   = 'rgba(245, 240, 232, 1.00)' // cream full
+const CM  = 'rgba(245, 240, 232, 0.80)' // cream readable muted
+const PIL = 'rgba(89, 95, 67, 0.80)'    // #595F43 @ 80%
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
-  
-  // Hook do Framer Motion para ler o scroll vertical da página
-  const { scrollY } = useScroll()
-  
-  // Mapeia o scroll de 0px a 250px para uma opacidade de 1 até 0
-  const headerOpacity = useTransform(scrollY, [0, 250], [1, 0])
-  
-  // Evita que o header "invisível" bloqueie cliques em elementos abaixo dele
-  const pointerEvents = useTransform(scrollY, [200, 250], ['auto', 'none'])
+  const { scrollY }      = useScroll()
+  const headerOpacity    = useTransform(scrollY, [0, 250], [1, 0])
+  const pointerEvents    = useTransform(scrollY, [200, 250], ['auto', 'none'] as const)
 
   return (
     <>
-      {/* Spacer para empurrar o conteúdo pra baixo já que o header agora é fixed */}
-      <div style={{ height: 80, background: 'var(--color-terracotta-light)' }} />
-      
+      {/* ── Floating pill header — no spacer, pill overlays hero photo ── */}
       <motion.header
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0,
           zIndex: 100,
-          height: 80, // Navbar mais fina
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 clamp(20px, 4vw, 56px)',
-          background: 'var(--color-terracotta-light)',
-          borderBottom: '1px solid rgba(0,0,0,0.05)',
+          padding: '12px clamp(12px, 2vw, 24px)',
           opacity: headerOpacity,
-          pointerEvents: pointerEvents as any,
+          pointerEvents: pointerEvents,
         }}
       >
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-          <NextImage
-            src="/brand/logo-14.png"
-            alt="Senda Sênior"
-            width={400}
-            height={140}
-            priority
-            style={{
-              width: 'clamp(140px, 20vw, 180px)',
-              height: 'auto',
-              objectFit: 'contain',
-              filter: 'brightness(0) opacity(0.85)', // Dark logo
-            }}
-          />
-        </Link>
-
-        <nav
-          className="nav-desktop"
-          style={{ display: 'flex', alignItems: 'center', gap: 32 }}
+        {/* ── Pill ──────────────────────────────────────────────────────── */}
+        <div
+          style={{
+            background: PIL,
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            borderRadius: 100,
+            height: 82,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 20px',
+            maxWidth: 1280,
+            margin: '0 auto',
+            gap: 20,
+          }}
         >
-          {[
-            { label: 'Sobre', href: '#sobre' },
-            { label: 'Manuais', href: '#manual' },
-            { label: 'Features', href: '#features', hasDropdown: true },
-            { label: 'Serviços', href: '#servicos' },
-            { label: 'Contato', href: '#contato' },
-          ].map(({ label, href, hasDropdown }) => (
+          {/* Logo: circular icon-only */}
+          <Link
+            href="/"
+            style={{ textDecoration: 'none', flexShrink: 0 }}
+          >
+            <div
+              style={{
+                width: 65, height: 65,
+                borderRadius: '50%',
+                border: '1.5px solid rgba(245,240,232,0.25)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <NextImage
+                src="/brand/logo-white-only-hd-nobg.png"
+                alt="Senda Sênior"
+                width={65}
+                height={65}
+                priority
+                style={{ width: '100%', height: 'auto', transform: 'scale(1.35)' }}
+              />
+            </div>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav
+            className="nav-desktop"
+            style={{ display: 'flex', alignItems: 'center', gap: 24, flex: 1, justifyContent: 'center' }}
+          >
+            {NAV_LINKS.map(({ label, href, chevron }) => (
             <a
               key={label}
               href={href}
               style={{
                 fontSize: 15,
                 fontWeight: 500,
-                color: 'var(--color-ink)',
+                color: CM,
                 textDecoration: 'none',
                 letterSpacing: '0.01em',
-                transition: 'opacity 0.3s',
+                transition: 'color 0.2s',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 4,
+                gap: 3,
+                whiteSpace: 'nowrap',
               }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+              onMouseEnter={e => { e.currentTarget.style.color = C }}
+              onMouseLeave={e => { e.currentTarget.style.color = CM }}
             >
               {label}
-              {hasDropdown && <ChevronDown size={14} strokeWidth={2} opacity={0.6} />}
+              {chevron && <ChevronDown size={12} strokeWidth={2} />}
             </a>
           ))}
-        </nav>
+          </nav>
 
-        <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <a
-            href="#login"
-            style={{
-              fontSize: 15,
-              fontWeight: 600,
-              color: 'var(--color-ink)',
-              background: 'transparent',
-              border: '1px solid rgba(42, 37, 32, 0.4)',
-              padding: '10px 24px',
-              borderRadius: 30, // pill shape
-              textDecoration: 'none',
-              transition: 'all 0.3s',
-            }}
-            onMouseEnter={e => { 
-              e.currentTarget.style.background = 'rgba(42, 37, 32, 0.05)'
-              e.currentTarget.style.borderColor = 'var(--color-ink)'
-            }}
-            onMouseLeave={e => { 
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.borderColor = 'rgba(42, 37, 32, 0.4)'
-            }}
+          {/* Desktop CTA group */}
+          <div
+            className="nav-desktop"
+            style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}
           >
-            Login
-          </a>
+            {/* Login — text + user icon */}
+            <a
+              href="/login"
+              style={{
+                fontSize: 15, fontWeight: 500, color: CM,
+                textDecoration: 'none',
+                display: 'flex', alignItems: 'center', gap: 5,
+                transition: 'color 0.2s',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = C }}
+              onMouseLeave={e => { e.currentTarget.style.color = CM }}
+            >
+              <User size={15} strokeWidth={1.8} />
+              Login
+            </a>
 
-          <a
-            href="#area-cliente"
-            style={{
-              fontSize: 15,
-              fontWeight: 600,
-              color: 'var(--color-ink)',
-              background: 'var(--color-terracotta)', // darker base for the patterned button
-              backgroundImage: 'radial-gradient(rgba(0,0,0,0.1) 1px, transparent 1px)',
-              backgroundSize: '4px 4px',
-              padding: '10px 24px',
-              borderRadius: 30, // pill shape
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              transition: 'all 0.3s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
+            {/* Área do Cliente — terracotta pill */}
+            <a
+              href="#area-cliente"
+              style={{
+                fontSize: 15, fontWeight: 600, color: 'white',
+                background: 'var(--color-terracotta)',
+                padding: '10px 20px',
+                borderRadius: 100,
+                textDecoration: 'none',
+                display: 'flex', alignItems: 'center', gap: 6,
+                transition: 'opacity 0.2s, transform 0.15s',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
+            >
+              Área do Cliente <ArrowRight size={14} strokeWidth={2} />
+            </a>
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            className="show-mobile"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+            style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: C, padding: 8 }}
           >
-            Área do Cliente
-            <ArrowRight size={16} strokeWidth={2} />
-          </a>
+            {menuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
+          </button>
         </div>
-
-        <button
-          className="show-mobile"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-          style={{
-            display: 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: 'var(--color-ink)',
-            padding: 8,
-          }}
-        >
-          {menuOpen ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
-        </button>
       </motion.header>
 
+      {/* ── Mobile overlay menu ─────────────────────────────────────────── */}
       {menuOpen && (
         <div
           className="mobile-menu"
@@ -170,13 +179,8 @@ export function Header() {
           >
             <X size={26} strokeWidth={1.5} />
           </button>
-          {[
-            { label: 'Sobre', href: '#sobre' },
-            { label: 'Manuais', href: '#manual' },
-            { label: 'Features', href: '#features' },
-            { label: 'Serviços', href: '#servicos' },
-            { label: 'Contato', href: '#contato' },
-          ].map(({ label, href }) => (
+
+          {NAV_LINKS.map(({ label, href }) => (
             <a
               key={label}
               href={href}
@@ -186,29 +190,19 @@ export function Header() {
               {label}
             </a>
           ))}
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16, width: '100%', padding: '0 32px' }}>
-             <a
-              href="#login"
+            <a
+              href="/login"
               onClick={() => setMenuOpen(false)}
-              style={{
-                fontSize: 16, fontWeight: 600, color: 'var(--color-ink)',
-                border: '1px solid rgba(42, 37, 32, 0.4)',
-                padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center'
-              }}
+              style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-ink)', border: '1px solid rgba(42,37,32,0.4)', padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center' }}
             >
               Login
             </a>
             <a
               href="#area-cliente"
               onClick={() => setMenuOpen(false)}
-              style={{
-                fontSize: 16, fontWeight: 600, color: 'var(--color-ink)',
-                background: 'var(--color-terracotta)',
-                backgroundImage: 'radial-gradient(rgba(0,0,0,0.1) 1px, transparent 1px)',
-                backgroundSize: '4px 4px',
-                padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
-              }}
+              style={{ fontSize: 16, fontWeight: 600, color: 'white', background: 'var(--color-terracotta)', padding: '14px 0', borderRadius: 30, textDecoration: 'none', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
             >
               Área do Cliente <ArrowRight size={18} strokeWidth={2} />
             </a>

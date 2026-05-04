@@ -60,12 +60,20 @@
 }
 
 /* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-   ALIASES Ã¢â‚¬â€ VariÃƒÂ¡veis CSS legadas mantidas durante a transiÃƒÂ§ÃƒÂ£o.
+/* ════════════════════════════════════════════════════════════════════════════════ 
+   ALIASES — Variáveis CSS legadas mantidas durante a transição.
    Remover quando TODOS os componentes estiverem migrados para
-   utilitÃƒÂ¡rios Tailwind ou usarem as novas `--color-*`.
-   Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+   utilitários Tailwind ou usarem as novas `--color-*`.
+   ════════════════════════════════════════════════════════════════════════════════ */
+
+/* Framer Motion + Lenis: html element must be non-static for useScroll to measure correctly */
+html { position: relative; }
 
 :root {
+  /* Fraunces is upright-only — block browser italic synthesis */
+  font-synthesis-style: none;
+
+
   /* Header / footer: verdes com leve mistura ao creme — menos massa “tinta única” */
   --header-surface: color-mix(in srgb, var(--color-green-dark) 88%, var(--color-cream) 12%);
   --footer-surface: color-mix(in srgb, var(--color-green-dark) 90%, var(--color-cream) 10%);
@@ -373,11 +381,76 @@ body.reader-locked { overflow: hidden; }
   }
 }
 
-/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-   RESPONSIVE Ã¢â‚¬â€ Mobile Ã¢â€°Â¤ 768px
-   (mantido em CSS porque sÃƒÂ£o overrides estruturais do layout atual;
-   ao migrar cada seÃƒÂ§ÃƒÂ£o para Tailwind, estas regras podem sair.)
-   Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
+/* ── LANDING PAGE — RESPONSIVE ──────────────────────────────────────── */
+
+/* FundadorasStrip: 2×2 card grid — responsive columns (no inline-style conflict) */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* ── Manifesto: stack text + photo, fix crop ── */
+  #manifesto-verde {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+  #manifesto-verde > div:last-child {
+    height: 65vw !important;
+    min-height: 220px !important;
+    max-height: 320px !important;
+  }
+  #manifesto-verde > div:last-child img {
+    object-position: top center !important;
+  }
+
+  /* ── FundadorasStrip: stack main layout ── */
+  #sobre {
+    padding: 48px 20px !important;
+  }
+  #sobre > div {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+
+  /* ── Consultoria: single column, height auto (wrapper no longer clips) ── */
+  #consultoria {
+    height: auto !important;
+    padding: 48px 24px !important;
+  }
+  #consultoria > div {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* ── Conteúdo: height auto so 3 stacked cards show fully ── */
+  #conteudo {
+    height: auto !important;
+    padding: 48px 20px !important;
+    justify-content: flex-start !important;
+  }
+
+  /* ── PorQuemViveu founder cards: stack ── */
+  #por-quem-viveu > div > div:last-child > div {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+  #por-quem-viveu > div > div:last-child > div > div:first-child,
+  #por-quem-viveu > div > div:last-child > div > div:last-child {
+    min-height: 200px;
+  }
+
+  /* ── ManualSection ── */
+  #manuais {
+    padding: 20px 16px 16px !important;
+  }
+}
 
 .show-mobile { display: none !important; }
 
@@ -500,3 +573,78 @@ body.reader-locked { overflow: hidden; }
   .auth-panel-left { min-height: 180px !important; padding: 24px 20px !important; }
   .auth-panel-right { padding: 24px 20px !important; }
 }
+
+/* ── LANDING PAGE — RESPONSIVE ──────────────────────────────────────── */
+
+@media (max-width: 768px) {
+
+  /* ── Manifesto: stack columns + fix photo crop ── */
+  #manifesto-verde {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+  /* Photo column: give it a proper height and show the face (top) */
+  #manifesto-verde > div:last-child {
+    min-height: 65vw !important;
+    height: 65vw !important;
+    max-height: 320px !important;
+  }
+  #manifesto-verde > div:last-child img {
+    object-position: top center !important;
+  }
+
+  /* ── FundadorasStrip: fix overflow + stack ── */
+  #sobre {
+    overflow: visible !important;    /* was hidden — was clipping bottom cards */
+    padding: 48px 20px !important;
+  }
+  /* Main 1fr+1fr grid → single column */
+  #sobre > div {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+  /* Inner 2×2 card grid → single column */
+  #sobre > div > div:last-child {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ── Consultoria: 42/58 grid → single column ── */
+  #consultoria {
+    height: auto !important;
+    min-height: 100svh;
+    padding: 48px 24px !important;
+    align-items: flex-start !important;
+  }
+  #consultoria > div {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* ── Conteúdo: 3-col → 1 col ── */
+  #conteudo {
+    height: auto !important;
+    min-height: 100svh;
+    padding: 48px 20px !important;
+    justify-content: flex-start !important;
+  }
+  #conteudo > div > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── PorQuemViveu founder cards: side-by-side → stacked ── */
+  #por-quem-viveu > div > div:last-child > div {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+  #por-quem-viveu > div > div:last-child > div > div:first-child,
+  #por-quem-viveu > div > div:last-child > div > div:last-child {
+    min-height: 200px;
+  }
+
+  /* ── ManualSection inner padding ── */
+  #manuais {
+    padding: 20px 16px 16px !important;
+  }
+}
+

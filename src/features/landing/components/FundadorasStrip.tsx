@@ -1,29 +1,28 @@
 'use client'
 
 import { Reveal } from '@/design'
-import { Map, Users, BookOpen, HeartHandshake } from 'lucide-react'
 
 const CARDS = [
   {
-    icon: Map,
+    icon: '/icons/brand/map.svg',
     title: 'Planejamento preventivo',
     desc: 'Antecipação de necessidades para evitar crises',
     bg: 'var(--color-terracotta-light)',
   },
   {
-    icon: Users,
+    icon: '/icons/brand/users.svg',
     title: 'Assessoria personalizada',
     desc: 'Orientação adaptada à realidade da sua família',
     bg: 'var(--color-gold-light)',
   },
   {
-    icon: BookOpen,
+    icon: '/icons/brand/book-open.svg',
     title: 'Manuais práticos por fase',
     desc: 'Guias claros para cada momento da jornada',
     bg: 'var(--color-gold-light)',
   },
   {
-    icon: HeartHandshake,
+    icon: '/icons/brand/heart-hand.svg',
     title: 'Consultoria individual',
     desc: 'Suporte direto para decisões complexas',
     bg: 'var(--color-terracotta-light)',
@@ -37,12 +36,12 @@ export function FundadorasStrip() {
       style={{
         background: 'var(--color-cream)',
         position: 'relative',
-        overflow: 'hidden',
+        overflowX: 'hidden',  // only clip horizontal overflow — vertical must be free on mobile
         padding: 'clamp(80px, 10vw, 140px) clamp(20px, 4vw, 100px)',
       }}
     >
       <div
-        className="landing-max"
+        className="grid-pillar"
         style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
@@ -51,8 +50,6 @@ export function FundadorasStrip() {
           maxWidth: 1200,
           margin: '0 auto',
         }}
-        // Reaproveitando a classe utilitária do responsivo para empilhar no mobile
-        className="grid-pillar"
       >
         {/* Lado Esquerdo: Texto */}
         <div style={{ maxWidth: 520 }}>
@@ -123,15 +120,10 @@ export function FundadorasStrip() {
 
         {/* Lado Direito: Grid de Cards 2x2 */}
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 16,
-          }}
+          className="cards-grid"
+          style={{ gap: 16 }}
         >
-          {CARDS.map((card, i) => {
-            const Icon = card.icon
-            return (
+          {CARDS.map((card, i) => (
               <Reveal key={i} delay={0.1 + i * 0.05}>
                 <div
                   style={{
@@ -153,11 +145,11 @@ export function FundadorasStrip() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: 'var(--color-ink)',
                       marginBottom: 8,
                     }}
                   >
-                    <Icon size={24} strokeWidth={1.5} />
+                    {/* Brand lineart SVG — 24px display, viewBox 18×18, stroke-width 1 */}
+                    <img src={card.icon} width={24} height={24} alt="" aria-hidden />
                   </div>
                   
                   <div>
@@ -188,8 +180,7 @@ export function FundadorasStrip() {
                   </div>
                 </div>
               </Reveal>
-            )
-          })}
+          ))}
         </div>
       </div>
     </section>

@@ -1,163 +1,122 @@
 'use client'
 
-import { BookOpen, Phone } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { Reveal } from '@/design'
-import { BrandClusterImage, BrandSealCardImage, Prancheta8CardImage } from '@/features/landing/shared/BrandStar'
 
-/** Fechamento: copy + arte Prancheta 8 (sem fundo) — mockup editorial. */
+/**
+ * CTA final — layout centralizado, 1 coluna, botões pill, título italic completo.
+ * Substitui a versão 2-coluna com imagem e decorativos.
+ */
 export function CTAFinal() {
   return (
     <section
       id="contato"
       style={{
         background: 'var(--color-cream)',
+        width: '100%',
+        height: '100svh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0 clamp(24px, 5vw, 80px)',
+        textAlign: 'center',
         position: 'relative',
-        overflow: 'hidden',
-        padding: 'clamp(88px, 11vw, 136px) 0',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: "url('/brand/pattern-estrela-greenmono-claro.png')",
-          backgroundSize: '820px auto',
-          backgroundRepeat: 'repeat',
-          opacity: 0.06,
-          pointerEvents: 'none',
-        }}
-      />
+      <div style={{ maxWidth: 720, width: '100%', margin: '0 auto' }}>
 
-      <div
-        className="landing-max grid-pillar"
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 'clamp(40px, 6vw, 72px)',
-          alignItems: 'center',
-        }}
-      >
-        <div>
-          <Reveal>
-            <BrandClusterImage
-              widthPx={130}
-              style={{
-                marginBottom: 24,
-                width: 'clamp(108px, 14vw, 160px)',
-                height: 'auto',
-              }}
-            />
-          </Reveal>
+        {/* ── Título: italic, grande, centrado ── */}
+        <Reveal>
+          <h2
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              fontSize: 'clamp(38px, 5.5vw, 64px)',
+              fontWeight: 400,
+              lineHeight: 1.1,
+              letterSpacing: '-0.025em',
+              color: 'var(--color-ink)',
+              marginBottom: 28,
+              textWrap: 'balance',
+            }}
+          >
+            Você não precisa percorrer esse caminho sozinho.
+          </h2>
+        </Reveal>
 
-          <Reveal delay={0.08}>
-            <h2
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(36px, 4.5vw, 56px)',
-                fontWeight: 500,
-                lineHeight: 1.12,
-                letterSpacing: '-0.02em',
-                color: 'var(--color-ink)',
-                marginBottom: 24,
-                maxWidth: 520,
-              }}
-            >
-              Vamos conversar sobre o que realmente{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--color-terracotta)' }}>importa.</em>
-            </h2>
-          </Reveal>
+        {/* ── Subtítulo: pequeno, centrado, muted ── */}
+        <Reveal delay={0.1}>
+          <p
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(13px, 1.1vw, 15px)',
+              lineHeight: 1.65,
+              color: 'rgba(42, 37, 32, 0.55)',
+              marginBottom: 44,
+            }}
+          >
+            Todo caminho começa com o primeiro passo. O seu começa aqui.
+          </p>
+        </Reveal>
 
-          <Reveal delay={0.16}>
-            <p
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(17px, 1.75vw, 20px)',
-                lineHeight: 1.75,
-                color: 'var(--color-ink-sub)',
-                maxWidth: 480,
-                marginBottom: 36,
-              }}
-            >
-              O manual é o primeiro passo. Se quiser apoio da equipe ou tirar dúvidas, estamos à disposição.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.22}>
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <a
-                href="/login"
-                id="final-cta-buy"
-                className="btn-terracotta-hover"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  background: 'var(--color-terracotta)',
-                  color: 'white',
-                  padding: '17px 40px',
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  boxShadow: '0 4px 20px rgba(181,114,74,0.25)',
-                }}
-              >
-                <BookOpen size={20} strokeWidth={1.5} />
-                Adquirir o Manual
-              </a>
-              <a
-                href="mailto:contato@sendasenior.com.br"
-                id="final-cta-email"
-                className="btn-outline-terracotta-hover"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  border: '1.5px solid var(--color-terracotta)',
-                  color: 'var(--color-terracotta)',
-                  padding: '17px 36px',
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                  background: 'transparent',
-                }}
-              >
-                <Phone size={20} strokeWidth={1.5} />
-                Falar com a equipe
-              </a>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.3}>
-            <p style={{ fontSize: 15, color: 'var(--color-ink-muted)', marginTop: 24, fontWeight: 500 }}>
-              contato@sendasenior.com.br
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.36}>
-            <div style={{ marginTop: 36 }}>
-              <BrandSealCardImage widthPx={64} />
-            </div>
-          </Reveal>
-        </div>
-
-        <Reveal delay={0.12}>
+        {/* ── Botões: centrados, pill ── */}
+        <Reveal delay={0.18}>
           <div
             style={{
               display: 'flex',
+              gap: 16,
               justifyContent: 'center',
-              alignItems: 'center',
+              flexWrap: 'wrap',
             }}
           >
-            <Prancheta8CardImage
-              widthPx={380}
+            {/* Primário: terracotta sólido — TODO: replace href with real WhatsApp number */}
+            <Link
+              href="https://wa.me/"
+              id="cta-falar-senda"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                filter: 'drop-shadow(0 20px 48px rgba(42,37,32,0.1))',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                background: 'var(--color-terracotta)',
+                color: 'white',
+                padding: '14px 30px',
+                borderRadius: 100,
+                fontSize: 15,
+                fontWeight: 600,
+                textDecoration: 'none',
+                fontFamily: 'var(--font-sans)',
+                letterSpacing: '0.01em',
+                transition: 'opacity 0.2s, transform 0.15s',
               }}
-            />
+            >
+              Falar com a Senda <ArrowRight size={15} strokeWidth={2} />
+            </Link>
+
+            {/* Secundário: outline ink */}
+            <Link
+              href="#manual"
+              id="cta-conhecer-etapas"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                background: 'transparent',
+                color: 'var(--color-ink)',
+                padding: '13px 28px',
+                borderRadius: 100,
+                border: '1.5px solid rgba(42, 37, 32, 0.35)',
+                fontSize: 15,
+                fontWeight: 600,
+                textDecoration: 'none',
+                fontFamily: 'var(--font-sans)',
+                letterSpacing: '0.01em',
+                transition: 'border-color 0.2s, opacity 0.2s',
+              }}
+            >
+              Conhecer as 3 etapas
+            </Link>
           </div>
         </Reveal>
       </div>

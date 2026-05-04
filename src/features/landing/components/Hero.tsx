@@ -123,12 +123,14 @@ export function Hero() {
                     transition: 'all 0.3s',
                   }}
                 >
-                  Conhecer as 3 fases
+                  Conhecer as 3 etapas
                   <ArrowRight size={18} strokeWidth={2} />
                 </Link>
 
                 <Link
-                  href="#contato"
+                  href="https://wa.me/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',

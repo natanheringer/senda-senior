@@ -1,6 +1,5 @@
 'use client'
 
-import NextImage from 'next/image'
 import Link from 'next/link'
 import { Reveal } from '@/design'
 import { ArrowRight } from 'lucide-react'
@@ -25,9 +24,8 @@ export function Manifesto() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          background: [
+          background:
             'radial-gradient(ellipse 70% 55% at 12% 92%, rgba(0,0,0,0.16) 0%, transparent 55%)',
-          ].join(', '),
         }}
       >
         {/* Decorative Watermark */}
@@ -100,7 +98,7 @@ export function Manifesto() {
 
           <Reveal delay={0.2}>
             <Link
-              href="#como-funciona"
+              href="#manual"
               className="btn-terracotta-hover"
               style={{
                 display: 'inline-flex',
@@ -130,12 +128,18 @@ export function Manifesto() {
           boxShadow: 'inset 28px 0 48px -12px rgba(0,0,0,0.14)', // Sombra para separar o verde da foto
         }}
       >
-        <NextImage
+        {/* Usando <img> direto — Next.js não otimiza SVG, fill replicado via position absolute */}
+        <img
           src="/brand/photos/mae_filha.svg"
           alt="Mãe e filha sorrindo"
-          fill
-          sizes="50vw"
-          style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 20%',
+          }}
         />
       </div>
     </section>
